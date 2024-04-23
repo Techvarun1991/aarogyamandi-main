@@ -1,14 +1,15 @@
 import { Disclosure, Menu } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 import SideOverMenu from "../SideBar/SideOverMenu";
 import { useState } from "react";
 import LocationFlyoutMenu from "./LocationFlyoutMenu";
 import { useMediaQuery } from "react-responsive";
 
 const navigation = [
-  { name: "Find Doctors", href: "#", current: true },
+  { name: "Find Doctors", href: "#", current: false },
   { name: "Video Consultation", href: "#", current: false },
-  { name: "Buy Medicines", href: "#", current: false },
+  { name: "Buy Medicines", href: "/Medicine", current: true },
   { name: "Lab Tests", href: "#", current: false },
 ];
 
@@ -18,11 +19,18 @@ function classNames(...classes) {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
   const isMobile = useMediaQuery({ maxWidth: 767 });
   // Function to toggle the visibility of the SideOverMenu
   const toggleMenu = () => {
     setOpen(!open);
   };
+  const handleCartNavigate = ()=>{
+     navigate("/Medicine/Cart")
+  }
+  
+  
 
   return (
     <>
@@ -56,6 +64,7 @@ export default function Navbar() {
             <div className="absolute inset-y-0 right-0 flex gap-x-2 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <button
                 type="button"
+                onClick={handleCartNavigate}
                 className="relative rounded-full p-1 text-black-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
               >
                 <span className="absolute -inset-1.5" />
