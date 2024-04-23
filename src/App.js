@@ -1,7 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Home from "./Pages/Home";
+import Home from "./Pages/Medicine/Home";
 import Navbar from "./Layout/Navbar";
+import MedicineCards from "./Pages/Medicine/MedicineCards";
+import Medicine from "./Pages/Medicine/Medicine";
+import MedicineOverview from "./Pages/Medicine/MedicineOverview"
 
 function App() {
   return (
@@ -9,7 +12,11 @@ function App() {
       <BrowserRouter>
       <Navbar></Navbar>
         <Routes>
-          <Route path="/" element={<Home></Home>}></Route>
+          <Route path="/Home" element={<Home></Home>}></Route>
+          <Route path="/Medicine" element={<Medicine></Medicine>}></Route>
+          <Route path="/MedicineCards" element={<MedicineCards></MedicineCards>}></Route>
+          <Route path="/MedicineOverview" element={<MedicineOverview></MedicineOverview>}></Route>
+
         </Routes>
       </BrowserRouter>
     </>
