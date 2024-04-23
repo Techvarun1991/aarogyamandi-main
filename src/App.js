@@ -1,10 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Home from "./Pages/Medicine/Home";
+
 import Navbar from "./Layout/Navbar";
 import MedicineCards from "./Pages/Medicine/MedicineCards";
 import MedicineCart from "./Pages/Medicine/MedicineCart";
 import MedicineOverview from "./Pages/Medicine/MedicineOverview"
+import Home from "./Pages/Home";
 
 function App() {
   return (
