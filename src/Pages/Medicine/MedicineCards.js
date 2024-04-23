@@ -5,7 +5,7 @@ const products = [
   {
     id: 1,
     name: 'Paracetamoldmfewdsjibhwkjsjws',
-    href: '/Medicine',
+    href: '/Medicine/Cart',
     imageSrc: 'https://images.apollo247.in/pub/media/catalog/product/3/_/3_7_3.png',
     imageAlt: "Front of men's Basic Tee in black.",
     price: '350Rs',
@@ -14,7 +14,7 @@ const products = [
   {
     id: 1,
     name: 'Paracetamol',
-    href: '/Medicine',
+    href: '/Medicine/Cart',
     imageSrc: 'https://img.freepik.com/free-photo/medical-treatment_23-2148108928.jpg?t=st=1713417269~exp=1713420869~hmac=9bf752ac200761ef717c6d7ce9f51f9f96a4bbc86c52b2adc522a1179cfa1b9d&w=1380',
     imageAlt: "Front of men's Basic Tee in black.",
     price: '350Rs',
@@ -23,7 +23,7 @@ const products = [
   {
     id: 1,
     name: 'Paracetamol',
-    href: '/Medicine',
+    href: '/Medicine/Cart',
     imageSrc: 'https://m.media-amazon.com/images/I/71Gy7z9J0AL._AC_UF1000,1000_QL80_.jpg',
     imageAlt: "Front of men's Basic Tee in black.",
     price: '350Rs',
@@ -32,7 +32,7 @@ const products = [
   {
     id: 1,
     name: 'Paracetamol',
-    href: '/Medicine',
+    href: '/Medicine/Cart',
     imageSrc: 'https://d2j6dbq0eux0bg.cloudfront.net/images/22962135/3634764310.jpg',
     imageAlt: "Front of men's Basic Tee in black.",
     price: '350Rs',
@@ -41,7 +41,7 @@ const products = [
   {
     id: 1,
     name: 'Paracetamol',
-    href: '/MedicineOverview',
+    href: '/Medicine/Overview',
     imageSrc: 'https://m.media-amazon.com/images/I/71t9JRry+3L.jpg',
     imageAlt: "Front of men's Basic Tee in black.",
     price: '350Rs',
