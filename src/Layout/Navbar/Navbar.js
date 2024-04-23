@@ -1,8 +1,10 @@
-import React, { Fragment, useState } from "react";
 import { Disclosure, Menu } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import SideOverMenu from "./SideOverMenu";
 import { useNavigate } from "react-router-dom";
+import SideOverMenu from "../SideBar/SideOverMenu";
+import { useState } from "react";
+import LocationFlyoutMenu from "./LocationFlyoutMenu";
+import { useMediaQuery } from "react-responsive";
 
 const navigation = [
   { name: "Find Doctors", href: "#", current: false },
@@ -19,6 +21,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
+  const isMobile = useMediaQuery({ maxWidth: 767 });
   // Function to toggle the visibility of the SideOverMenu
   const toggleMenu = () => {
     setOpen(!open);
@@ -31,7 +34,7 @@ export default function Navbar() {
 
   return (
     <>
-    <Disclosure as="nav" className="bg-white-800 border-b-2">
+      <Disclosure as="nav" className="bg-white-800 border-b-2">
         <div className="mx-auto max-w-[90rem] px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -46,12 +49,16 @@ export default function Navbar() {
               </Disclosure.Button>
             </div>
             <div className="sm:items-stretch sm:justify-start">
-              <div className="flex flex-shrink-0 items-center">
-                <img
-                  className="h-12 w-36"
-                  src="https://192.168.1.206:30002/api/documentation/doctor-documents/65e0447d27be100030e4cbf3/download"
-                  alt="Your Company"
-                />
+              <div className="flex space-x-8 flex-shrink-0 items-center">
+                
+                {isMobile ? null : (
+                  <img
+                    className="hidden lg:block h-16 w-42"
+                    src="https://192.168.1.206:30002/api/documentation/doctor-documents/65e0447d27be100030e4cbf3/download"
+                    alt="Your Company"
+                  />
+                )}
+                <LocationFlyoutMenu></LocationFlyoutMenu>
               </div>
             </div>
             <div className="absolute inset-y-0 right-0 flex gap-x-2 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -85,12 +92,6 @@ export default function Navbar() {
                     className="relative flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-grey focus:ring-offset-2 focus:ring-offset-gray-800"
                   >
                     <span className="absolute -inset-1.5" />
-                    <span className="sr-only">Open user menu</span>
-                    {/* <img
-                      className="h-8 w-8 rounded-full"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    /> */}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -133,9 +134,8 @@ export default function Navbar() {
             ))}
           </div>
         </Disclosure.Panel>
-
-    </Disclosure>
-    <Disclosure as="nav" className="bg-white rounded-none border-b-2">
+      </Disclosure>
+      <Disclosure as="nav" className="bg-white rounded-none border-b-2">
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-12  items-center justify-center">
             <div className="flex gap-x-8 items-center justify-center sm:items-stretch sm:justify-start">
@@ -146,10 +146,12 @@ export default function Navbar() {
                       key={item.name}
                       href={item.href}
                       className={classNames(
-                        item.current ? 'text-teal-700 border-b-2 border-b-green-950 rounded-none text-lg font-bold' : 'text-black hover:border-b-2 border-b-green-950 rounded-none hover:text-teal-800  text-lg font-bold',
-                        'rounded-md px-3 py-2 text-sm font-medium'
+                        item.current
+                          ? "text-teal-700 border-b-2 border-b-green-950 rounded-none text-lg font-bold"
+                          : "text-black hover:border-b-2 border-b-green-950 rounded-none hover:text-teal-800  text-lg font-bold",
+                        "rounded-md px-3 py-2 text-sm font-medium"
                       )}
-                      aria-current={item.current ? 'page' : undefined}
+                      aria-current={item.current ? "page" : undefined}
                     >
                       {item.name}
                     </a>
@@ -159,7 +161,7 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-  </Disclosure>
-  </>
+      </Disclosure>
+    </>
   );
 }

@@ -1,0 +1,1 @@
+export default function LabAppointments() {return "lab-appointments"}
