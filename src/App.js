@@ -8,6 +8,7 @@ import Home from "./Pages/Home";
 import ChooseFromMap from "./Layout/Navbar/ChooseFromMap";
 import Dashboard from "./Pages/PatientDashboard/Dashboard";
 import Navbar from "./Layout/Navbar/Navbar";
+import ViewAllSeller from "./Pages/Medicine/ViewAllSeller";
 
 function App() {
   return (
@@ -17,12 +18,13 @@ function App() {
 
       </Navbar>
         <Routes>
-          <Route path="/Medicine/Cart" element={<MedicineCart></MedicineCart>}></Route>
-          <Route path="/Medicine" element={<MedicineCards></MedicineCards>}></Route>
-          <Route path="/Medicine/Overview" element={<MedicineOverview></MedicineOverview>}></Route>
+          <Route path="/Medicine/Cart" element={<MedicineCart/>}></Route>
+          <Route path="/Medicine" element={<MedicineCards/>}></Route>
+          <Route path="/Medicine/Overview" element={<MedicineOverview/>}></Route>
           <Route path="/" element={<Home></Home>}></Route>
           <Route path="/map" element={<ChooseFromMap/>}></Route>
           <Route path="/patient" element={<Dashboard/>}></Route>
+          <Route path="/ViewAllSeller" element={<ViewAllSeller/>}></Route>
         </Routes>
       </BrowserRouter>
     </>
