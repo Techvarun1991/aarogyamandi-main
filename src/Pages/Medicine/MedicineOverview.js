@@ -68,7 +68,12 @@ export default function ProductOverview() {
   <Link to="/ViewAllSeller" className="text-blue-600 hover:underline">
     View all sellers
   </Link>
+  {/* <p className="text-gray-600 text-sm mt-2">
+  (Compare prices from different sellers to get the best deal for the same product.)
+</p> */}
+
 </div>
+
       {/* Image gallery */}
       <div className="mx-auto max-w-80 sm:px-6 lg:px-8">
   <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-6">
@@ -83,7 +88,7 @@ export default function ProductOverview() {
       </div>
     </div>
 
-    {/* Small images */}
+    {/* Small images */}         
     <div className="md:col-span-1 lg:col-span-1">
       {medicineImages.slice(1).map((image, index) => (
         <div key={index} className="mb-2">
@@ -98,7 +103,7 @@ export default function ProductOverview() {
         </div>
       ))}
     </div>
-  </div>
+  </div>]
 </div>
  
       {/* Product info */}

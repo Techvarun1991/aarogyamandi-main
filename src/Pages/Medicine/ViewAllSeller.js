@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const ViewAllSellers = () => {
-  // Dummy data for sellers
   const [sellers, setSellers] = useState([
     {
       id: 1,
@@ -28,8 +27,11 @@ const ViewAllSellers = () => {
   const navigate = useNavigate();
 
   const handleAddToBag = (sellerId) => {
-    // Handle adding seller to bag here
-    console.log(`Added seller with ID ${sellerId} to bag with quantity ${sellers.find(seller => seller.id === sellerId).quantity}.`);
+    const updatedSellers = sellers.map(seller =>
+      seller.id === sellerId ? { ...seller, quantity: seller.quantity + 1 } : seller
+    );
+    setSellers(updatedSellers);
+    console.log(`Added seller with ID ${sellerId} to bag with quantity ${updatedSellers.find(seller => seller.id === sellerId).quantity}.`);
   };
 
   const handleIncrementQuantity = (sellerId) => {
@@ -54,27 +56,33 @@ const ViewAllSellers = () => {
 
   return (
     <div className="container mx-auto py-8">
-     <div className="flex items-center mb-4">
-        <button onClick={goBack} className="mr-4">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="flex items-center mb-8">
+        <button onClick={goBack} className="mr-4 bg-gray-200 hover:bg-gray-300 rounded-lg p-2">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
         </button>
-        <h1 className="text-2xl font-bold">View All Sellers</h1>
+        <h1 className="text-3xl font-bold">View All Sellers</h1>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {sellers.map((seller) => (
           <div key={seller.id} className="bg-white shadow-lg rounded-lg overflow-hidden">
-            <img src={seller.image} alt={seller.name} className="w-full h-64 object-cover object-center" />
-            <div className="p-4">
-              <h2 className="text-xl font-bold mb-2">{seller.name}</h2>
-              <p className="text-gray-700 text-base mb-2">Price: {seller.price}</p>
-              <p className="text-gray-700 text-base mb-2">Pharmacy: {seller.pharmacyName}</p>
-              <p className="text-gray-700 text-base mb-2">Address: {seller.address}</p>
-              <div className="flex items-center space-x-4">
-                <button onClick={() => handleDecrementQuantity(seller.id)} className="text-gray-600 bg-gray-200 px-3 py-1 rounded-full hover:bg-gray-300 focus:outline-none">-</button>
-                <span className="text-xl font-semibold">{seller.quantity}</span>
-                <button onClick={() => handleIncrementQuantity(seller.id)} className="text-gray-600 bg-gray-200 px-3 py-1 rounded-full hover:bg-gray-300 focus:outline-none">+</button>
+            <img src={seller.image} alt={seller.name} className="w-full h-56 object-cover object-center" />
+            <div className="p-6">
+              <h2 className="text-xl font-semibold mb-2">{seller.name}</h2>
+              <p className="text-gray-700 mb-2">Price: {seller.price}</p>
+              <p className="text-gray-700 mb-2">Pharmacy: {seller.pharmacyName}</p>
+              <p className="text-gray-700 mb-4">Address: {seller.address}</p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <button onClick={() => handleDecrementQuantity(seller.id)} className="text-gray-600 bg-gray-200 px-3 py-1 rounded-full hover:bg-gray-300 focus:outline-none">
+                    -
+                  </button>
+                  <span className="text-xl font-semibold mx-3">{seller.quantity}</span>
+                  <button onClick={() => handleIncrementQuantity(seller.id)} className="text-gray-600 bg-gray-200 px-3 py-1 rounded-full hover:bg-gray-300 focus:outline-none">
+                    +
+                  </button>
+                </div>
                 <button onClick={() => handleAddToBag(seller.id)} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
                   Add to Bag
                 </button>
