@@ -58,7 +58,7 @@ export default function SideOverMenu({ open, setOpen }) {
   return (
     <>
       <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={setOpen}>
+        <Dialog as="div" className="relative z-10 " onClose={setOpen}>
           <Transition.Child
             as={Fragment}
             enter="ease-in-out duration-500"
@@ -71,9 +71,9 @@ export default function SideOverMenu({ open, setOpen }) {
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
           </Transition.Child>
 
-          <div className="fixed inset-0 overflow-hidden">
-            <div className="absolute inset-0 overflow-hidden">
-              <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+          <div className="fixed inset-0 overflow-hidden ">
+            <div className="absolute inset-0 overflow-hidden ">
+              <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 ">
                 <Transition.Child
                   as={Fragment}
                   enter="transform transition ease-in-out duration-500 sm:duration-700"
@@ -83,8 +83,8 @@ export default function SideOverMenu({ open, setOpen }) {
                   leaveFrom="translate-x-0"
                   leaveTo="translate-x-full"
                 >
-                  <Dialog.Panel className="pointer-events-auto  max-w-sm">
-                    <div className="flex h-full flex-col bg-white shadow-xl">
+                  <Dialog.Panel className="pointer-events-auto  max-w-sm ">
+                    <div className="flex h-full flex-col bg-gradient-to-b from-teal-300 to-teal-50 shadow-xl ">
                       <div className="flex-1 px-4 py-6 sm:px-6">
                         <div className="flex items-start justify-between">
                           <div className="ml-3 flex h-7 items-center">

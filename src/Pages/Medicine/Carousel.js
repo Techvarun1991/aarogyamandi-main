@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 
 const App = () => {
   const images = [
-    "https://assets.materialup.com/uploads/27a5a31b-7cbf-4809-8a9c-72a0b60b4b96/preview.jpg",
-    "https://render.fineartamerica.com/images/rendered/default/wood-print/10/6.5/break/images-medium-5/medicine-carousel-gustoimagesscience-photo-library.jpg",
+    "https://www.thecable.ng/wp-content/uploads/2015/01/pharmacy.jpg",
+    "https://www.thecable.ng/wp-content/uploads/2015/01/pharmacy.jpg",
     "https://www.thecable.ng/wp-content/uploads/2015/01/pharmacy.jpg",
   ];
 

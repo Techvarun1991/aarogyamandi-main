@@ -34,7 +34,7 @@ export default function Navbar() {
 
   return (
     <>
-      <Disclosure as="nav" className="bg-white-800 border-b-2">
+      <Disclosure as="nav" className="bg-gradient-to-b from-teal-300 to-teal-50 ">
         <div className="mx-auto max-w-[90rem] px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -114,7 +114,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        <Disclosure.Panel className="sm:hidden">
+        <Disclosure.Panel className="sm:hidden  ">
           <div className="space-y-1 px-2 pb-3 pt-2">
             {navigation.map((item) => (
               <Disclosure.Button
@@ -134,8 +134,7 @@ export default function Navbar() {
             ))}
           </div>
         </Disclosure.Panel>
-      </Disclosure>
-      <Disclosure as="nav" className="bg-white rounded-none border-b-2">
+      <Disclosure as="nav" >
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-12  items-center justify-center">
             <div className="flex gap-x-8 items-center justify-center sm:items-stretch sm:justify-start">
@@ -162,6 +161,8 @@ export default function Navbar() {
           </div>
         </div>
       </Disclosure>
+      </Disclosure>
+
     </>
   );
 }

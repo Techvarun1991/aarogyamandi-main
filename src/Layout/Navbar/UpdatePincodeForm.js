@@ -20,6 +20,7 @@ export default function UpdatePincodeForm({ onClose }) {
       console.error("Error calling API:", error);
       // Handle error
     }finally{
+      
         const root = createRoot(document.getElementById('root'));
         root.render(<App />);
     }

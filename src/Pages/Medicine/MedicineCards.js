@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Carousel from './Carousel';
 import MedicineBanner from "./MedicineByCategory"
+import OfferCard from "./OfferCard"
 const products = [
   {
     id: 1,
@@ -164,7 +165,7 @@ const MedicineCards = () => {
                 <p className="text-sm font-medium text-gray-900 mb-2">{product.price}</p>
                 <a href={product.href}>
                   <button
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                    className="px-4 py-2 bg-teal-300 text-grey rounded-md"
                     onClick={() => handleAddToCart(product.id)}
                   >
                     Add to Cart
@@ -175,6 +176,10 @@ const MedicineCards = () => {
           </div>
         </div>
         <MedicineBanner/>
+        <div className="mx-auto max-w-7xl  ">
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Offers</h2>
+        </div>
+        <OfferCard/>
       </div>
       );
     };
