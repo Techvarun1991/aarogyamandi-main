@@ -4,6 +4,8 @@ import Home from "./Pages/Home";
 import Navbar from "./Layout/Navbar";
 import FindDorctorBySpecialityLocationAndCity from "./Pages/Doctor/FindDorctorBySpecialityLocationAndCity";
 import FindByCity from "./Pages/Doctor/FindDoctor";
+import DoctorList from "./Pages/Doctor/DoctorList";
+import Doctors from "./Pages/Doctor/Doctors";
 
 function App() {
   return (
@@ -12,8 +14,10 @@ function App() {
       <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Home></Home>}></Route>
-          <Route path="/searchdoctor" element={<FindDorctorBySpecialityLocationAndCity/>}></Route>
-          <Route path="/bycity" element={<FindByCity/>}></Route>
+          <Route path="/doctor/searchdoctor" element={<FindDorctorBySpecialityLocationAndCity/>}></Route>
+          <Route path="/doctor/bycity" element={<FindByCity/>}></Route>
+          <Route path="/doctors" element={<Doctors/>}></Route>
+
         </Routes>
       </BrowserRouter>
     </>

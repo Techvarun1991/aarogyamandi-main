@@ -1,21 +1,21 @@
 export const homeBreadcrumb = [{ label: "Home", url: "/" }];
-export const findDoctors = [{label: "Find-Doctors", url: "/bycity"}]
+export const findDoctors = [{ label: "Find-Doctors", url: "/doctor/bycity" }];
 export const doctorConsulatation = [
   ...homeBreadcrumb,
   ...findDoctors,
   { label: "Doctor consultation", url: "/searchdoctor" },
+];
+export const getDoctorConsultationSpl = (dynamicData) => [
+  ...homeBreadcrumb,
+  ...findDoctors,
+  { label: `${dynamicData}`, url: `/doctor/bycity/` }, // Use dynamic data
 ];
 
 
 export const doctorSearchByCity = [
   ...homeBreadcrumb,
   ...findDoctors,
-  { label: "Search by speciality", url: "/bycity" },
-];
-
-export const findDoctorsBreadcrumb = [
-  ...homeBreadcrumb,
-  { label: "Visit Clinic", url: "/find-doctors" },
+  { label: "Search by speciality", url: "/doctor/bycity" },
 ];
 
 export const medicinesBreadcrumb = [

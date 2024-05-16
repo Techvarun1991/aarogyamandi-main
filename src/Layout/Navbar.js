@@ -4,7 +4,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import SideOverMenu from "./SideOverMenu";
 
 const navigation = [
-  { name: "Find Doctors", href: "#", current: true },
+  { name: "Find Doctors", href: "/doctor/bycity", current: true },
   { name: "Video Consultation", href: "#", current: false },
   { name: "Buy Medicines", href: "#", current: false },
   { name: "Lab Tests", href: "#", current: false },
