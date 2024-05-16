@@ -7,7 +7,6 @@ import LocationFlyoutMenu from "./LocationFlyoutMenu";
 import { useMediaQuery } from "react-responsive";
 
 const navigation = [
-  { name: "Find Doctors", href: "/doctor/bycity", current: true },
   { name: "Find Doctors", href: "#", current: false },
   { name: "Video Consultation", href: "#", current: false },
   { name: "Buy Medicines", href: "/Medicine", current: true },
