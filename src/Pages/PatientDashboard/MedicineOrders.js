@@ -1,0 +1,1 @@
+export default function MedicineOrders() {return "Medicine orders"}
