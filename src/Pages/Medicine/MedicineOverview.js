@@ -103,7 +103,7 @@ export default function ProductOverview() {
         </div>
       ))}
     </div>
-  </div>]
+  </div>
 </div>
  
       {/* Product info */}
