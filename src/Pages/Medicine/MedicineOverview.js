@@ -1,74 +1,20 @@
-import { useState } from "react";
-import { StarIcon } from "@heroicons/react/20/solid";
-import { RadioGroup } from "@headlessui/react";
-
-const product = {
-  name: "Cetaphil",
-  price: "₹ 300",
-  href: "#",
-  breadcrumbs: [
-    { id: 1, name: "Medicine", href: "#" },
-    { id: 2, name: "Skin Care", href: "#" },
-  ],
-  images: [
-    {
-      src: "https://m.media-amazon.com/images/I/71WPus+v+JL._SY879_.jpg",
-      alt: "Two each of gray, white, and black shirts laying flat.",
-    },
-    {
-      src: "https://m.media-amazon.com/images/I/41ZRdJeNxUL.jpg",
-      alt: "Model wearing plain black basic tee.",
-    },
-    {
-      src: "https://m.media-amazon.com/images/I/710voFTOJeL.jpg",
-      alt: "Model wearing plain gray basic tee.",
-    },
-    {
-      src: "https://rukminim2.flixcart.com/image/850/1000/xif0q/cleanser/i/1/e/-original-imagsqfg4dzg9c32.jpeg?q=90&crop=false",
-      alt: "Model wearing plain white basic tee.",
-    },
-  ],
-  colors: [
-    { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
-    { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
-    { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
-  ],
-  sizes: [
-    { name: "XXS", inStock: false },
-    { name: "XS", inStock: true },
-    { name: "S", inStock: true },
-    { name: "M", inStock: true },
-    { name: "L", inStock: true },
-    { name: "XL", inStock: true },
-    { name: "2XL", inStock: true },
-    { name: "3XL", inStock: true },
-  ],
-  description:
-    'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
-  highlights: [
-    "Hand cut and sewn locally",
-    "Dyed with our proprietary colors",
-    "Pre-washed & pre-shrunk",
-    "Ultra-soft 100% cotton",
-  ],
-  details:
-    'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
-};
-const reviews = { href: "#", average: 4, totalCount: 117 };
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom"; 
+ 
 export default function ProductOverview() {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
-  const [largeImage, setLargeImage] = useState(product.images[0]);
-
+ 
+  const [medicine, setMedicine] = useState({});
+  const [medicineImages, setMedicineImages] = useState([]);
+  const [medicineDetails,setMedicineDetails] = useState({});
+  const [stockDetails , setStockDetails] = useState({});
+  const [largeImage, setLargeImage] = useState('');
+  const navigate = useNavigate();
+  console.log(largeImage);  
   const handleImageClick = (image) => {
     setLargeImage(image);
   };
-
+ 
   const [openState, setOpenState] = useState({
     keyComponents: false,
     indications: false,
@@ -76,121 +22,120 @@ export default function ProductOverview() {
     storage: false,
     precautions: false,
   });
-
+ 
   const toggleFeatures = (section, event) => {
     event.preventDefault(); // Prevent default form submission behavior
     setOpenState({ ...openState, [section]: !openState[section] });
   };
-  
+ 
+  useEffect(() => {
+    const fetchMedicineById = async () => {
+      try {
+        const payload = {
+          currentLat:13.04753,
+          currentLong:77.61923,
+          radius: 10
+        };
+        const response = await axios.post(`https://192.168.1.206:30002/InventoryManagement/unique/141`,payload)
+        console.log("response: " ,response.data);
+        setMedicine(response.data.medicine);
+        setMedicineImages(response.data.medicine.medicineImages);
+        setMedicineDetails(response.data.medicine.medicineDetails);
+        setStockDetails(response.data);
+        console.log("object: " ,response.data.medicine.medicineImages[0])
+        setLargeImage(response.data.medicine.medicineImages[0])
+      } catch (error) {
+        console.error('Error fetching medicine details:', error);
+      }
+    };
+ 
+    fetchMedicineById();
+  }, []);
+ 
+  const goBack = () => {
+    navigate(-1);
+  };
+ 
   return (
     <div className="bg-white">
-      {/* Breadcrumb */}
-      <nav
-        aria-label="Breadcrumb"
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-      >
-        <ol role="list" className="flex items-center space-x-2 py-6">
-          {product.breadcrumbs.map((breadcrumb) => (
-            <li key={breadcrumb.id}>
-              <div className="flex items-center">
-                <a
-                  href={breadcrumb.href}
-                  className="mr-2 text-sm font-medium text-gray-900"
-                >
-                  {breadcrumb.name}
-                </a>
-                <svg
-                  width={16}
-                  height={20}
-                  viewBox="0 0 16 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                  className="h-5 w-4 text-gray-300"
-                >
-                  <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                </svg>
-              </div>
-            </li>
-          ))}
-          <li>
-            <a
-              href={product.href}
-              aria-current="page"
-              className="text-sm font-medium text-gray-500 hover:text-gray-600"
-            >
-              {product.name}
-            </a>
-          </li>
-        </ol>
-      </nav>
+      {/* Link to view all sellers */}
+      <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 py-8 flex items-center">
+  <button onClick={goBack} className="mr-4">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+    </svg>
+  </button>
+  <Link to="/ViewAllSeller" className="text-blue-600 hover:underline">
+    View all sellers
+  </Link>
+  {/* <p className="text-gray-600 text-sm mt-2">
+  (Compare prices from different sellers to get the best deal for the same product.)
+</p> */}
+
+</div>
 
       {/* Image gallery */}
       <div className="mx-auto max-w-80 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-          {/* Large image */}
-          <div className="md:col-span-2 lg:col-span-3">
-            <div className="aspect-w-4 aspect-h-5 overflow-hidden rounded-lg">
-              <img
-                src={largeImage.src}
-                alt={largeImage.alt}
-                className="object-cover object-center h-full w-full"
-              />
-            </div>
-          </div>
-
-          {/* Small images */}
-          {product.images.slice(1).map((image, index) => (
-            <div key={index} className="md:col-span-1 lg:col-span-1">
-              <div className="aspect-w-3 aspect-h-4 overflow-hidden rounded-lg">
-                <img
-                  src={image.src}
-                  alt={image.alt}
-                  className="object-cover object-center h-full w-full cursor-pointer"
-                  onClick={() => handleImageClick(image)}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+  <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-6">
+    {/* Large image */}
+    <div className="md:col-span-2 lg:col-span-2"> {/* Adjust the span to accommodate large image */}
+      <div className="aspect-w-6 aspect-h-7 overflow-hidden rounded-lg">
+        <img
+          src={`https://192.168.1.206:30002/api/documentation/medicine-photos/${largeImage}/download`}
+          alt={""}
+          className="object-cover object-center h-full w-full"
+        />
       </div>
+    </div>
 
+    {/* Small images */}         
+    <div className="md:col-span-1 lg:col-span-1">
+      {medicineImages.slice(1).map((image, index) => (
+        <div key={index} className="mb-2">
+          <div className="aspect-w-3 aspect-h-4 overflow-hidden rounded-lg">
+            <img
+              src={`https://192.168.1.206:30002/api/documentation/medicine-photos/${medicineImages[index]}/download`}
+              alt={image.alt}
+              className="object-cover object-center h-full w-full cursor-pointer"
+              onClick={() => handleImageClick(`${medicineImages[index]}`)}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+ 
       {/* Product info */}
       <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{product.name}</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{medicine.medicineName}</h1>
             <p className="mt-2 text-2xl font-bold text-gray-900">
-              {product.price}
+            &#x20B9; {stockDetails.sellingPrice}
             </p>
-
-
+ 
+ 
             {/* Description */}
             <div className="mt-4">
               <h2 className="text-lg font-medium text-gray-900">Description</h2>
               <p className="mt-2 text-base text-gray-500">
-                {product.description}
+                {medicineDetails.description}
               </p>
             </div>
-
+ 
             {/* Highlights */}
             <div className="mt-4">
               <h2 className="text-lg font-medium text-gray-900">Highlights</h2>
-              <ul
-                role="list"
-                className="mt-2 pl-4 list-disc text-base text-gray-500"
-              >
-                {product.highlights.map((highlight, index) => (
-                  <li key={index}>{highlight}</li>
-                ))}
-              </ul>
+              <p className="">{medicineDetails.highlights}</p>
             </div>
           </div>
-
+ 
           {/* Options */}
           <div>
             <form className="space-y-4">
               {/* Size */}
-              
+             
               <div className="container mx-auto px-2 py-4">
                 <button
                   className="text-xl font-bold hover:text-blue-500"
@@ -200,7 +145,7 @@ export default function ProductOverview() {
                 </button>
                 {openState.keyComponents && (
                   <ul className="list-disc space-y-2 mt-4">
-                    <p>The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.</p>
+                    <p>{medicineDetails.keyComponents}</p>
                   </ul>
                 )}
               </div>
@@ -213,7 +158,7 @@ export default function ProductOverview() {
                 </button>
                 {openState.indications && (
                 <ul className="list-disc space-y-2 mt-4">
-                <p>The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.</p>
+                <p>{medicineDetails.indications}</p>
               </ul>
                 )}
               </div>
@@ -226,7 +171,7 @@ export default function ProductOverview() {
                 </button>
                 {openState.directionForUse && (
                  <ul className="list-disc space-y-2 mt-4">
-                 <p>The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.</p>
+                 <p>{medicineDetails.directionForUse}</p>
                </ul>
                 )}
               </div>
@@ -239,7 +184,7 @@ export default function ProductOverview() {
                 </button>
                 {openState.storage && (
                  <ul className="list-disc space-y-2 mt-4">
-                 <p>The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.</p>
+                 <p>{medicineDetails.storage}</p>
                </ul>
                 )}
               </div>
@@ -252,7 +197,7 @@ export default function ProductOverview() {
                 </button>
                 {openState.precautions && (
                   <ul className="list-disc space-y-2 mt-4">
-                  <p>The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.</p>
+                  <p>{medicineDetails.precautions}</p>
                 </ul>
                 )}
               </div>
@@ -272,3 +217,4 @@ export default function ProductOverview() {
     </div>
   );
 }
+ 

@@ -92,7 +92,7 @@ export default function LocationFlyoutMenu() {
     if (!addString) {
       getCurrentLocation();
     }
-    
+     
   }, []);
 
   return (

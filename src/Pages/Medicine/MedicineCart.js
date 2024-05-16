@@ -55,7 +55,17 @@ const offers = [
   export default function ShoppingCart() {
     const [products, setProducts] = useState(productsData);
     const [selectedOffer, setSelectedOffer] = useState(null);
-  
+    const [promoCode, setPromoCode] = useState('');
+    const [promoCodeOptions, setPromoCodeOptions] = useState([]);
+    const [selectedPromoCode, setSelectedPromoCode] = useState('');
+    
+    const handleApplyPromoCode = () => {
+      // Apply promo code logic here
+    };
+    
+    const handleRemovePromoCode = () => {
+      // Remove promo code logic here
+    };
     const handleIncrementQuantity = (productId) => {
       const updatedProducts = products.map((product) => {
         if (product.id === productId) {
@@ -168,6 +178,40 @@ const offers = [
           </div>
           <div className="lg:w-1/3 p-6 lg:container">
             <h1 className="text-2xl font-semibold mb-4">Summary</h1>
+            <div className="flex flex-col lg:flex-row items-center">
+  <select
+    className="w-full lg:w-80 border border-gray-300 rounded-md px-3 py-2 mr-4 focus:outline-none focus:ring focus:ring-indigo-400"
+    value={promoCode}
+    onChange={(e) => setPromoCode(e.target.value)}
+  >
+    {promoCodeOptions.length === 0 && (
+      <option value="" disabled>
+        No Promo Codes Available
+      </option>
+    )}
+    {promoCodeOptions.map((option) => (
+      <option key={option.discountValue} value={option.promoCode}>
+        {option.promoCode}
+      </option>
+    ))}
+  </select>
+
+  {!selectedPromoCode ? (
+    <button
+      className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-blue-400"
+      onClick={handleApplyPromoCode}
+    >
+      Apply Promo Code
+    </button>
+  ) : (
+    <button
+      className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-red-400"
+      onClick={handleRemovePromoCode}
+    >
+      Remove Promo Code
+    </button>
+  )}
+</div>
             <ul className="divide-y divide-gray-200">
               {products.map((product) => (
                 <li key={product.id} className="py-4 flex justify-between">
@@ -184,25 +228,7 @@ const offers = [
               <p className="text-lg font-medium text-gray-900">{subtotal}Rs</p>
             </div>
             <p className="mt-1 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
-            <div className="mt-4">
-              <label htmlFor="offer" className="block text-sm font-medium text-gray-700">
-                Select Offer
-              </label>
-              <select
-                id="offer"
-                name="offer"
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                value={selectedOffer}
-                onChange={(e) => setSelectedOffer(e.target.value)}
-              >
-                <option value="">None</option>
-                {offers.map((offer) => (
-                  <option key={offer.id} value={offer.id}>
-                    {offer.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+           
             <div className="mt-6">
               <a
                 href="#"

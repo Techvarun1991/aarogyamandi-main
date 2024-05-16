@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-// import Carousel from './Carousel';
-
+import Carousel from './Carousel';
+import MedicineBanner from "./MedicineByCategory"
+import OfferCard from "./OfferCard"
 const products = [
   {
     id: 1,
@@ -93,12 +94,15 @@ const MedicineCards = () => {
     const handleNextSlide = () => {
       setCurrentSlide((prevSlide) => Math.min(prevSlide + 1, Math.ceil(products.length / 5) - 1));
     };
+
   
     const isPrevButtonDisabled = currentSlide === 0;
     const isNextButtonDisabled = currentSlide === Math.ceil(products.length / 5) - 1;
   
     return (
       <div className="bg-white relative">
+      <Carousel/>
+
         <div className="absolute inset-y-1/2 left-0 flex items-center justify-center transform -translate-y-1/2">
           <button
             className={`px-4 py-2 text-black rounded-full ${
@@ -118,6 +122,7 @@ const MedicineCards = () => {
             onClick={handleNextSlide}
             disabled={isNextButtonDisabled}
           >
+            
             {'>'}
           </button>
         </div>
@@ -128,7 +133,7 @@ const MedicineCards = () => {
               <div key={product.id} className="flex flex-col items-center mb-8">
                 <a href={product.href}>
                   <img
-                    src={product.imageSrc}
+                    src={product.imageSrc} 
                     alt={product.imageAlt}
                     className="h-32 w-32 object-cover object-center mb-4"
                   />
@@ -160,7 +165,7 @@ const MedicineCards = () => {
                 <p className="text-sm font-medium text-gray-900 mb-2">{product.price}</p>
                 <a href={product.href}>
                   <button
-                    className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                    className="px-4 py-2 bg-teal-300 text-grey rounded-md"
                     onClick={() => handleAddToCart(product.id)}
                   >
                     Add to Cart
@@ -170,6 +175,11 @@ const MedicineCards = () => {
             ))}
           </div>
         </div>
+        <MedicineBanner/>
+        <div className="mx-auto max-w-7xl  ">
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Offers</h2>
+        </div>
+        <OfferCard/>
       </div>
       );
     };
