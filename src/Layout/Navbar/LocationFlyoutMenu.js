@@ -36,9 +36,9 @@ export default function LocationFlyoutMenu() {
     setOpen(!open);
   };
 
-  const handleChooseFromMap = () =>{
+  const handleChooseFromMap = () => {
     navigate("/map");
-  }
+  };
 
   useEffect(() => {
     const addString = localStorage.getItem("revGeoCode");
@@ -49,14 +49,14 @@ export default function LocationFlyoutMenu() {
     }
   }, []);
 
-  const handleUseMyLocation = () =>{
+  const handleUseMyLocation = () => {
     localStorage.removeItem("revGeoCode");
     getCurrentLocation();
-    const root = createRoot(document.getElementById('root'));
+    const root = createRoot(document.getElementById("root"));
     root.render(<App />);
-  }
-  const getCurrentLocation = () =>{
-    console.log("Getting location")
+  };
+  const getCurrentLocation = () => {
+    console.log("Getting location");
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
@@ -72,8 +72,11 @@ export default function LocationFlyoutMenu() {
               payload
             );
             revGeoCode.current = response.data;
-            localStorage.setItem("revGeoCodeCurrent",JSON.stringify(response.data));
-            console.log("RevGeoCode", revGeoCode.current)
+            localStorage.setItem(
+              "revGeoCodeCurrent",
+              JSON.stringify(response.data)
+            );
+            console.log("RevGeoCode", revGeoCode.current);
           } catch (error) {
             console.error("Error getting user's location:", error);
           } finally {
@@ -85,14 +88,13 @@ export default function LocationFlyoutMenu() {
         }
       );
     }
-  }
+  };
   useEffect(() => {
     // Fetch user's location and set the location state
     const addString = localStorage.getItem("revGeoCode");
     if (!addString) {
       getCurrentLocation();
     }
-     
   }, []);
 
   return (
@@ -100,22 +102,22 @@ export default function LocationFlyoutMenu() {
       {isLoading ? (
         <ClipLoader
           color={"#ffffff"}
-          size={150}
+          size={50}
           aria-label="Loading Spinner"
           data-testid="loader"
         />
       ) : (
-        <Popover className={`relative ${isMobile ? "ml-10" : "mx-1" }`}>
-          <Popover.Button className="inline-flex focus:border-none border-white items-center gap-x-1 text-sm font-semibold text-gray-900">
-            <div className="focus:border-none focus-within:border-none">
-              <div className="flex">
+        <Popover className={`relative ${isMobile ? "ml-10" : "mx-1"}`}>
+          <Popover.Button className="inline-flex focus:border-none border-white items-center gap-x-1 text-sm font-semibold text-gray-900 h-2">
+            <div className="focus:border-none focus-within:border-none ">
+              <div className="focus:border-none focus-within:border-none flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
-                  viewBox="0 0 24 24 "
-                  strokeWidth={1.5} 
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-4 h-4"
+                  className="w-4 h-4 mr-1"
                 >
                   <path
                     strokeLinecap="round"
@@ -128,13 +130,10 @@ export default function LocationFlyoutMenu() {
                     d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
                   />
                 </svg>
-                <span className="font-thin m-auto ">Address</span>
-                <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <div className="">
-                <h1 className="">
-                 {revGeoCode.current.city} {revGeoCode.current.postcode}
-                </h1>
+                <div className="flex items-center">
+                  <h1 className="mr-1">{revGeoCode.current.city}</h1>
+                  <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+                </div>
               </div>
             </div>
           </Popover.Button>
@@ -148,7 +147,7 @@ export default function LocationFlyoutMenu() {
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <Popover.Panel className="absolute left-1/2 z-10 mt-5 flex w-screen max-w-96 bg-white -translate-x-1/2 px-4">
+            <Popover.Panel className="absolute left-1/2 z-10 mt-5 flex w-screen max-w-96 bg-white rounded-lg -translate-x-1/2 px-4">
               <div className="w-screen max-w-md flex-auto overflow-hidden rounded-3xl text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
                 <div className="p-4">
                   <div className="group relative flex mx-8 gap-x-6 rounded-lg bg-green-700 hover:bg-green-800 p-1 ">
@@ -159,7 +158,10 @@ export default function LocationFlyoutMenu() {
                       />
                     </div>
                     <div className="flex content-center">
-                      <button onClick={handleUseMyLocation} className="font-semibold text-white text-center">
+                      <button
+                        onClick={handleUseMyLocation}
+                        className="font-semibold text-white text-center"
+                      >
                         Use Current Location
                       </button>
                     </div>
@@ -178,15 +180,17 @@ export default function LocationFlyoutMenu() {
                       </div>
                       <div className="flex content-center">
                         {item.name === "Update Pincode" ? (
-                          <button 
-                          onClick={toggleMenu}
-                          className="font-semibold text-gray-900 text-center">
+                          <button
+                            onClick={toggleMenu}
+                            className="font-semibold text-gray-900 text-center"
+                          >
                             {item.name}
                           </button>
                         ) : (
-                          <button 
-                          onClick={handleChooseFromMap}
-                          className="font-semibold text-gray-900 text-center">
+                          <button
+                            onClick={handleChooseFromMap}
+                            className="font-semibold text-gray-900 text-center"
+                          >
                             {item.name}
                           </button>
                         )}
