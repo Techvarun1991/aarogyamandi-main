@@ -31,6 +31,8 @@ function App() {
           <Route path="/doctor/searchdoctor" element={<FindDorctorBySpecialityLocationAndCity/>}></Route>
           <Route path="/doctor/bycity" element={<FindByCity/>}></Route>
           <Route path="/doctors" element={<Doctors/>}></Route>
+          <Route path="/viewallseller" element={<ViewAllSeller/>}></Route>
+
 
         </Routes>
       </BrowserRouter>
