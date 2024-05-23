@@ -124,6 +124,7 @@ const MedicineCards = () => {
                 className="h-32 w-32 object-cover object-center mb-2"
               />
               <h3 className="text-sm text-gray-700 truncate w-32 text-center mt-0 mb-2">{product.name}</h3>
+              
             </div>
           ))}
         </div>

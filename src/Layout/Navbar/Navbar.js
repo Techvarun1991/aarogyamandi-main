@@ -5,6 +5,7 @@ import SideOverMenu from "../SideBar/SideOverMenu";
 import { useState } from "react";
 import LocationFlyoutMenu from "./LocationFlyoutMenu";
 import { useMediaQuery } from "react-responsive";
+import NewLogo from "../../Images/NewLogo.png"
 
 const navigation = [
   { name: "Find Doctors", href: "/doctor/bycity", current: false },
@@ -41,8 +42,8 @@ export default function Navbar() {
             <div className="flex space-x-8 flex-shrink-0 items-center">
               {isMobile ? null : (
                 <img
-                  className="hidden lg:block h-24 w-60" // Adjusted height here
-                  src="https://192.168.1.206:30002/api/documentation/doctor-documents/65e0447d27be100030e4cbf3/download"
+                  className="hidden lg:block h-24 max-w-72" // Adjusted height here
+                  src={NewLogo}
                   alt="Your Company"
                 />
               )}
@@ -175,7 +176,7 @@ export default function Navbar() {
               isMobile ? "text-center text-sm" : ""
             }`}
           >
-            Say Goodbye to high medicine prices
+            Say Goodbye To High Medicine Prices
           </div>
         </div>
         <Disclosure as="nav">
