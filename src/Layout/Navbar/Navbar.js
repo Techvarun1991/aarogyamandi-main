@@ -2,6 +2,7 @@ import { Disclosure, Menu } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import SideOverMenu from "../SideBar/SideOverMenu";
+
 import { useState } from "react";
 import LocationFlyoutMenu from "./LocationFlyoutMenu";
 import { useMediaQuery } from "react-responsive";
@@ -118,7 +119,7 @@ export default function Navbar() {
               </div>
             </div>{" "}
           </div>
-          <div className="col-start-8 row-start-1 mt-10 h-12">
+           <div className="col-start-8 row-start-1 mt-10 h-12">
             <div className="absolute inset-y-0 right-0 flex gap-x-2 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <button
                 type="button"
