@@ -17,6 +17,8 @@ import Navbar from "./Layout/Navbar/Navbar";
 import ViewAllSeller from "./Pages/Medicine/ViewAllSeller";
 import Login from "./Pages/Login";
 import Main from "./Pages/Medicine new/Main";
+import MedicineHomepage from "./Pages/Medicine new/MedicineHomepage";
+import Productmainpage from "./Pages/ProductDetails/Productmainpage";
 
 function App() {
   return (
@@ -26,7 +28,7 @@ function App() {
         {/* <Carosole /> */}
         <Routes>
           <Route path="/Medicine/Cart" element={<MedicineCart />}></Route>
-          <Route path="/Medicine" element={<Main />}></Route>
+          {/* <Route path="/Medicine" element={<Main />}></Route> */}
           <Route
             path="/Medicine/Overview"
             element={<MedicineOverview />}
@@ -39,6 +41,9 @@ function App() {
           <Route path="/doctor/bycity" element={<FindByCity />}></Route>
           <Route path="/doctors" element={<Doctors />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/Medicine" element={<MedicineHomepage />}></Route>
+
+          <Route path="/product-details" element={<Productmainpage />}></Route>
         </Routes>
       </BrowserRouter>
     </>
@@ -46,3 +51,5 @@ function App() {
 }
 
 export default App;
+
+
