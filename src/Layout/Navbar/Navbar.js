@@ -46,7 +46,7 @@ export default function Navbar() {
                   className="hidden lg:block h-24 max-w-72" // Adjusted height here
                   src={NewLogo}
                   alt="Your Company"
-                />
+                /> 
               )}
             </div>
           </div>
