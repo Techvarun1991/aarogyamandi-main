@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Carousel from './Carousel';
+import Carousel from '../../Layout/Navbar/Carousel';
 import MedicineBanner from "./MedicineByCategory"
 import OfferCard from "./OfferCard"
 const products = [
@@ -101,11 +101,11 @@ const MedicineCards = () => {
   
     return (
       <div className="bg-white relative">
-      <Carousel/>
+      {/* <Carousel/> */}
 
         <div className="absolute inset-y-1/2 left-0 flex items-center justify-center transform -translate-y-1/2">
           <button
-            className={`px-4 py-2 text-black rounded-full ${
+            className={`px-4 text-black rounded-full ${
               isPrevButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''
             }`}
             onClick={handlePrevSlide}
