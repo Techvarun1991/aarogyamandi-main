@@ -100,12 +100,16 @@ export default function LocationFlyoutMenu() {
   return (
     <>
       {isLoading ? (
-        <ClipLoader
-          color={"#ffffff"}
-          size={50}
+        <div className="w-32 justify-center">
+          <ClipLoader
+          color={"#000000"}
+          size={20}
           aria-label="Loading Spinner"
           data-testid="loader"
+          
         />
+        </div>
+        
       ) : (
         <Popover className={`relative ${isMobile ? "ml-10" : "mx-1"}`}>
           <Popover.Button className="inline-flex focus:border-none border-white items-center gap-x-1 text-sm font-semibold text-gray-900 h-2">

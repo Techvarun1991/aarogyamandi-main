@@ -3,7 +3,7 @@ import "./App.css";
 
 import MedicineCards from "./Pages/Medicine/MedicineCards";
 import MedicineCart from "./Pages/Medicine/MedicineCart";
-import MedicineOverview from "./Pages/Medicine/MedicineOverview"
+import MedicineOverview from "./Pages/Medicine/MedicineOverview";
 import Home from "./Pages/Home";
 // import Navbar from "./Layout/Navbar";
 import FindDorctorBySpecialityLocationAndCity from "./Pages/Doctor/FindDorctorBySpecialityLocationAndCity";
@@ -15,25 +15,35 @@ import ChooseFromMap from "./Layout/Navbar/ChooseFromMap";
 import Dashboard from "./Pages/PatientDashboard/Dashboard";
 import Navbar from "./Layout/Navbar/Navbar";
 import ViewAllSeller from "./Pages/Medicine/ViewAllSeller";
+import Login from "./Pages/Login";
+import Main from "./Pages/Medicine new/Main";
+import MedicineHomepage from "./Pages/Medicine new/MedicineHomepage";
+import Productmainpage from "./Pages/ProductDetails/Productmainpage";
 
 function App() {
   return (
     <>
       <BrowserRouter>
-      <Navbar>
-
-      </Navbar>
+        <Navbar></Navbar>
+        {/* <Carosole /> */}
         <Routes>
-          <Route path="/Medicine/Cart" element={<MedicineCart/>}></Route>
-          <Route path="/Medicine" element={<MedicineCards/>}></Route>
-          <Route path="/Medicine/Overview" element={<MedicineOverview/>}></Route>
+          <Route path="/Medicine/Cart" element={<MedicineCart />}></Route>
+          {/* <Route path="/Medicine" element={<Main />}></Route> */}
+          <Route
+            path="/Medicine/Overview"
+            element={<MedicineOverview />}
+          ></Route>
           <Route path="/" element={<Home></Home>}></Route>
-          <Route path="/doctor/searchdoctor" element={<FindDorctorBySpecialityLocationAndCity/>}></Route>
-          <Route path="/doctor/bycity" element={<FindByCity/>}></Route>
-          <Route path="/doctors" element={<Doctors/>}></Route>
-          <Route path="/viewallseller" element={<ViewAllSeller/>}></Route>
+          <Route
+            path="/doctor/searchdoctor"
+            element={<FindDorctorBySpecialityLocationAndCity />}
+          ></Route>
+          <Route path="/doctor/bycity" element={<FindByCity />}></Route>
+          <Route path="/doctors" element={<Doctors />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/Medicine" element={<MedicineHomepage />}></Route>
 
-
+          <Route path="/product-details" element={<Productmainpage />}></Route>
         </Routes>
       </BrowserRouter>
     </>
@@ -41,3 +51,5 @@ function App() {
 }
 
 export default App;
+
+
