@@ -22,10 +22,11 @@ function App() {
      <BrowserRouter>
      <Navbar />
       <Routes>
+        
       <Route path="/doctor" element={<Doctor />} />
       <Route path='/verifycode' element={<VerifyCode />}></Route>
       <Route path='/forgotpassword' element={<ForgotPassword />} />
-      <Route path="/" element={<MedicineHomepage />} />
+      <Route path="/Medicine" element={<MedicineHomepage />} />
       <Route path="/doctor" element={<Doctor />} />
       <Route path="/product-details" element={<Productmainpage />} />
       <Route path="/product" element={<AllProducts />} />
@@ -33,6 +34,7 @@ function App() {
       <Route path="/Medicine/Cart" element={<Cart />} />
       </Routes>
       </BrowserRouter>
+    </div>
     </div>
   );
 }

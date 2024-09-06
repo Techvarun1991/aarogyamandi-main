@@ -29,6 +29,7 @@ const Faq = () => {
         <h1 className="text-xl font-bold">Frequently Asked Questions</h1>
       </div>
       <hr className="w-full border-gray-300" />
+
       <div className="w-full  mt-4">
         {faqs.map((faq, index) => (
           <div key={index} className="mb-4">
@@ -66,3 +67,4 @@ const Faq = () => {
 };
 
 export default Faq;
+

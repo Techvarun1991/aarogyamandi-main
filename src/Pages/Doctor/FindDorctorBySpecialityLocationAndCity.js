@@ -1,17 +1,3 @@
-// import React from "react";
-// import Breadcrumbs from "./Bredcrumbs";
-// import { doctorConsulatation } from "./BreadCrumbsLinks";
-
-// export default function FindDoctorBySpecialityLocationAndCity() {
-//     return (
-//       <div className="flex justify-center mt-8 ml-2 sm:ml-4">
-//         <div className="container mx-auto border-2 px-6 md:px-10 max-w-lg md:max-w-xl"> {/* Increased container size and adjusted padding */}
-//           <Breadcrumbs link={doctorConsulatation} />
-//         </div>
-//       </div>
-//     );
-//   }
-
 import React, { useEffect, useRef, useState } from "react";
 import Breadcrumbs from "../../Layout/Bredcrumbs";
 import { doctorConsulatation } from "./BreadCrumbsLinks";
