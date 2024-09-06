@@ -237,7 +237,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideOverMenu from "../SideBar/SideOverMenu";
 import LocationFlyoutMenu from "./LocationFlyoutMenu";
-import Carosole from "./Carousel";
+// import Carosole from "./Carousel";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);

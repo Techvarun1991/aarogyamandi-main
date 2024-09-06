@@ -12,6 +12,7 @@ import Cart from './Pages/Cart/Cart';
 import Doctor from './Pages/Doctor/Doctor';
 import VerifyCode from './Pages/Doctor/VerifyCode';
 import ForgotPassword from './Pages/Doctor/ForgotPassword';
+import Navbar from './Layout/Navbar/Navbar';
 
 
 
@@ -19,6 +20,7 @@ function App() {
   return (
     <div className="App">
      <BrowserRouter>
+     <Navbar />
       <Routes>
       <Route path="/doctor" element={<Doctor />} />
       <Route path='/verifycode' element={<VerifyCode />}></Route>
@@ -28,7 +30,7 @@ function App() {
       <Route path="/product-details" element={<Productmainpage />} />
       <Route path="/product" element={<AllProducts />} />
       <Route path="/wishlist" element={<WishList />} />
-      <Route path="/cart" element={<Cart />} />
+      <Route path="/Medicine/Cart" element={<Cart />} />
       </Routes>
       </BrowserRouter>
     </div>
