@@ -84,7 +84,7 @@ export default function SideOverMenu({ open, setOpen }) {
                   leaveTo="translate-x-full"
                 >
                   <Dialog.Panel className="pointer-events-auto  max-w-sm ">
-                    <div className="flex h-full flex-col bg-gradient-to-b from-teal-300 to-teal-50 shadow-xl ">
+                    <div className="flex h-full flex-col bg-gradient-to-b from-cyan-300 to-cyan-50 shadow-xl ">
                       <div className="flex-1 px-4 py-6 sm:px-6">
                         <div className="flex items-start justify-between">
                           <div className="ml-3 flex h-7 items-center">
