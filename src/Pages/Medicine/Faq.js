@@ -24,13 +24,12 @@ const Faq = () => {
   };
 
   return (
-    <div className="w-full ml-10 w-11/12">
+    <div className=" ml-10 w-12/12">
       <div className="flex justify-between items-center w-full mx-auto my-10">
         <h1 className="text-xl font-bold">Frequently Asked Questions</h1>
       </div>
-      <hr className="w-full border-gray-300" />
-
-      <div className="w-full  mt-4">
+      <hr className="w-[96%] border-gray-300" />
+      <div className="w-[96%]  mt-4">
         {faqs.map((faq, index) => (
           <div key={index} className="mb-4">
             <div
@@ -57,7 +56,7 @@ const Faq = () => {
               <p className="mt-2 text-left">{faq.answer}</p>
             )}
             {index !== faqs.length - 1 && (
-              <hr className="w-full border-gray-300 my-3" />
+              <hr className="w-full border-gray-300 my-3" /> 
             )}
           </div>
         ))}
@@ -67,4 +66,3 @@ const Faq = () => {
 };
 
 export default Faq;
-
