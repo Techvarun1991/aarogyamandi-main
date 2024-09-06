@@ -12,7 +12,7 @@ export default function Navbar() {
     setOpen(!open);
   };
   const handleCartNavigate = () => {
-    navigate("/Medicine/Cart");
+    navigate("/cart");
   };
 
   return (
