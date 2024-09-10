@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ManageProfiles from './ManageProfiles';
 import DoctorAppointments from './DoctorAppointments';
 import MedicineOrders from './MedicineOrders';
@@ -6,11 +6,22 @@ import LabAppointments from './LabAppointments';
 import NeedHelp from './NeedHelp';
 import { BeakerIcon, ChevronRightIcon, ClipboardDocumentCheckIcon, InformationCircleIcon, PowerIcon, TruckIcon, UserGroupIcon } from '@heroicons/react/16/solid';
 import LogoutDialog from '../../Layout/SideBar/LogoutDialog';
+import { useLocation } from 'react-router-dom';
 
 const Dashboard = () => {
   const [activeMenu, setActiveMenu] = useState(0);
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const location = useLocation();
+  const { index } = location.state || {}; 
+
+   // Update the active menu when the index from location changes
+  useEffect(() => {
+    if (index !== undefined) {
+      setActiveMenu(index);  // Set activeMenu based on the index from location
+    }
+  }, [index]); 
 
   const options = [
     {
@@ -46,6 +57,7 @@ const Dashboard = () => {
   ];
 
   const handleMenuItemClick = (index) => {
+    console.log("menuItemClick", index);
     setActiveMenu(index);
     if (options[index].action) {
       options[index].action();
