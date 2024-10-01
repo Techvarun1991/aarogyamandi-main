@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 
 const ApplyPromocode = () => {
-  const [pincode, setPincode] = useState("");
+  const [selectedPromocode, setSelectedPromocode] = useState("");
 
   const handleApplyClick = () => {
     // Handle the apply button click event here
-    console.log("Pincode applied:", pincode);
+    console.log("Selected : ", selectedPromocode);
+    // console.log("Promocode applied:", promocode);
   };
 
   const coupons = [
@@ -51,8 +52,8 @@ const ApplyPromocode = () => {
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Enter Promo code"
           required
-          value={pincode}
-          onChange={(e) => setPincode(e.target.value)}
+          value={selectedPromocode.title}
+          onChange={(e) => setSelectedPromocode(e.target.value)}
         />
         <button
           type="button"
@@ -62,67 +63,6 @@ const ApplyPromocode = () => {
           Apply
         </button>
       </div>
-
-      {/* <div>
-        <div className="bg-white p-4 border-2 border-slate-900 border-dashed rounded-lg my-5 w-[80%]">
-          <div class="flex items-center rounded dark:border-gray-700">
-            <input
-              id="bordered-radio-1"
-              type="radio"
-              value=""
-              name="bordered-radio"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />
-             <h5 className="text-md text-left font-semibold mx-5">NMSNEW</h5>
-          </div>
-          <h5 className="text-xs text-left mx-9">Flat 25% Off on your 1st netmeds order +25% cashback. Minimum order value is Rs 1245</h5>
-         
-          
-        </div>
-        
-
-        <div className="flex bg-white p-4 border-2 border-slate-400 border-dashed rounded-lg my-5 w-[70%]">
-        <div class="flex items-center rounded dark:border-gray-700">
-            <input
-              id="bordered-radio-1"
-              type="radio"
-              value=""
-              name="bordered-radio"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />
-          </div>
-
-          <h5 className="text-md text-left font-semibold mx-2">hii</h5>
-        </div>
-
-        <div className="flex bg-white p-4 border-2 border-slate-400 border-dashed rounded-lg my-5 w-[70%]">
-        <div class="flex items-center rounded dark:border-gray-700">
-            <input
-              id="bordered-radio-1"
-              type="radio"
-              value=""
-              name="bordered-radio"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />
-          </div>
-
-          <h5 className="text-md text-left font-semibold mx-2">hii</h5>
-        </div>
-
-        <div className="flex bg-white p-4 border-2 border-slate-400 border-dashed rounded-lg my-5 w-[70%]">
-        <div class="flex items-center rounded dark:border-gray-700">
-            <input
-              id="bordered-radio-1"
-              type="radio"
-              value=""
-              name="bordered-radio"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />
-          </div>
-
-          <h5 className="text-md text-left font-semibold mx-2">hii</h5> 
-        </div>
-      </div> */}
 
       <div>
         {coupons.map((coupon) => (
@@ -137,6 +77,7 @@ const ApplyPromocode = () => {
                 value=""
                 name="bordered-radio"
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                onChange={() => setSelectedPromocode(coupon)}
               />
               <h5 className="text-md text-left font-semibold mx-5">
                 {coupon.title}

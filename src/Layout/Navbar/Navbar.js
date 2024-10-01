@@ -101,10 +101,10 @@ export default function Navbar() {
           </div>
         </div>
         <nav className="max-w-7xl mx-auto p-4 flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0 md:space-x-16 text-[#33BBC5]">
-          <a href="/doctor/bycity" className="hover:underline font-bold">
+          <a href="/doctor/searchdoctor" className="hover:underline font-bold">
             Visit Clinic
           </a>
-          <a href="#" className="hover:underline font-bold">
+          <a href="/doctor/byCity" className="hover:underline font-bold">
             Video Consultation
           </a>
           <a href="/Medicine" className="hover:underline font-bold">
