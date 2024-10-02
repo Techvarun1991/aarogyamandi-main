@@ -20,33 +20,39 @@ export default function SideOverMenu({ open, setOpen }) {
     setLogoutDialogOpen(!logoutDialogOpen);
   };
 
-  const handleDashboardNavigation = () => {
-    navigate("/patient/")
+  const handleDashboardNavigation = (index) => {
+    closeSideOverMenu();
+    navigate("/Patient/Dashboard", { state: { index } });
   };
   const options = [
     {
       name: "Manage Profiles",
       icon: <UserGroupIcon className="w-6 h-6 my-auto"></UserGroupIcon>,
+      index:0
     },
     {
       name: "Doctor Appointments",
       icon: (
         <ClipboardDocumentCheckIcon className="w-6 h-6 my-auto"></ClipboardDocumentCheckIcon>
       ),
+      index:1
     },
     {
       name: "Medicine Orders",
       icon: <TruckIcon className="w-6 h-6 my-auto"></TruckIcon>,
+      index:2
     },
     {
       name: "Lab Appointments",
       icon: <BeakerIcon className="w-6 h-6 my-auto"></BeakerIcon>,
+      index:3
     },
     {
       name: "Need Help",
       icon: (
         <InformationCircleIcon className="w-6 h-6 my-auto"></InformationCircleIcon>
       ),
+      index:4
     },
     {
       name: "Log Out",
@@ -54,6 +60,9 @@ export default function SideOverMenu({ open, setOpen }) {
     },
   ];
   // Function to toggle the visibility of the SideOverMenu
+  const closeSideOverMenu =() => {
+    setOpen(false);
+  }
 
   return (
     <>
@@ -128,7 +137,7 @@ export default function SideOverMenu({ open, setOpen }) {
                                     onClick={
                                       option.name === "Log Out"
                                         ? toggleLogoutDialog
-                                        : handleDashboardNavigation
+                                        : () => handleDashboardNavigation(option.index)
                                     }
                                   >
                                     <div>
