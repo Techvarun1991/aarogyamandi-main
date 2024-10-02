@@ -57,14 +57,15 @@ export default function Login() {
   const handleLogin = async(e) => {
     e.preventDefault();
     if (email && password && !emailError && !passwordError) {
-      const response = await axios.post("http://192.168.1.6:8080/api/patients/login", {
+      const response = await axios.post("http://localhost:8080/api/patients/login", {
         email : email,
         password: password,
       });
       console.log(response)
       if (response.status === 200) {
         console.log(response);
-        localStorage.setItem('patientID', response.data.patientId);
+        localStorage.setItem('profileId', response.data.profileId);
+        localStorage.setItem('patientId', response.data.patientId);
         localStorage.setItem('patientName', response.data.patientName);
         window.location.href = '/';  // Replace '/new-location' with your desired URL
       }

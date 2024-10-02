@@ -146,7 +146,7 @@ export default function Signup() {
       !firstNameError &&
       !lastNameError
     ) {
-        const response = await axios.post("http://192.168.1.6:8080/api/patients", {
+        const response = await axios.post("http://localhost:8080/api/patients", {
             email : email,
             phoneNumber : contact,
             password: password,

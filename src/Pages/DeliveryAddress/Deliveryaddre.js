@@ -1,110 +1,113 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
 import { FaEdit, FaTrash, FaMapMarkerAlt } from "react-icons/fa";
 import PriceSection from "./PriceSection";
+import AddressService from "../../Service/PatientService/AddressService";
+import axios from "axios";
 
 const Deliveryaddre = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(null);
+  const revGeoCode = useRef({});
+  const [isUpdate, setIsUpdate] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedAddress, setSelectedAddress] = useState({
-    name: "",
-    house: "",
+    addressLine1: "",
+    addressLine2: "",
     city: "",
-    pincode: "",
     state: "",
-    mobile: "",
-    addressType: "Home Address",
+    zipCode: "",
+    personName: "",
+    lattitude: 0.0,
+    longitude: 0.0,
+    default: false,
+    home: true
   });
   const [addresses, setAddresses] = useState([
-    {
-      name: "John Doe",
-      house: "123, Elm Street",
-      city: "New York",
-      pincode: "10001",
-      state: "NY",
-      mobile: "+1 234 567 8901",
-      addressType: "Home Address",
-    },
-    {
-      name: "Jane Smith",
-      house: "456, Maple Avenue",
-      city: "Los Angeles",
-      pincode: "90001",
-      state: "CA",
-      mobile: "+1 987 654 3210",
-      addressType: "Office Address",
-    },
-    {
-      name: "Michael Johnson",
-      house: "789, Pine Road",
-      city: "Chicago",
-      pincode: "60601",
-      state: "IL",
-      mobile: "+1 555 123 4567",
-      addressType: "Home Address",
-    },
+
   ]);
+  useEffect(() => {
+    const profileId = localStorage.getItem("profileId")
+    AddressService.getAllProfiles(profileId).then((response) => {
+      console.log(response.data, "----------");
+      setAddresses(response.data);
+    })
+  }, [])
+
   console.log(selectedAddress);
   const [newAddress, setNewAddress] = useState({
-    name: "",
-    house: "",
+    addressLine1: "",
+    addressLine2: "",
     city: "",
-    pincode: "",
     state: "",
-    mobile: "",
-    addressType: "Home Address",
+    zipCode: "",
+    personName: "",
+    lattitude: 0.0,
+    longitude: 0.0,
+    default: false,
+    home: true
   });
-  // Handle form changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewAddress((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Add new address to list
   const handleAddAddress = () => {
-    setAddresses((prev) => [...prev, newAddress]);
-    setSelectedAddress({
-      name: "",
-      house: "",
-      city: "",
-      pincode: "",
-      state: "",
-      mobile: "",
-      addressType: "Home Address",
-    });
+    console.log(newAddress, '------------new address------------');
+
+    const profileId = localStorage.getItem('profileId');
+    // const jsonAddress = JSON.stringify(newAddress);
+    AddressService.addAddress(profileId, newAddress, isUpdate).then((response) => {
+      console.log(response.data);
+      if (response.status === 201) {
+        window.location.reload();
+      }
+    })
     setIsModalOpen(false); // Close modal after adding
   };
 
   // Open delete confirmation modal
-  const openDeleteModal = (index) => {
+  const openDeleteModal = (index, address) => {
     setSelectedAddressIndex(index);
+    setSelectedAddress(address);
     setIsDeleteModalOpen(true);
   };
 
   // open edit modal
   const openEditModal = (index, address) => {
     setSelectedAddressIndex(index);
+    setIsUpdate(true);
     setIsModalOpen(true);
 
-    // Set the new address with the selected address values
     setNewAddress({
-      name: address.name || "",
-      house: address.house || "",
-      city: address.city || "",
-      pincode: address.pincode || "",
-      state: address.state || "",
-      mobile: address.mobile || "",
-      addressType: address.addressType || "Home Address",
+      addressLine1: address.addressLine1,
+      addressLine2: address.addressLine2,
+      city: address.city,
+      state: address.state,
+      zipCode: address.zipCode,
+      personName: address.personName,
+      lattitude: address.latitude,
+      longitude: address.longitude,
+      default: address.default,
+      home: address.home
     });
 
     console.log(index);
   };
 
   // Confirm delete address
-  const handleDeleteAddress = () => {
+  const handleDeleteAddress = (addressId) => {
+    console.log("Deleting address with ID:", addressId);
     setAddresses((prev) =>
       prev.filter((_, index) => index !== selectedAddressIndex)
     );
+    AddressService.deleteAddress(addressId.id).then((response) => {
+      console.log(response.data);
+      if (response.status === 200) {
+        toast.success("Address deleted successfully");
+      }
+    });
     setIsDeleteModalOpen(false); // Close delete modal
   };
 
@@ -124,8 +127,46 @@ const Deliveryaddre = () => {
     localStorage.setItem("selectedPincode", selectedAddress.pincode); // Save pincode to local storage
   };
 
-  const detectlocation = () =>{
-    
+  const detectlocation = () => {
+    console.log("Getting location");
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          const payload = {
+            latitude,
+            longitude,
+          };
+          try {
+            const response = await axios.post(
+              `http://192.168.1.6:8080/map/api/revGeoCode`,
+              payload
+            );
+            revGeoCode.current = response.data;
+            localStorage.setItem(
+              "revGeoCodeCurrent",
+              JSON.stringify(response.data)
+            );
+
+            setNewAddress({
+              city: response.data.city || "",
+              pincode: response.data.postcode || "",
+              state: response.data.state || "",
+            });
+            console.log("RevGeoCode", revGeoCode.current);
+          } catch (error) {
+            console.error("Error getting user's location:", error);
+          } finally {
+            setIsLoading(false);
+          }
+        },
+        (error) => {
+          console.error("Error getting user's location:", error);
+        }
+      );
+    }
+
   }
 
   return (
@@ -151,10 +192,10 @@ const Deliveryaddre = () => {
 
               {/* Address Details */}
               <div className="text-left mx-4">
-                <p className="text-lg">{address.name}</p>
-                <p>{address.house}</p>
+                <p className="text-lg">{address.addressLine1}</p>
+                <p>{address.addressLine2}</p>
                 <p>
-                  {address.city}, {address.pincode}, {address.state}
+                  {address.city}, {address.zipCode}, {address.state}
                 </p>
                 <p>{address.mobile}</p>
                 <p className="text-rose-400">{address.addressType}</p>
@@ -167,7 +208,7 @@ const Deliveryaddre = () => {
                 />
                 <FaTrash
                   className="text-black cursor-pointer"
-                  onClick={() => openDeleteModal(index)}
+                  onClick={() => openDeleteModal(index, address)}
                 />
               </div>
             </div>
@@ -231,33 +272,50 @@ const Deliveryaddre = () => {
                   htmlFor="name"
                   className="block text-sm font-medium text-cyan-400 text-left my-1 mx-5"
                 >
-                  Full Name
+                  Name
                 </label>
                 <input
-                  id="name"
+                  id="personName"
                   type="text"
-                  name="name"
+                  name="personName"
                   placeholder="Enter your Name"
                   className="flex w-3/4 p-2 border border-gray-300 rounded mt-1 placeholder-gray-500 mx-5"
-                  value={newAddress.name || selectedAddress.name}
+                  value={newAddress.personName || selectedAddress.personName}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="addressLine1"
+                  className="block text-sm font-medium text-cyan-400 text-left my-1 mx-5"
+                >
+                  Address line 1
+                </label>
+                <input
+                  id="addressLine1"
+                  type="text"
+                  name="addressLine1"
+                  placeholder="Enter Address Line 1"
+                  className="flex w-3/4 p-2 border border-gray-300 rounded mt-1 placeholder-gray-500 mx-5"
+                  value={newAddress.addressLine1 || selectedAddress.addressLine1}
                   onChange={handleInputChange}
                 />
               </div>
 
               <div>
                 <label
-                  htmlFor="name"
+                  htmlFor="addressLine2"
                   className="block text-sm font-medium text-cyan-400 text-left my-1 mx-5"
                 >
-                  Address
+                  Address line 2
                 </label>
                 <input
-                  id="name"
+                  id="addressLine2"
                   type="text"
-                  name="name"
-                  placeholder="Enter Your Address"
+                  name="addressLine2"
+                  placeholder="Enter address line 2"
                   className="flex w-3/4 p-2 border border-gray-300 rounded mt-1 placeholder-gray-500 mx-5"
-                  // value={newAddress.name}
+                  value={newAddress.addressLine2 || selectedAddress.addressLine2}
                   onChange={handleInputChange}
                 />
               </div>
@@ -304,58 +362,26 @@ const Deliveryaddre = () => {
               <div className="flex space-x-4">
                 <div className="flex-1">
                   <label
-                    htmlFor="state"
+                    htmlFor="zipcode"
                     className="block text-sm font-medium text-cyan-400 text-left my-1 mx-5"
                   >
-                    Landmark
+                    Pin code
                   </label>
                   <input
-                    id="state"
+                    id="zipCode"
                     type="text"
-                    name="state"
+                    name="zipCode"
                     placeholder="Enter Landmark"
                     className="flex w-4/5 p-2 border border-gray-300 rounded mt-1 placeholder-gray-500 mx-5"
-                    value={newAddress.state}
+                    value={newAddress.zipCode}
                     onChange={handleInputChange}
                   />
                 </div>
 
-                <div className="flex-1">
-                  <label
-                    htmlFor="pincode"
-                    className="block text-sm font-medium text-cyan-400 text-left my-1 mx-5"
-                  >
-                    PIN code
-                  </label>
-                  <input
-                    id="pincode"
-                    type="text"
-                    name="pincode"
-                    placeholder="Enter pincode"
-                    className="flex w-4/5 p-2 border border-gray-300 rounded mt-1 placeholder-gray-500 mx-5"
-                    value={newAddress.pincode}
-                    onChange={handleInputChange}
-                  />
-                </div>
+
               </div>
 
-              <div>
-                <label
-                  htmlFor="mobile"
-                  className="block text-sm font-medium text-cyan-400 text-left my-1 mx-5"
-                >
-                  Mobile No.
-                </label>
-                <input
-                  id="mobile"
-                  type="text"
-                  name="mobile"
-                  placeholder="Mobile Number"
-                  className="flex w-3/4 p-2 border border-gray-300 rounded mt-1 placeholder-gray-500 mx-5"
-                  value={newAddress.mobile}
-                  onChange={handleInputChange}
-                />
-              </div>
+
 
               <div className="mx-5">
                 <label
@@ -367,15 +393,15 @@ const Deliveryaddre = () => {
                 <div className="flex space-x-4">
                   <button
                     type="button"
-                    className={`w-1/5 p-2 border rounded ${
-                      newAddress.addressType === "Home"
-                        ? "bg-cyan-500 text-white"
-                        : "bg-gray-200 text-gray-700"
-                    }`}
+                    className={`w-1/5 p-2 border rounded ${newAddress.home
+                      ? "bg-cyan-500 text-white"
+                      : "bg-gray-200 text-gray-700"
+                      }`}
                     onClick={() =>
                       setNewAddress((prev) => ({
                         ...prev,
-                        addressType: "Home",
+                        home: true,
+                        addressType: "Home", // Set addressType to "Home"
                       }))
                     }
                   >
@@ -383,21 +409,22 @@ const Deliveryaddre = () => {
                   </button>
                   <button
                     type="button"
-                    className={`w-1/5 p-2 border rounded ${
-                      newAddress.addressType === "Office"
-                        ? "bg-cyan-500 text-white"
-                        : "bg-gray-200 text-gray-700"
-                    }`}
+                    className={`w-1/5 p-2 border rounded ${!newAddress.home
+                      ? "bg-cyan-500 text-white"
+                      : "bg-gray-200 text-gray-700"
+                      }`}
                     onClick={() =>
                       setNewAddress((prev) => ({
                         ...prev,
-                        addressType: "Office",
+                        home: false,
+                        addressType: "Office", // Set addressType to "Office"
                       }))
                     }
                   >
                     Office
                   </button>
                 </div>
+
               </div>
 
               <div className=" mt-4">
@@ -413,7 +440,17 @@ const Deliveryaddre = () => {
           </div>
         </div>
       )}
-
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {/* Delete Confirmation Modal */}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
@@ -425,7 +462,7 @@ const Deliveryaddre = () => {
             <div className="flex justify-between">
               <button
                 className="bg-red-500 text-white py-2 px-4 rounded"
-                onClick={handleDeleteAddress}
+                onClick={() => handleDeleteAddress(selectedAddress)}
               >
                 Delete Address
               </button>
