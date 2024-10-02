@@ -1,5 +1,5 @@
 import axios from "axios";
-import {useState } from "react";
+import {useEffect, useState } from "react";
 import App from "../../App";
 import { createRoot } from "react-dom/client";
 
@@ -7,10 +7,23 @@ export default function UpdatePincodeForm({ onClose }) {
   const [pincode, setPincode] = useState("");
   const [isValid, setIsValid] = useState(false);
 
+   // Fetch pincode from localStorage when the component mounts
+   useEffect(() => {
+    const savedPincode = localStorage.getItem("revGeoCode");
+    if (savedPincode) {
+      const parsedData = JSON.parse(savedPincode);
+      setPincode(parsedData.pincode); // Assuming pincode is a property of the stored object
+      console.log(pincode);
+      if (/^\d{6}$/.test(parsedData.pincode)) {
+        setIsValid(true);
+      }
+    }
+  }, []); // Empty dependency array to ensure this runs only on mount
+
   const handlePincodeSave = async() => {
     try {   
       const response = await axios.post(
-        `https://192.168.1.206:30002/map/api/geoCode?address=${pincode}`,
+        `http://192.168.1.6:8080/map/api/geoCode?address=${pincode}`,
        
       );
       localStorage.removeItem("revGeoCode"); 
@@ -50,7 +63,7 @@ export default function UpdatePincodeForm({ onClose }) {
         <hr className="border-gray-300" />
         <div className="mb-4">
           <img
-            src="https://192.168.1.206:30002/api/documentation/main-documents/662205cd766bbc78001564b0/download"
+            src="http://192.168.1.6:8080/api/documentation/main-documents/662205cd766bbc78001564b0/download"
             className=""
             alt="Pincode"
           />
