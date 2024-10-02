@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import LoginImg from "../Images/login.png";
 import axios from "axios";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Signup() {
 
@@ -119,6 +121,9 @@ export default function Signup() {
     if (!email) {
       setEmailError("Please enter a valid email");
     }
+    if (!contact) {
+        setContactError("Please enter a valid contact");
+      }
     if (!password) {
       setPasswordError("Please enter a valid password");
     }
@@ -146,13 +151,26 @@ export default function Signup() {
       !firstNameError &&
       !lastNameError
     ) {
-        const response = await axios.post("http://192.168.1.6:8080/api/patients", {
-            email : email,
-            phoneNumber : contact,
-            password: password,
-            firstName: firstName,
-            lastName: lastName,
-          });
+        try {
+            const response = await axios.post("http://192.168.1.6:8080/api/patients", {
+                email : email,
+                phoneNumber : contact,
+                password: password,
+                firstName: firstName,
+                lastName: lastName,
+              });
+            console.log(response)
+            if(response.statusCode === 200) {
+                window.location.href = '/login';
+            }
+        } catch (error) {
+            toast.error("Email already exists", {
+                position: "top-right", 
+                margin : "0 0 0 0",
+              });
+        }
+        
+            
     }
   };
   
@@ -166,6 +184,8 @@ export default function Signup() {
   };
 
   return (
+    <>
+    <ToastContainer />
     <div className="max-w-3xl text-center mx-auto py-2">
       <div className="flex space-x-3">
         <div className="w-1/2 py-8">
@@ -353,5 +373,6 @@ export default function Signup() {
         </div>
       </div>
     </div>
+    </>
   );
 }

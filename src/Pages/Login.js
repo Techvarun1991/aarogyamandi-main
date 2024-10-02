@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import LoginImg from "../Images/login.png";
 import axios from "axios";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
   const getCookie = (name) => {
@@ -54,28 +56,41 @@ export default function Login() {
       setPasswordError("");
     }
   };
+
   const handleLogin = async(e) => {
     e.preventDefault();
-    if (email && password && !emailError && !passwordError) {
-      const response = await axios.post("http://192.168.1.6:8080/api/patients/login", {
-        email : email,
-        password: password,
-      });
-      console.log(response)
-      if (response.status === 200) {
-        console.log(response);
-        localStorage.setItem('patientID', response.data.patientId);
-        localStorage.setItem('patientName', response.data.patientName);
-        window.location.href = '/';  // Replace '/new-location' with your desired URL
+    
+      if (email && password && !emailError && !passwordError) {
+        try {
+          const response = await axios.post("http://192.168.1.6:8080/api/patients/login", {
+            email : email,
+            password: password,
+          });
+          console.log(response)
+        if (response.status === 200) {
+          console.log(response);
+          localStorage.setItem('patientID', response.data.patientId);
+          localStorage.setItem('patientName', response.data.patientName);
+          toast.success("Login successful!", {
+            position: "top-right", 
+          });
+          window.location.href = '/';  // Replace '/new-location' with your desired URL
+        }
+        } catch (error) {
+          toast.error("Invalid Credentials", {
+            position: "top-right", 
+          });
+        }
+         
+      } else {
+        if (!email) {
+          setEmailError("Please enter a valid email");
+        }
+        if (!password) {
+          setPasswordError("Please enter a valid password");
+        }
       }
-    } else {
-      if (!email) {
-        setEmailError("Please enter a valid email");
-      }
-      if (!password) {
-        setPasswordError("Please enter a valid password");
-      }
-    }
+    
   };
 
   const togglePasswordVisibility = () => {
@@ -95,6 +110,7 @@ export default function Login() {
 
   return (
     <div className="max-w-3xl text-center mx-auto py-2">
+      <ToastContainer />
       <div className="flex space-x-3">
         <div className="w-1/2 py-8">
           <img src={LoginImg} />
