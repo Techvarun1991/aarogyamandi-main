@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import LoginImg from "../Images/login.png";
-import { EyeIcon } from "@heroicons/react/24/outline";
+import axios from "axios";
 
 export default function Login() {
   const getCookie = (name) => {
@@ -54,10 +54,20 @@ export default function Login() {
       setPasswordError("");
     }
   };
-  const handleLogin = (e) => {
+  const handleLogin = async(e) => {
     e.preventDefault();
     if (email && password && !emailError && !passwordError) {
-      alert("Login successfully");
+      const response = await axios.post("http://192.168.1.6:8080/api/patients/login", {
+        email : email,
+        password: password,
+      });
+      console.log(response)
+      if (response.status === 200) {
+        console.log(response);
+        localStorage.setItem('patientID', response.data.patientId);
+        localStorage.setItem('patientName', response.data.patientName);
+        window.location.href = '/';  // Replace '/new-location' with your desired URL
+      }
     } else {
       if (!email) {
         setEmailError("Please enter a valid email");
@@ -177,7 +187,7 @@ export default function Login() {
           </form>
           <p className="mt-4 text-center text-sm text-gray-700">
             Don’t have an account?{" "}
-            <a href="#" className="text-blue-600">
+            <a href="/signup" className="text-blue-600">
               Sign Up
             </a>
           </p>

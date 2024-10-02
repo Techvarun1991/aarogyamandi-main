@@ -17,6 +17,7 @@ import FindByCity from "./Pages/Doctor/FindDoctor";
 import DoctorList from "./Pages/Doctor/DoctorList";
 import Doctors from "./Pages/Doctor/Doctors";
 import Login from "./Pages/Login";
+import Signup from './Pages/Signup';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route path="/doctor/bycity" element={<FindByCity />}></Route>
           <Route path="/doctors" element={<Doctors />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/signup" element={<Signup />}></Route>
       </Routes>
       </BrowserRouter>
     </div>
