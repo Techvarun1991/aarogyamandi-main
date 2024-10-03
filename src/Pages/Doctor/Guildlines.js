@@ -2,7 +2,6 @@ import {
   CalendarDaysIcon,
   CheckBadgeIcon,
   CurrencyRupeeIcon,
-  MagnifyingGlassCircleIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import { VideoCameraIcon } from "@heroicons/react/24/solid";

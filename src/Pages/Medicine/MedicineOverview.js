@@ -82,6 +82,7 @@ export default function ProductOverview() {
       <div className="aspect-w-6 aspect-h-7 overflow-hidden rounded-lg">
         <img
           src={`http://192.168.1.6:8080/api/documentation/medicine-photos/${largeImage}/download`}
+          src={`http://192.168.1.6:8080/api/documentation/medicine-photos/${largeImage}/download`}
           alt={""}
           className="object-cover object-center h-full w-full"
         />
@@ -94,6 +95,7 @@ export default function ProductOverview() {
         <div key={index} className="mb-2">
           <div className="aspect-w-3 aspect-h-4 overflow-hidden rounded-lg">
             <img
+              src={`http://192.168.1.6:8080/api/documentation/medicine-photos/${medicineImages[index]}/download`}
               src={`http://192.168.1.6:8080/api/documentation/medicine-photos/${medicineImages[index]}/download`}
               alt={image.alt}
               className="object-cover object-center h-full w-full cursor-pointer"

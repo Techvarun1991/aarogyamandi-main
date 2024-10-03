@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideOverMenu from "../SideBar/SideOverMenu";
 import LocationFlyoutMenu from "./LocationFlyoutMenu";
+import NavbarLine from "./NavabarLine";
 // import Carosole from "./Carousel";
 
 export default function Navbar() {
@@ -24,6 +25,7 @@ export default function Navbar() {
             {/* <div className="text-2xl font-bold text-teal-600"> */}
             <img
               className="hidden lg:block h-20 w-48" // Adjusted height here
+              src="https://192.168.1.6:8080/api/documentation/doctor-documents/65e0447d27be100030e4cbf3/download"
               src="http://192.168.1.6:8080/api/documentation/doctor-documents/65e0447d27be100030e4cbf3/download"
               alt="Your Company"
             />
@@ -115,6 +117,7 @@ export default function Navbar() {
           </a>
         </nav>
       </header>{" "}
+      <NavbarLine />
     </>
   );
 }

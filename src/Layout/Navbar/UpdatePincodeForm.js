@@ -1,11 +1,24 @@
 import axios from "axios";
-import {useState } from "react";
+import {useEffect, useState } from "react";
 import App from "../../App";
 import { createRoot } from "react-dom/client";
 
 export default function UpdatePincodeForm({ onClose }) {
   const [pincode, setPincode] = useState("");
   const [isValid, setIsValid] = useState(false);
+
+   // Fetch pincode from localStorage when the component mounts
+   useEffect(() => {
+    const savedPincode = localStorage.getItem("revGeoCode");
+    if (savedPincode) {
+      const parsedData = JSON.parse(savedPincode);
+      setPincode(parsedData.pincode); // Assuming pincode is a property of the stored object
+      console.log(pincode);
+      if (/^\d{6}$/.test(parsedData.pincode)) {
+        setIsValid(true);
+      }
+    }
+  }, []); // Empty dependency array to ensure this runs only on mount
 
   const handlePincodeSave = async() => {
     try {   
