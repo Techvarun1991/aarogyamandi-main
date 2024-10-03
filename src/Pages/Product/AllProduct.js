@@ -1,66 +1,58 @@
 // src/AllProductsPage.js
 import React, { useEffect, useState } from 'react';
 import Halfpricestore from '../Medicine/Halfpricestore';
+import { useLocation, useNavigate } from 'react-router-dom';
+import ProductService from '../../Service/PharmcyService/ProductService';
 
 const AllProducts = () => {
-    const products = [
-        // Sample product data
-        { id: 1, name: 'TRESemme Anti-Dandruff Shampoo Anti-Hair fall 72 ml', price: '75.76', discount: '10% Off', imageSrc: 'https://www.practostatic.com/ecommerce-assets/static/media/home/desktop/cat-2.640dcfd5.png', label: 'New', market: 'Procter & Gamble', bestPrice: '$9', mrp: 'Rs 80' },
-        { id: 2, name: 'TRESemme Anti-Dandruff Shampoo Anti-Hair fall 72 ml', price: '75.76', discount: '15% Off', imageSrc: 'https://www.practostatic.com/ecommerce-assets/static/media/home/desktop/cat-2.640dcfd5.png', label: 'Sale', market: 'Procter & Gamble', bestPrice: '$18', mrp: 'Rs 80' },
-        { id: 3, name: 'Product 3', price: '75.76', discount: '20% Off', imageSrc: 'https://www.practostatic.com/ecommerce-assets/static/media/home/desktop/cat-2.640dcfd5.png', label: 'Discount', market: 'Procter & Gamble', bestPrice: '$25', mrp: 'Rs 80' },
-        { id: 4, name: 'Product 4', price: '75.76', discount: '25% Off', imageSrc: 'https://www.practostatic.com/ecommerce-assets/static/media/home/desktop/cat-2.640dcfd5.png', label: 'Limited', market: 'Procter & Gamble', bestPrice: '$35', mrp: 'Rs 80' },
-        { id: 5, name: 'Product 5', price: '75.76', discount: '30% Off', imageSrc: 'https://www.practostatic.com/ecommerce-assets/static/media/home/desktop/cat-2.640dcfd5.png', label: 'Offer', market: 'Procter & Gamble', bestPrice: '$40', mrp: 'Rs 80' },
-        { id: 6, name: 'Product 6', price: '75.76', discount: '35% Off', imageSrc: 'https://www.practostatic.com/ecommerce-assets/static/media/home/desktop/cat-2.640dcfd5.png', label: 'Clearance', market: 'Procter & Gamble', bestPrice: '$50', mrp: 'Rs 80' },
-        // Add more products as needed
-      ];
-    
-      const [startIndex, setStartIndex] = useState(0);
-      const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-    
-      const handlePrev = () => {
-        setStartIndex(startIndex - (windowWidth < 768 ? 1 : 3));
-      };
-    
-      const handleNext = () => {
-        setStartIndex(startIndex + (windowWidth < 768 ? 1 : 3));
-      };
-    
-      useEffect(() => {
-        const handleResize = () => {
-          setWindowWidth(window.innerWidth);
-        };
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-      }, []);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const item = localStorage.getItem("itemId"); // Default to an empty object if state is undefined
+  console.log(item, "------------item ---------------")
+  const [product, setProduct] = useState([]);
 
-      const handleClick = () => {
-        console.log('hi');
-      };
-    
+
+  useEffect(() => {
+    ProductService.getProductById(item).then((response) => {
+      console.log(response.data, '-------------response product ---------------');
+      setProduct(response.data.pharmacyMedicineStock);
+    }).catch((error) => {
+      console.log(error);
+    })
+
+  }, [item]);
+
+
+  useEffect(() => {
+    const handleResize = () => {
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleAddCart = (event) => {
+    event.stopPropagation()
+    console.log('handleAddCart---------------');
+  }
+
+  const handleProductDetails = (medicineId, event) => {
+    console.log('handleProductDetails---------------', medicineId);
+    localStorage.setItem("ItemdetailsId", medicineId);
+    navigate("/product-details")
+  }
+
+
+
 
   return (
     <div className="container mx-auto p-4">
       <div className="flex">
         {/* Sidebar */}
         <div className="w-1/4 p-4">
-          <h2 className="text-lg mb-4 text-left mx-4">Filters</h2>
-          <div className="text-lg mb-4 text-left mx-4">
-          <h3 className="mb-2">Category</h3>
-            <div className="flex items-center mb-2" onClick={handleClick}>
-              <input type="checkbox" id="shampoo" className="mr-2" />
-              <label htmlFor="shampoo" className="text-sm">Shampoo</label>
-            </div>
-            <div className="flex items-center mb-2" onClick={handleClick}>
-              <input type="checkbox" id="soap" className="mr-2" />
-              <label htmlFor="soap" className="text-sm">Soap</label>
-            </div>
-            <div className="flex items-center mb-2" onClick={handleClick}>
-              <input type="checkbox" id="hair-care" className="mr-2" />
-              <label htmlFor="hair-care" className="text-sm">Hair Care</label>
-            </div>
-          </div>
+          <h2 className="text-2xl font-bold mb-4 text-left mx-4">Filters</h2>
+
           <div className="text-lg text-left mx-4 my-8">
-          <h3 className="mb-2">Price</h3>
+            <h3 className="mb-2">Price</h3>
             <div className="flex items-center mb-2">
               <input type="checkbox" id="shampoo" className="mr-2" />
               <label htmlFor="shampoo" className="text-sm">50-100</label>
@@ -75,7 +67,7 @@ const AllProducts = () => {
             </div>
           </div>
           <div className="text-lg text-left mx-4 my-8">
-          <h3 className="mb-2">Discount</h3>
+            <h3 className="mb-2">Discount</h3>
             <div className="flex items-center mb-2">
               <input type="checkbox" id="shampoo" className="mr-2" />
               <label htmlFor="shampoo" className="text-sm">10% Off</label>
@@ -93,32 +85,47 @@ const AllProducts = () => {
         {/* Products Grid */}
         <div className="w-3/4 p-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {products.map(product => (
-              <div key={product.id} className="bg-white p-4 ">
-                <div className="bg-white p-4 shadow relative ">
+            {product.map(product => (
+              <div key={product.medicine.medicineName} className="bg-white p-4" onClick={(e) => {
+                e.stopPropagation(); // Prevents event from bubbling up if necessary
+                handleProductDetails(product.medicineId); // Ensures it's called only once
+              }}>                <div className="bg-white p-4 shadow relative">
                   <img
                     className="w-3/4 h-full mx-auto mt-10"
-                    src={product.imageSrc}
+                    src="https://s3-alpha-sig.figma.com/img/7264/6296/2fab4e2540ff263ac1bfbc5d62b886b1?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Y34ND4NMfhV~Tp40lKOQk467qoEwMFTWxKvSBgRSz0SCnWs1ZrfUXmhRcKZbNMVHn6DM4-ty0lholvYZKXYBvx9tIxAAH6cNx0BJxXWYLFToY-cRXNRXCc-fNlZ4yS8CKFHk0N6RCw~7he1gyCL6SfHJxZIUdhzyKuhteuPKEr7YQpuMdt4IBLJdzALZBQmKyvZCF3L1vY7Erz7RbmuLnX56davUIEWTakHmdCKGiW6qnT7QGTxqoA6iBsEX7Etgx8QN0YfE7eu7QssPXYFqs1aaBueXq0EZXdfIgntN4TOut3fjF9fNAZ3mHdiNqpUYghPaqHtr1uCisrXXQaalnQ__"
                     alt={product.name}
                   />
-                  <span className="absolute top-2 sm:top-3 right-3 bg-sky-400 text-white px-1 sm:px-2 py-0.5 sm:py-1 rounded-md">
-                    {product.discount}
+                  <span className="absolute top-2 sm:top-3 right-3 bg-sky-400 text-black px-1 sm:px-2 py-0.5 sm:py-1 rounded-md">
+                    {"40% OFF"}
                   </span>
                   <div className="py-4 min-h-44">
-                    <div className="font-bold text-sm mb-2 text-left min-h-12">
-                      {product.name}
+                    {/* Product name */}
+                    <div className="font-bold text-lg text-left min-h-12">
+                      {product.medicine.medicineName}
                     </div>
-                    <p className="text-sm text-gray-400 text-left">
-                    Mkt: {product.market}
+                    {/* Chip */}
+                    <div className="rounded-md bg-slate-400 py-0.5 px-1.5 w-1/2 text-xs text-white justify-center transition-all shadow-sm text-left mb-1">
+                      {product.medicine.category.categoryName}
+                    </div>
+                    <p className="text-sm text-left">
+                      <span className="text-black">Mfr:</span>
+                      <span className="text-gray-500"> {product.medicine.manufacturer}</span>
                     </p>
-                    <p className="text-sm text-gray-400 text-left">
-                      Best Price: {""}
-                      <span className="text-blue-500">₹ {product.price}</span>
+                    <p className="text-sm text-left">
+                      Best Price:
+                      <span className="text-black">₹</span>
+                      <span className="text-pink-500"> {product?.sellingPrice}</span>
                     </p>
-                    <p className="text-sm text-gray-400 text-left">
-                      MRP: <span className="line-through">{product.mrp}</span>
+
+                    <p className="text-sm text-left">
+                      MRP:
+                      <span className="text-black">₹</span>
+                      <span className="text-gray-500 line-through"> {product?.originalPrice}</span>
                     </p>
-                    <button className="font-bold text-sky-400 w-full mt-2">
+
+
+
+                    <button className="font-bold text-sky-400 w-full mt-2 " onClick={handleAddCart}>
                       ADD TO CART
                     </button>
                   </div>
@@ -127,6 +134,7 @@ const AllProducts = () => {
             ))}
           </div>
         </div>
+
       </div>
     </div>
   );

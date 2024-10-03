@@ -8,6 +8,7 @@ import RelatedPost from './RelatedPost'
 import Disclaimer from './Disclaimer'
 
 const Productmainpage = () => {
+
   return (
     <div>
 
@@ -17,13 +18,13 @@ const Productmainpage = () => {
 
         <Similarproducts /> 
 
-         <Frequentlyboughtproduct />
+        <Frequentlyboughtproduct />
 
-         <Rating />
+        <Rating />
 
-         <RelatedPost />
+        <RelatedPost />
 
-         <Disclaimer />
+        <Disclaimer />
     </div>
   )
 }

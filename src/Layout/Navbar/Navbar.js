@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideOverMenu from "../SideBar/SideOverMenu";
 import LocationFlyoutMenu from "./LocationFlyoutMenu";
+import NavbarLine from "./NavabarLine";
 // import Carosole from "./Carousel";
 
 export default function Navbar() {
@@ -115,6 +116,7 @@ export default function Navbar() {
           </a>
         </nav>
       </header>{" "}
+      <NavbarLine />
     </>
   );
 }
