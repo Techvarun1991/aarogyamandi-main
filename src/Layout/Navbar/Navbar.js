@@ -26,7 +26,6 @@ export default function Navbar() {
             <img
               className="hidden lg:block h-20 w-48" // Adjusted height here
               src="https://192.168.1.6:8080/api/documentation/doctor-documents/65e0447d27be100030e4cbf3/download"
-              src="http://192.168.1.6:8080/api/documentation/doctor-documents/65e0447d27be100030e4cbf3/download"
               alt="Your Company"
             />
             {/* </div> */}
