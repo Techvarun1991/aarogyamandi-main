@@ -68,7 +68,7 @@ export default function LocationFlyoutMenu() {
           };
           try {
             const response = await axios.post(
-              `https://192.168.1.206:30002/map/api/revGeoCode`,
+              `http://192.168.1.6:8080/map/api/revGeoCode`,
               payload
             );
             revGeoCode.current = response.data;

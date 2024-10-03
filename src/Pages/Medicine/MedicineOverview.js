@@ -36,7 +36,7 @@ export default function ProductOverview() {
           currentLong:77.61923,
           radius: 10
         };
-        const response = await axios.post(`https://192.168.1.206:30002/InventoryManagement/unique/141`,payload)
+        const response = await axios.post(`http://192.168.1.6:8080/InventoryManagement/unique/141`,payload)
         console.log("response: " ,response.data);
         setMedicine(response.data.medicine);
         setMedicineImages(response.data.medicine.medicineImages);
@@ -81,7 +81,7 @@ export default function ProductOverview() {
     <div className="md:col-span-2 lg:col-span-2"> {/* Adjust the span to accommodate large image */}
       <div className="aspect-w-6 aspect-h-7 overflow-hidden rounded-lg">
         <img
-          src={`https://192.168.1.206:30002/api/documentation/medicine-photos/${largeImage}/download`}
+          src={`http://192.168.1.6:8080/api/documentation/medicine-photos/${largeImage}/download`}
           alt={""}
           className="object-cover object-center h-full w-full"
         />
@@ -94,7 +94,7 @@ export default function ProductOverview() {
         <div key={index} className="mb-2">
           <div className="aspect-w-3 aspect-h-4 overflow-hidden rounded-lg">
             <img
-              src={`https://192.168.1.206:30002/api/documentation/medicine-photos/${medicineImages[index]}/download`}
+              src={`http://192.168.1.6:8080/api/documentation/medicine-photos/${medicineImages[index]}/download`}
               alt={image.alt}
               className="object-cover object-center h-full w-full cursor-pointer"
               onClick={() => handleImageClick(`${medicineImages[index]}`)}

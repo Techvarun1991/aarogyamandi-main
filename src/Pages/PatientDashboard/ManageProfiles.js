@@ -4,7 +4,7 @@ export default function ManageProfiles() {
   const patients = [
     {
       id: 1,
-      photo: "https://192.168.1.206:30002/api/documentation/patient-documents/65c9a362681c3641eb688164/download",
+      photo: "http://192.168.1.6:8080/api/documentation/patient-documents/65c9a362681c3641eb688164/download",
       name: "John Doe",
       gender: "Male",
       age: 35,
@@ -12,7 +12,7 @@ export default function ManageProfiles() {
     },
     {
       id: 2,
-      photo: "https://192.168.1.206:30002/api/documentation/patient-documents/65c9a362681c3641eb688164/download",
+      photo: "http://192.168.1.6:8080/api/documentation/patient-documents/65c9a362681c3641eb688164/download",
       name: "Jane Smith",
       gender: "Female",
       age: 28,
@@ -20,7 +20,7 @@ export default function ManageProfiles() {
     },
     {
       id: 3,
-      photo: "https://192.168.1.206:30002/api/documentation/patient-documents/65c9a362681c3641eb688164/download",
+      photo: "http://192.168.1.6:8080/api/documentation/patient-documents/65c9a362681c3641eb688164/download",
       name: "Michael Johnson",
       gender: "Male",
       age: 45,
@@ -28,7 +28,7 @@ export default function ManageProfiles() {
     },
     {
       id: 4,
-      photo: "https://192.168.1.206:30002/api/documentation/patient-documents/65c9a362681c3641eb688164/download",
+      photo: "http://192.168.1.6:8080/api/documentation/patient-documents/65c9a362681c3641eb688164/download",
       name: "John Doe",
       gender: "Male",
       age: 35,
@@ -36,7 +36,7 @@ export default function ManageProfiles() {
     },
     {
       id: 5,
-      photo: "https://192.168.1.206:30002/api/documentation/patient-documents/65c9a362681c3641eb688164/download",
+      photo: "http://192.168.1.6:8080/api/documentation/patient-documents/65c9a362681c3641eb688164/download",
       name: "Jane Smith",
       gender: "Female",
       age: 28,
@@ -44,7 +44,7 @@ export default function ManageProfiles() {
     },
     {
       id: 6,
-      photo: "https://192.168.1.206:30002/api/documentation/patient-documents/65c9a362681c3641eb688164/download",
+      photo: "http://192.168.1.6:8080/api/documentation/patient-documents/65c9a362681c3641eb688164/download",
       name: "Michael Johnson",
       gender: "Male",
       age: 45,

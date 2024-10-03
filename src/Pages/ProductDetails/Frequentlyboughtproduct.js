@@ -68,7 +68,7 @@ const Frequentlyboughtproduct = () => {
 <div className="relative w-[90%] mx-auto my-6 sm:my-10">
   {/* Sky color overlay */}
   <div className="absolute top-0 left-0 w-full h-[30%] sm:h-[40%] bg-rose-400">
-    <p className="text-slate-50 text-left mx-4 sm:mx-10 mt-4 sm:mt-7 font-bold text-xl sm:text-2xl">Similar Product</p>
+    <p className="text-slate-50 text-left mx-4 sm:mx-10 mt-4 sm:mt-7 font-bold text-xl sm:text-2xl">Trending Products</p>
   </div>
   {/* Gray color overlay */}
   <div className="absolute bottom-6 sm:bottom-10 left-0 w-full h-[70%] sm:h-[60%] bg-gray-100"></div>

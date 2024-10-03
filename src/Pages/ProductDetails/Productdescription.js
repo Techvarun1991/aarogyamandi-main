@@ -1,35 +1,18 @@
 import React, { useState } from "react";
 
-const Productdescription = () => {
+const Productdescription = ({medicineDetails}) => {
 
-  const [activeTab, setActiveTab] = useState("Profile");
+  const [activeTab, setActiveTab] = useState("Highlights");
 
+  // Create tabs dynamically from the medicineDetails object
   const tabs = [
-    {
-      name: "Profile",
-      content:
-        "This is the profile content. It provides an overview of the user’s profile, including personal information and settings.",
-    },
-    {
-      name: "Dashboard",
-      content:
-        "This is the dashboard content. It includes key metrics, performance charts, and recent activity to give an overview of the system status.",
-    },
-    {
-      name: "Settings",
-      content:
-        "This is the settings content. Here, users can adjust their preferences, change passwords, and configure system settings.",
-    },
-    {
-      name: "Contacts",
-      content:
-        "This is the contacts content. It lists all the user’s contacts, with options to add, edit, or remove contact information.",
-    },
-    {
-      name: "Disabled",
-      content:
-        "This tab is disabled. It is not clickable and does not contain any content.",
-    },
+    { name: "Highlights", content: medicineDetails.highlights },
+    { name: "Description", content: medicineDetails.description },
+    { name: "Indications", content: medicineDetails.indications },
+    { name: "Key Components", content: medicineDetails.keyComponents },
+    { name: "Direction For Use", content: medicineDetails.directionForUse },
+    { name: "Storage", content: medicineDetails.storage },
+    { name: "Precautions", content: medicineDetails.precautions }
   ];
 
   return (

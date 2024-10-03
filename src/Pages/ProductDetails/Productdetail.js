@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputWithValidation from "./InputWithValidation";
 
-const Productdetail = () => {
+const Productdetail = ({medicineData}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [startThumbnailIndex, setStartThumbnailIndex] = useState(0);
+
   const images = [
     "https://img.freepik.com/free-photo/top-view-untidy-pills_23-2148021494.jpg?t=st=1716965965~exp=1716969565~hmac=6ec996b855641751892841a089b34cfbf42b5751676398b51c367525ff3ac053&w=826",
     "https://img.freepik.com/free-photo/top-view-bowl-pills_23-2148530926.jpg?t=st=1716965985~exp=1716969585~hmac=2b9a39af7d3e916ee2fef77622504c65c0eb02afb5150de751d56d3867bdf877&w=740",
@@ -30,6 +31,7 @@ const Productdetail = () => {
   };
 
   return (
+    
     <div>
       <div class="bg-white-100 dark:bg-gray-800 py-8">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -75,18 +77,18 @@ const Productdetail = () => {
             </div>
             <div class="md:flex-1 px-2 sm:px-4">
               <h2 class="text-lg sm:text-xl text-left font-bold text-gray-800 dark:text-white mb-2 sm:my-9 my-4">
-                TRESemme Anti-Dandruff Shampoo Anti-Hair fall 72 ml
+                {medicineData.medicineName}
               </h2>
 
               <div class="flex mb-2 sm:mb-4">
                 <div class="mr-2 sm:mr-4">
                   <span class="font-bold text-sky-400 dark:text-gray-300">
-                    Hair
+                    {medicineData.category.categoryName}
                   </span>
                 </div>
                 <div>
                   <span class="font-bold text-sky-400 dark:text-gray-300">
-                    Hair Care
+                   {medicineData.medicineIngredients}
                   </span>
                 </div>
               </div>
@@ -112,7 +114,7 @@ const Productdetail = () => {
                   *This product cannot be returned for a refund or exchange
                 </p>
                 <p class="text-xs text-gray-400 text-left">
-                  *MKT: The Tresemme Drug Company
+                  *MKT: {medicineData.manufacturer}
                 </p>
                 <p class="text-xs text-gray-400 text-left">
                   *Country of origin: India
@@ -177,55 +179,3 @@ const Productdetail = () => {
 };
 
 export default Productdetail;
-
-{
-  /* <div class="flex -mx-2 mb-4">
-<div class="w-1/2 px-2">
-  <button class="w-full bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700">
-    Add to Cart
-  </button>
-</div>
-<div class="w-1/2 px-2">
-  <button class="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-gray-600">
-    Add to Wishlist
-  </button>
-</div>
-</div> */
-}
-
-{
-  /* <div class="h-[460px] rounded-lg bg-white-300 flex ">
-                <img
-                  class="w-4/5 h-4/5 object-cover mx-auto"
-                  src="https://cdn.pixabay.com/photo/2020/05/22/17/53/mockup-5206355_960_720.jpg"
-                  alt="Product Image"
-                />
-
-              </div> */
-}
-
-// if else
-
-{
-  /* <div class="flex flex-col sm:flex-row">
-<p class="text-left text-gray-300 text-md sm:text-md">
-  Delivery Options
-</p>
-<div class="relative w-full sm:w-3/5 mt-2 sm:mt-0">
-  <div>
-    <label
-      for="first_name"
-      class="block mt-2 text-sm font-medium text-gray-900 dark:text-white"
-    >
-    </label>
-    <input
-      type="text"
-      id="first_name"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-      placeholder="John"
-      required
-    />
-  </div>
-</div>
-</div> */
-}

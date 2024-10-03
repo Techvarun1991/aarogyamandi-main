@@ -116,7 +116,7 @@ export default function SideOverMenu({ open, setOpen }) {
                             <img
                               className="rounded-full w-20 h-20 border-2 mx-auto "
                               alt=""
-                              src="https://192.168.1.206:30002/api/documentation/patient-documents/65c9a362681c3641eb688164/download"
+                              src="http://192.168.1.6:8080/api/documentation/patient-documents/65c9a362681c3641eb688164/download"
                             ></img>
                           </div>
                           <div className="flex justify-between mt-2">
