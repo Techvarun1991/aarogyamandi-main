@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import LoginImg from "../Images/login.png";
 import axios from "axios";
+import BASE_REST_API_URL from "../Service/BaseUrl";
 
 export default function Login() {
   const getCookie = (name) => {
@@ -57,7 +58,7 @@ export default function Login() {
   const handleLogin = async(e) => {
     e.preventDefault();
     if (email && password && !emailError && !passwordError) {
-      const response = await axios.post("http://localhost:8080/api/patients/login", {
+      const response = await axios.post(`${BASE_REST_API_URL}/api/patients/login`, {
         email : email,
         password: password,
       });

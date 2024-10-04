@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import specialityService from "../../Service/DoctorService/Speciality";
 import { useNavigate } from "react-router-dom";
 import Location from "../../Service/DoctorService/Location";
+import BASE_REST_API_URL from "../../Service/BaseUrl";
 
 export default function ({ spl, city }) {
   //   //.log(spl,location);
@@ -37,7 +38,7 @@ export default function ({ spl, city }) {
           };
           try {
             const response = await axios.post(
-              `http://192.168.1.6:8080/map/api/revGeoCode`,
+              `${BASE_REST_API_URL}/map/api/revGeoCode`,
               payload
             );
             const city = response.data.city;
