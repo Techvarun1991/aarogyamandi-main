@@ -28,7 +28,7 @@ const Productmainpage = () => {
   
   const fetchMedicineDetails = async() => {
     return await axios
-      .get(`${BASE_REST_API_URL}/api/medicines/1`)
+      .get(`${BASE_REST_API_URL}/api/medicines/unique/23`)
       .then((response) => {
         return response.data; // Return the data to handle it in Promise.all
       })
@@ -73,7 +73,7 @@ const Productmainpage = () => {
       <div>
       <Productdetail medicineData = {medicineData}/>
 
-      <Productdescription medicineDetails = {medicineData.medicineDetails}/>
+      <Productdescription medicineDetails = {medicineData.medicine.medicineDetails}/>
 
       <Similarproducts similarProductsData = {similarProductsData}/>
 

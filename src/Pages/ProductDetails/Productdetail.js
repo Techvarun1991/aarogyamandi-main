@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import InputWithValidation from "./InputWithValidation";
 import ProductService from "../../Service/PharmcyService/ProductService";
+import { useNavigate } from "react-router-dom";
 
-const Productdetail = ({medicineData}) => {
+const Productdetail = ({ medicineData }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [startThumbnailIndex, setStartThumbnailIndex] = useState(0);
 
@@ -13,11 +14,10 @@ const Productdetail = ({medicineData}) => {
     "https://img.freepik.com/free-photo/flat-lay-pills-coming-out-plastic-container_23-2148530994.jpg?t=st=1716966017~exp=1716969617~hmac=a41617726450c98e68c79f2e62f49ccc304ca1a3522abd9c151e69d1d5beab19&w=360",
   ];
 
-const navigate =  useNavigate();
-  const [product, setProduct] = useState([]);
-  
+  const navigate = useNavigate();
+
   // Add medicineId as a dependency
-  
+
   const handleAddToCart = (medicineId) => {
     navigate("/cart", { state: { medicineId } });
   };
@@ -29,7 +29,7 @@ const navigate =  useNavigate();
       setStartThumbnailIndex(startThumbnailIndex + 1);
     }
   };
-  
+
   const handlePrev = () => {
     const newIndex = (currentIndex - 1 + images.length) % images.length; // Wrap around
     setCurrentIndex(newIndex);
@@ -37,12 +37,8 @@ const navigate =  useNavigate();
       setStartThumbnailIndex(startThumbnailIndex - 1);
     }
   };
-  
-
-  
 
   return (
-    
     <div>
       <div class="bg-white-100 dark:bg-gray-800 py-8">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -88,37 +84,49 @@ const navigate =  useNavigate();
             </div>
             <div class="md:flex-1 px-2 sm:px-4">
               <h2 class="text-lg sm:text-xl text-left font-bold text-gray-800 dark:text-white mb-2 sm:my-9 my-4">
-                {medicineData.medicineName}
+                {medicineData.medicine.medicineName}
               </h2>
               <h5 class="text-xs sm:text-sm text-left  text-gray-500 dark:text-white mb-2 sm:my-4">
-                {product.medicineDetails.description}
+                {medicineData.medicine.medicineDetails.description}
               </h5>
               <div class="flex mb-2 sm:mb-4">
                 <div class="mr-2 sm:mr-4">
                   <span class="text-gray-400 text-left text-sm sm:text-xl mr-1">
-                    Medicine category: 
-                    </span>
+                    Medicine category:
+                  </span>
                   <span class="font-bold text-sky-400 dark:text-gray-300">
-                    {medicineData.category.categoryName}
+                    {medicineData.medicine.category.categoryName}
                   </span>
                 </div>
                 <div>
                   <span class="font-bold text-sky-400 dark:text-gray-300">
-                   {medicineData.medicineIngredients}
+                    {medicineData.medicineIngredients}
                   </span>
                 </div>
-                
               </div>
 
               <div class="mb-2 sm:mb-4">
                 <p class="text-gray-400 text-left text-sm sm:text-xl">
                   Best Price*
-                  <span class="text-rose-400"> Rs 85.0</span>
+                  <span class="text-rose-400">
+                    {" "}
+                    Rs. {medicineData.sellingPrice}
+                  </span>
                 </p>
 
                 <p class="text-xs sm:text-lg text-gray-400 text-left">
-                  MRP <span class="line-through"> Rs 400</span>
-                  <span class="text-sky-400 text-sm"> Get 15% OFF</span>
+                  MRP{" "}
+                  <span class="line-through">
+                    {" "}
+                    Rs {medicineData.originalPrice}
+                  </span>
+                  <span className="text-sky-400 text-sm">
+                    Get{" "}
+                    {medicineData.discount.discountType === "PERCENTAGE"
+                      ? `${medicineData.discount.discountValue} %`
+                      : `Rs. ${medicineData.discount.discountValue}`}{" "}
+                    OFF
+                  </span>
                 </p>
 
                 <p class="text-xs text-gray-400 text-left mt-2 sm:mt-5">
@@ -142,7 +150,10 @@ const navigate =  useNavigate();
               </div>
 
               <div class="mb-2 sm:mb-4 flex flex-col sm:flex-row">
-                <button class="bg-cyan-400 text-white p-2 sm:p-1 rounded-lg w-full sm:w-2/6 my-2 sm:my-4 flex justify-center sm:justify-start" onClick={handleAddToCart}>
+                <button
+                  class="bg-cyan-400 text-white p-2 sm:p-1 rounded-lg w-full sm:w-2/6 my-2 sm:my-4 flex justify-center sm:justify-start"
+                  onClick={handleAddToCart}
+                >
                   <span class="w-full">Add To cart</span>
                 </button>
                 <button class="bg-cyan-400 text-white p-2 sm:p-1 rounded-lg w-full sm:w-2/6 my-2 sm:my-4 flex justify-center sm:justify-start sm:mx-10">
