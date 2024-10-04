@@ -1,9 +1,12 @@
 import React, { useRef, useState } from "react";
 import LoginImg from "../Images/login.png";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'; // Ensure you import the CSS for proper styling
 
 export default function Signup() {
-
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [email, setEmail] = useState();
@@ -18,7 +21,7 @@ export default function Signup() {
   const [confirmPasswordError, setConfirmPasswordError] = useState();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const rememberme = useRef(false);
-  
+
 
   const handleEmailChange = (e) => {
     // e.preventDefault();
@@ -47,7 +50,7 @@ export default function Signup() {
     if (!contactPattern.test(value)) {
       setContactError("Please enter a valid contact");
     } else {
-        setContactError("");
+      setContactError("");
     }
   };
 
@@ -62,7 +65,7 @@ export default function Signup() {
     if (!firstNamePattern.test(value)) {
       setFirstNameError("Please enter a valid first name");
     } else {
-        setFirstNameError("");
+      setFirstNameError("");
     }
   };
 
@@ -77,7 +80,7 @@ export default function Signup() {
     if (!lastNamePattern.test(value)) {
       setLastNameError("Please enter a valid last name");
     } else {
-        setLastNameError("");
+      setLastNameError("");
     }
   };
 
@@ -108,13 +111,13 @@ export default function Signup() {
     if (value !== password) {
       setConfirmPasswordError("Password did not match");
     } else {
-        setConfirmPasswordError("");
+      setConfirmPasswordError("");
     }
   };
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    
+
     // Field validation checks
     if (!email) {
       setEmailError("Please enter a valid email");
@@ -128,11 +131,11 @@ export default function Signup() {
     if (!lastName) {
       setLastNameError("Please enter a valid last name");
     }
-    
+
     if (password !== confirmPassword) {
       setPasswordError("Passwords do not match");
     }
-    
+
     // Proceed only if all fields are valid and errors are empty
     if (
       email &&
@@ -146,16 +149,26 @@ export default function Signup() {
       !firstNameError &&
       !lastNameError
     ) {
-        const response = await axios.post("http://localhost:8080/api/patients", {
-            email : email,
-            phoneNumber : contact,
-            password: password,
-            firstName: firstName,
-            lastName: lastName,
-          });
+      const response = await axios.post("http://localhost:8080/api/patients", {
+        email: email,
+        phoneNumber: contact,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+      }).then((response) => {
+        if (response.status === 200) {
+          setTimeout(()=>{
+            navigate("/login")
+          },2000)
+          toast.success("Patient registered successfully")
+        }
+        else{
+          toast.error("failed to register please try again")
+        }
+      });
     }
   };
-  
+
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -175,7 +188,7 @@ export default function Signup() {
         <div className="w-1/2 p-6 flex flex-col justify-start text-start">
           <h2 className="text-2xl font-bold mb-2">Signup</h2>
           <p className="mb-4 font-semibold">
-          Let’s get you all set you up so you can access your personal information
+            Let’s get you all set you up so you can access your personal information
           </p>
           <form className="space-y-4">
 

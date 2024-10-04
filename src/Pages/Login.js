@@ -1,8 +1,12 @@
 import React, { useRef, useState } from "react";
 import LoginImg from "../Images/login.png";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'; // Ensure you import the CSS for proper styling
 
 export default function Login() {
+  const navigate = useNavigate();
   const getCookie = (name) => {
     const cookieString = document.cookie;
     const cookies = cookieString.split(";").map((cookie) => cookie.trim());
@@ -54,21 +58,29 @@ export default function Login() {
       setPasswordError("");
     }
   };
-  const handleLogin = async(e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (email && password && !emailError && !passwordError) {
-      const response = await axios.post("http://localhost:8080/api/patients/login", {
-        email : email,
+      const response = await axios.post("http://192.168.10.214:8080/api/patients/login", {
+        email: email,
         password: password,
+      }).then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          localStorage.setItem('profileId', response.data.profileId);
+          localStorage.setItem('patientId', response.data.patientId);
+          localStorage.setItem('patientName', response.data.patientName);
+          setTimeout(() => {
+            navigate("/")
+          }, 2000)
+          toast.success("Login successfully")
+        }
+      }).catch((error)=>{
+        toast.error("Failed to login")
       });
       console.log(response)
-      if (response.status === 200) {
-        console.log(response);
-        localStorage.setItem('profileId', response.data.profileId);
-        localStorage.setItem('patientId', response.data.patientId);
-        localStorage.setItem('patientName', response.data.patientName);
-        window.location.href = '/';  // Replace '/new-location' with your desired URL
-      }
+    
+      
     } else {
       if (!email) {
         setEmailError("Please enter a valid email");

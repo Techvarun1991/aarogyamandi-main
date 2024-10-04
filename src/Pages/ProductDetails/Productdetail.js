@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import InputWithValidation from "./InputWithValidation";
 import ProductService from "../../Service/PharmcyService/ProductService";
 import { useNavigate } from "react-router-dom";
+import CartService from "../../Service/PharmcyService/CartService";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'; // Ensure you import the CSS for proper styling
 
 const Productdetail = ({ medicineData }) => {
+  console.log("medicine data ---------------", medicineData);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [startThumbnailIndex, setStartThumbnailIndex] = useState(0);
 
@@ -18,8 +22,29 @@ const Productdetail = ({ medicineData }) => {
 
   // Add medicineId as a dependency
 
-  const handleAddToCart = (medicineId) => {
-    navigate("/cart", { state: { medicineId } });
+  const handleAddToCart = () => {
+    const payload = {
+      medicineId: medicineData.medicine.medicineId,
+      profileId: localStorage.getItem('profileId'),
+      quantity: 1,
+      pharmaStockId: medicineData.pharmacyMedicineStockId,
+      prescriptionId: ""
+    }
+    CartService.addToCart(payload).then((response) => {
+      if (response.status === 200) {
+        setTimeout(() => {
+          navigate("/cart");
+        }, 2000)
+        toast.success("Item added to cart successfully")
+
+
+      }
+      else {
+        toast.error("Failed to add item to cart please try again")
+      }
+    })
+
+
   };
 
   const handleNext = () => {
@@ -113,21 +138,24 @@ const Productdetail = ({ medicineData }) => {
                     Rs. {medicineData.sellingPrice}
                   </span>
                 </p>
+                {medicineData.discount && (
+                  <p class="text-xs sm:text-lg text-gray-400 text-left">
+                    MRP{" "}
+                    <span class="line-through">
+                      {" "}
+                      Rs {medicineData.originalPrice}
+                    </span>
 
-                <p class="text-xs sm:text-lg text-gray-400 text-left">
-                  MRP{" "}
-                  <span class="line-through">
-                    {" "}
-                    Rs {medicineData.originalPrice}
-                  </span>
-                  <span className="text-sky-400 text-sm">
-                    Get{" "}
-                    {medicineData.discount.discountType === "PERCENTAGE"
-                      ? `${medicineData.discount.discountValue} %`
-                      : `Rs. ${medicineData.discount.discountValue}`}{" "}
-                    OFF
-                  </span>
-                </p>
+                    <span className="text-sky-400 text-sm">
+                      Get{" "}
+                      {medicineData?.discount?.discountType === "PERCENTAGE"
+                        ? `${medicineData?.discount?.discountValue} %`
+                        : `Rs. ${medicineData?.discount?.discountValue}`}{" "}
+                      OFF
+                    </span>
+
+
+                  </p>)}
 
                 <p class="text-xs text-gray-400 text-left mt-2 sm:mt-5">
                   (Inclusive of all taxes)
@@ -151,45 +179,15 @@ const Productdetail = ({ medicineData }) => {
 
               <div class="mb-2 sm:mb-4 flex flex-col sm:flex-row">
                 <button
-                  class="bg-cyan-400 text-white p-2 sm:p-1 rounded-lg w-full sm:w-2/6 my-2 sm:my-4 flex justify-center sm:justify-start"
+                  class="bg-cyan-400 text-white p-2 sm:p-2 rounded-lg w-full sm:w-2/6 my-2 sm:my-4 flex justify-center sm:justify-start"
                   onClick={handleAddToCart}
                 >
-                  <span class="w-full">Add To cart</span>
-                </button>
-                <button class="bg-cyan-400 text-white p-2 sm:p-1 rounded-lg w-full sm:w-2/6 my-2 sm:my-4 flex justify-center sm:justify-start sm:mx-10">
-                  <span class="w-full">Buy Now</span>
+                  <span class="w-full">Add to cart</span>
                 </button>
               </div>
+              
 
-              {/* <div class=" sm:flex-row">
-                <p class="text-left text-gray-300 text-md sm:text-md">
-                  Delivery Options
-                </p>
-                <div class="relative w-full sm:w-3/5 mt-2 sm:mt-0">
-                  <div>
-                    <label
-                      for="first_name"
-                      class="block mt-2 text-sm font-medium text-gray-900 dark:text-white"
-                    ></label>
-                    <input
-                      type="text"
-                      id="first_name"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="Enter pincode"
-                      required
-                    />
-                    <button
-                      type="button"
-                      className="absolute right-1 top-1 bottom-1 px-4 text-pink-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                    >
-                      Check
-                    </button>
-                  </div>
-                </div>
-                <p class="text-left text-gray-400 text-sm sm:text-sm my-2">
-                  Please enter PIN code to check delivery time & Pay on delivery Availability
-                </p>
-              </div> */}
+
 
               <InputWithValidation />
 
@@ -201,7 +199,19 @@ const Productdetail = ({ medicineData }) => {
             </div>
           </div>
         </div>
+       
       </div>
+      <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
     </div>
   );
 };

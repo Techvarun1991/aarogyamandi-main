@@ -3,7 +3,7 @@ import BASE_REST_API_URL from "../BaseUrl";
 
 export default class AddressService {
   static getAllProfiles(profileId) {
-    return axios.get(`${BASE_REST_API_URL}/api/addresses/profile/${profileId}`);
+    return axios.get(`${BASE_REST_API_URL}/api/addresses/profile-address?role=PATIENT&id=${profileId}`);
   }
 
   static addAddress(profileId, payload, isUpdate) {
@@ -19,9 +19,22 @@ export default class AddressService {
       lattitude: payload.lattitude ?? 0, // Ensure the field exists
       longitude: payload.longitude ?? 0,
       home: payload.home,
+      default:payload.default,
+      role:"PATIENT"
     };
 
     if (isUpdate) {
+      const UpdatePayload = {
+        addressLine1: payload.addressLine1,
+        addressLine2: payload.addressLine2,
+        city: payload.city,
+        state: payload.state,
+        zipCode: payload.zipCode,
+        personName: payload.personName,
+        lattitude: payload.lattitude ?? 0, // Ensure the field exists
+        longitude: payload.longitude ?? 0,
+        home: payload.home,
+      };
       return axios.put(
         `${BASE_REST_API_URL}/api/addresses/${profileId}`,
         newPayload,
@@ -33,7 +46,7 @@ export default class AddressService {
       );
     } else {
       return axios.post(
-        `${BASE_REST_API_URL}/api/addresses/${profileId}`,
+        `${BASE_REST_API_URL}/api/addresses/${profileId}?role=PATIENT`,
         newPayload,
         {
           headers: {

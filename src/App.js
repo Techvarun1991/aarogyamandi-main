@@ -51,7 +51,7 @@ function App() {
           <Route path="/wishlist" element={<WishList />} />
           <Route path="/cart" element={<Cart />} />
 
-          <Route path="/deliveryadd" element={<Deliveryaddre />} />
+          <Route path="/address" element={<Deliveryaddre />} />
           <Route path="/checkout" element={<Checkoutpage />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/trackorder" element={<TrackOrder />} />

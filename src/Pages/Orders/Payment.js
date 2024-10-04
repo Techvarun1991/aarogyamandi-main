@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import OrderStepper from '../Cart/OrderStepper';
 
 export default function Payment() {
   const location = useLocation();
@@ -70,6 +71,8 @@ export default function Payment() {
 
   return (
     <div>
+            <OrderStepper currentStep={2} />
+
       <ToastContainer
         position="top-right"
         autoClose={5000}

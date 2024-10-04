@@ -5,21 +5,7 @@ const OrderStepper = ({ currentStep }) => {
   const steps = ["Bag", "Address", "Payment"];
   const navigate = useNavigate();
 
-  const handleStepClick = (index) => {
-    switch (index) {
-      case 0:
-        navigate("/cart");
-        break;
-      case 1:
-        navigate("/address");
-        break;
-      case 2:
-        navigate("/payment");
-        break;
-      default:
-        break;
-    }
-  };
+ 
 
   return (
     <div className="my-6 w-fit mx-auto">
@@ -40,13 +26,13 @@ const OrderStepper = ({ currentStep }) => {
                 ? "dark:after:border-blue-800"
                 : "dark:after:border-gray-700"
             }`}
-            onClick={() => handleStepClick(index)}
+          
             style={{ cursor: "pointer" }}
           >
             <span
-              className={`flex font-mono text-xl font-extrabold items-center justify-center lg:py-4 lg:px-8 shrink-0 ${
+              className={`flex rounded-xl font-mono text-xl font-extrabold items-center justify-center lg:py-4 lg:px-8 shrink-0 ${
                 index === currentStep
-                  ? "bg-blue-500 text-white dark:bg-blue-800"
+                  ? "bg-blue-500  text-white dark:bg-blue-800 "
                   : "dark:bg-gray-700"
               }`}
             >

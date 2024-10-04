@@ -9,15 +9,20 @@ import Disclaimer from "./Disclaimer";
 import axios from "axios";
 import BASE_REST_API_URL from "../../Service/BaseUrl";
 import { CircleLoader } from "react-spinners";
+import { useLocation } from "react-router-dom";
 
 const Productmainpage = () => {
   const [medicineData, setMedicineData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [similarProductsData , setSimilarProductsData] = useState([]);
-  const fetchSimillarProducts = async() => {
+  const location = useLocation();
+  const medicineId = location.state.medicineId || {};
+  console.log(medicineId)
+  const [similarProductsData, setSimilarProductsData] = useState([]);
+  const fetchSimillarProducts = async () => {
     return await axios
-      .post(`${BASE_REST_API_URL}/api/medicines/filter/1`)
+      .post(`${BASE_REST_API_URL}/api/medicines/filter/${medicineId}`)
       .then((response) => {
+        console.log(response.data,'inside similar products');
         return response.data; // Return the data to handle it in Promise.all
       })
       .catch((err) => {
@@ -25,10 +30,10 @@ const Productmainpage = () => {
         return null; // Return null to handle errors gracefully
       });
   };
-  
-  const fetchMedicineDetails = async() => {
+
+  const fetchMedicineDetails = async () => {
     return await axios
-      .get(`${BASE_REST_API_URL}/api/medicines/unique/23`)
+      .get(`${BASE_REST_API_URL}/api/medicines/unique/${medicineId}`)
       .then((response) => {
         return response.data; // Return the data to handle it in Promise.all
       })
@@ -37,10 +42,10 @@ const Productmainpage = () => {
         return null; // Return null to handle errors gracefully
       });
   };
-  
+
   useEffect(() => {
     setIsLoading(true); // Set loading to true before making API calls
-    
+
     Promise.all([fetchSimillarProducts(), fetchMedicineDetails()])
       .then(([similarProductsData, medicineDetailsData]) => {
         // Handle both API responses here
@@ -61,32 +66,33 @@ const Productmainpage = () => {
       .finally(() => {
         setIsLoading(false); // Set loading to false after both API calls complete
       });
-  }, []); // Empty dependency array to run once on mount
-  
+  }, [medicineId]); // Empty dependency array to run once on mount
+
 
   return (
-    isLoading? (
-      <div>
-        <CircleLoader></CircleLoader>
+    isLoading ? (
+      <div className="flex items-center justify-center min-h-screen">
+        <CircleLoader />
       </div>
+
     ) : (
       <div>
-      <Productdetail medicineData = {medicineData}/>
+        <Productdetail medicineData={medicineData} />
 
-      <Productdescription medicineDetails = {medicineData.medicine.medicineDetails}/>
+        <Productdescription medicineDetails={medicineData.medicine.medicineDetails} />
 
-      <Similarproducts similarProductsData = {similarProductsData}/>
+        <Similarproducts similarProductsData={similarProductsData} />
 
-      <Frequentlyboughtproduct />
+        <Frequentlyboughtproduct />
 
-      <Rating />
+        <Rating />
 
-      <RelatedPost />
+        <RelatedPost />
 
-      <Disclaimer />
-    </div>
+        <Disclaimer />
+      </div>
     )
-    
+
   );
 };
 
