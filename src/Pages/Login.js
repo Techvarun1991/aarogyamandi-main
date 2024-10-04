@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import LoginImg from "../Images/login.png";
 import axios from "axios";
+import BASE_REST_API_URL from "../Service/BaseUrl";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'; // Ensure you import the CSS for proper styling
@@ -61,8 +62,8 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     if (email && password && !emailError && !passwordError) {
-      const response = await axios.post("http://192.168.10.214:8080/api/patients/login", {
-        email: email,
+      const response = await axios.post(`${BASE_REST_API_URL}/api/patients/login`, {
+        email : email,
         password: password,
       }).then((response) => {
         if (response.status === 200) {

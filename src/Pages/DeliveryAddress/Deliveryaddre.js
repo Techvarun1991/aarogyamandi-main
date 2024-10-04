@@ -4,6 +4,7 @@ import { FaEdit, FaTrash, FaMapMarkerAlt } from "react-icons/fa";
 import PriceSection from "./PriceSection";
 import AddressService from "../../Service/PatientService/AddressService";
 import axios from "axios";
+import BASE_REST_API_URL from "../../Service/BaseUrl";
 import App from "../../App";
 import { createRoot } from "react-dom/client";
 import OrderStepper from "../Cart/OrderStepper";
@@ -150,7 +151,7 @@ const Deliveryaddre = () => {
           };
           try {
             const response = await axios.post(
-              `http://192.168.1.314:8080/map/api/revGeoCode`,
+              `http://192.168.1.6:8080/map/api/revGeoCode`,
               payload
             );
             revGeoCode.current = response.data;
