@@ -1,9 +1,14 @@
 import React from "react";
 
-export default function PatientCard({ photo, name, gender, age }) {
+export default function PatientCard({id, photo, name, gender, age }) {
+
+const handleProfileSwitch = () =>{
+  console.log("handleProfileSwitch",id)
+}
+
   return (
     <>
-      <div className="bg-white shadow-md rounded-lg p-4 mb-4">
+      <div className="bg-white shadow-md rounded-lg p-4 mb-4" onClick={handleProfileSwitch}>
         <div className="flex items-center mb-2">
           <img src={photo} alt={name} className="w-12 h-12 rounded-full mr-4" />
           <div>

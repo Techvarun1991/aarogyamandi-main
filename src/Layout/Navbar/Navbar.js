@@ -16,6 +16,10 @@ export default function Navbar() {
     navigate("/cart");
   };
 
+  const handleLogin = () =>{
+    navigate("/login"); 
+  }
+
   return (
     <>
       {" "}
@@ -36,6 +40,15 @@ export default function Navbar() {
             </div>
           </div>
           <div className="flex items-center space-x-4">
+            <div className="absolute inset-y-0 right-0 flex gap-x-2 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              {!localStorage.getItem('profileId') && (
+                <div className="cursor-pointer" onClick={handleLogin}>
+                  Login
+                </div>
+
+              )}
+
+            </div>
             <div className="absolute inset-y-0 right-0 flex gap-x-2 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <button
                 type="button"

@@ -5,7 +5,6 @@ import OrderStepper from '../Cart/OrderStepper';
 import axios from 'axios';
 import MedicineCartService from '../../Service/MedicineCart/MedicineCart';
 import MedicineOrderService from '../../Service/MedicineOrder/MedicineOrder';
-import MedicineOrders from '../PatientDashboard/MedicineOrders';
 import 'react-toastify/dist/ReactToastify.css'; // Ensure you import the CSS for proper styling
 
 export default function Payment() {
@@ -81,23 +80,20 @@ export default function Payment() {
         if (medicineCart.medicineCart.promocodeApplied == true) {
           MedicineCartService.updateWholeCart(medicineCart.medicineCart).then((response) => {
             toast.success("Medicine cart updated successfully");
+           
           }).catch((error) => {
             console.log(error);
           });
 
           if (paymentId) {
             MedicineOrderService.placeOrderCart(payload).then((response) => {
-              setTimeout(() => {
-                navigate("/")
-              }, 2000)
+              paymentObject.close();
               toast.success("order placed successfully")
 
             }).catch((err) => {
               console.log(err);
-              setTimeout(() => {
-                navigate("/cart")
-              }, 2000)
               toast.success("failed to place order")
+
             });
 
           }
@@ -105,16 +101,13 @@ export default function Payment() {
         }
         else {
           MedicineOrderService.placeOrderCart(payload).then((response) => {
-            setTimeout(() => {
-              navigate("/")
-            }, 2000)
+
             toast.success("order placed successfully")
+
 
           }).catch((err) => {
             console.log(err);
-            setTimeout(() => {
-              navigate("/cart")
-            }, 2000)
+
             toast.success("failed to place order")
           });
         }
