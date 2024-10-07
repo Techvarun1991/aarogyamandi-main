@@ -88,7 +88,7 @@ export default function Payment() {
           if (paymentId) {
             MedicineOrderService.placeOrderCart(payload).then((response) => {
               setTimeout(() => {
-                navigate("/")
+                navigate("/orders");
               }, 2000)
               toast.success("order placed successfully")
 
