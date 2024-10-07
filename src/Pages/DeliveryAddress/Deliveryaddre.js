@@ -4,12 +4,18 @@ import { FaEdit, FaTrash, FaMapMarkerAlt } from "react-icons/fa";
 import PriceSection from "./PriceSection";
 import AddressService from "../../Service/PatientService/AddressService";
 import axios from "axios";
-import BASE_REST_API_URL from "../../Service/BaseUrl";
 import App from "../../App";
 import { createRoot } from "react-dom/client";
 import OrderStepper from "../Cart/OrderStepper";
+import { useLocation, useNavigate } from "react-router-dom";
+import Amount from "../Cart/Amount";
+import MedicineCartService from "../../Service/MedicineCart/MedicineCart";
 
 const Deliveryaddre = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const medicineCart = location.state || {};
+  console.log("Delivery", medicineCart);
   const root = createRoot(document.getElementById('root'));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -17,6 +23,7 @@ const Deliveryaddre = () => {
   const revGeoCode = useRef({});
   const [isUpdate, setIsUpdate] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedAddressId, setSelectedAddressId] = useState();
   const [selectedAddress, setSelectedAddress] = useState({
     addressLine1: "",
     addressLine2: "",
@@ -132,10 +139,8 @@ const Deliveryaddre = () => {
 
   // Save pincode to local storage when an address is selected
   const handleAddressSelect = (index, address) => {
-    console.log("Selected address:", address);
-    const selectedAddress = addresses[index];
-    setSelectedAddressIndex(index);
-    localStorage.setItem("selectedPincode", selectedAddress.pincode); // Save pincode to local storage
+    console.log("Selected address:", address.id);
+    setSelectedAddressId(address.id);
   };
 
   const detectlocation = () => {
@@ -151,7 +156,7 @@ const Deliveryaddre = () => {
           };
           try {
             const response = await axios.post(
-              `http://192.168.1.6:8080/map/api/revGeoCode`,
+              `http://192.168.1.314:8080/map/api/revGeoCode`,
               payload
             );
             revGeoCode.current = response.data;
@@ -179,6 +184,23 @@ const Deliveryaddre = () => {
     }
 
   }
+
+  const handleConfirmOrder = async (paymentId) => {
+    // setIsOrderProcessing(true);
+    const payload = {
+      cartId: medicineCart.cartId,
+      paymentMode: paymentId ? 'Online' : 'Cash',
+      paymentStatus: paymentId ? 'Paid' : 'Not Paid',
+      transactionId: paymentId || '',
+      deliveryAddressId: selectedAddressId
+    };
+    
+
+    navigate('/payment', { state: { medicineCart, payload } });
+
+
+  };
+
 
   return (
     <div>
@@ -239,7 +261,8 @@ const Deliveryaddre = () => {
 
         {/* Right Side - Blue */}
         <div className="w-1/2">
-          <PriceSection />
+          {/* <PriceSection medicinePrice={medicineCart}/> */}
+          <Amount medicineCart={medicineCart} />
         </div>
 
         {/* Modal for adding new address */}
@@ -492,6 +515,9 @@ const Deliveryaddre = () => {
           </div>
         )}
       </div>
+      <button type="button" className=" w-[90%] py-2 text-lg bg-sky-200" onClick={() => handleConfirmOrder()}>
+        Proceed
+      </button>
     </div>
 
   );

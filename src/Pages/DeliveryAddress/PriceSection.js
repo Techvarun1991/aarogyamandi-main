@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const PriceSection = () => {
+const PriceSection = (medicinePrice) => {
   const navigate = useNavigate();
 
   const handleProceed = () => {
@@ -10,7 +10,10 @@ const PriceSection = () => {
   return (
     <div>
     <div className='text-left my-10'>
+      <div>
       <p className='text-lg'>Estimated Delivery by 15 September 2024</p>
+      
+      </div>
       <p className='text-lg mt-5'>Amount Payable</p>
       </div>
       <div className='text-left my-3'>

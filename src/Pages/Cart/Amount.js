@@ -16,18 +16,16 @@ const Amount = ({medicineCart}) => {
             <div className="my-1">Total Payable:</div>
           </div>
           <div className="w-2/5 ">
-            <div className="my-1">₹ {medicineCart.originalCartPrice}</div>
-            <div className="my-1">₹ {medicineCart.discountAmount}</div>
-            <div className="my-1">₹ {medicineCart.discountedCartPrice}</div>
+            <div className="my-1">₹ {medicineCart.medicineCart.originalCartPrice}</div>
+            <div className="my-1">₹ {medicineCart.medicineCart.discountAmount}</div>
+            <div className="my-1">₹ {medicineCart.medicineCart.discountedCartPrice}</div>
             <div className="my-1">₹ 0</div>
-            <div className="my-1">₹ {medicineCart.discountedCartPrice}</div>
+            <div className="my-1">₹ {medicineCart.medicineCart.discountedCartPrice}</div>
           </div>
         </div>
       </div>
 
-      <button type="button" className=" w-[90%] py-2 text-lg bg-sky-200">
-        Proceed
-      </button>
+     
       </div>
     </>
   );
