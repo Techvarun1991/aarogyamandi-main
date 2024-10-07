@@ -53,10 +53,10 @@ function App() {
           <Route path="/address" element={<ProtectedRoute element={Deliveryaddre} />} />
           <Route path="/checkout" element={<Checkoutpage />} />
           <Route path="/orders" element={<Orders />} />
-          <Route path="/trackorder" element={<TrackOrder />} />
+          <Route path="/trackOrder" element={<TrackOrder />} />
           <Route path="/notyetshipped" element={<Notyetshipped />} />
           <Route path="/cancelledorders" element={<CancelledOrders />} />
-          <Route path="/check" element={<Checkout />} />
+          {/* <Route path="/check" element={<Checkout />} /> */}
           <Route path="/payment" element={<Payment />} />
 
           <Route path="/Patient/Dashboard" element={<Dashboard />} />
