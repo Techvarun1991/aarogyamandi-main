@@ -13,4 +13,9 @@ export default class MedicineOrderService {
           throw error;
         }
       };
+
+      static placeOrderCart(payload) {
+        console.log("inside add to cart", payload);
+        return axios.post(`${BASE_REST_API_URL}/pharmacy-orders/placeOrder`, payload);
+      }
 }

@@ -187,16 +187,10 @@ const Deliveryaddre = () => {
 
   const handleConfirmOrder = async (paymentId) => {
     // setIsOrderProcessing(true);
-    const payload = {
-      cartId: medicineCart.cartId,
-      paymentMode: paymentId ? 'Online' : 'Cash',
-      paymentStatus: paymentId ? 'Paid' : 'Not Paid',
-      transactionId: paymentId || '',
-      deliveryAddressId: selectedAddressId
-    };
+   
     
 
-    navigate('/payment', { state: { medicineCart, payload } });
+    navigate('/payment', { state: { medicineCart, selectedAddressId } });
 
 
   };

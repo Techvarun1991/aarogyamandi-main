@@ -1,18 +1,19 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import OrderStepper from '../Cart/OrderStepper';
 import axios from 'axios';
 import MedicineCartService from '../../Service/MedicineCart/MedicineCart';
+import MedicineOrderService from '../../Service/MedicineOrder/MedicineOrder';
+import MedicineOrders from '../PatientDashboard/MedicineOrders';
+import 'react-toastify/dist/ReactToastify.css'; // Ensure you import the CSS for proper styling
 
 export default function Payment() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { medicineCart, payload } = location.state;
-  const [loadRazorpay, setLoadRazorpay] = useState(true);
-
-  console.log(payload);
-  console.log(medicineCart.medicineCart);
+  const { medicineCart, selectedAddressId } = location.state;
+  console.log(selectedAddressId);
+  console.log(medicineCart.medicineCart, '-----------medinceine cart');
   // Memoize the price to avoid re-triggering the useEffect unnecessarily
   const discountedPrice = useMemo(() => medicineCart.medicineCart.discountedCartPrice, [medicineCart.medicineCart.discountedCartPrice]);
 
@@ -24,14 +25,13 @@ export default function Payment() {
         return;
       }
       // Call RazorPay only once the script is loaded and price is ready
-      setLoadRazorpay(false);
       displayRazorPay(discountedPrice);
     };
 
-    if (loadRazorpay) {
-      loadRazorpay();
-    }
-  }, [loadRazorpay]); // Only re-run when discountedPrice changes
+    // if (discountedPrice) {
+    loadRazorpay();
+    // }
+  }, [medicineCart.medicineCart]); // Only re-run when discountedPrice changes
 
   const loadScript = (src) => {
     return new Promise((resolve, reject) => {
@@ -72,35 +72,56 @@ export default function Payment() {
         color: '#3399cc',
       },
       handler: async (response) => {
-        if (response.razorpay_payment_id) {
-          const paymentId = response.razorpay_payment_id;
-          toast.success("Payment done Successfully!");
-          console.log("Payment ID", paymentId);
-          console.log("Promocode Application",medicineCart.medicineCart.promocodeApplied);
-          try {
-            if (medicineCart.medicineCart.promocodeApplied === true) {
-              // Update cart if promocode is applied
-              const updateResponse = await axios.put(
-                `http://localhost:8080/api/medicineCart/updateCart/${medicineCart.medicineCart.cartId}`,
-                medicineCart.medicineCart
-              );
-              if (updateResponse.status === 200) {
-                await MedicineCartService.placeOrderCart(payload);
-                toast.success('Order placed successfully');
-              } else {
-                console.error('Failed to update cart:', updateResponse.data);
-                toast.error('Failed to update cart. Please try again.');
-              }
-            } else {
-              await MedicineCartService.placeOrderCart(payload);
-              toast.success('Order placed successfully');
-            }
-          } catch (error) {
-            console.error('Error placing order:', error);
+        const paymentId = response.razorpay_payment_id;
+        const payload = {
+          cartId: medicineCart.medicineCart.cartId,
+          transactionId: paymentId || '',
+          deliveryAddressId: selectedAddressId
+        };
+        if (medicineCart.medicineCart.promocodeApplied == true) {
+          MedicineCartService.updateWholeCart(medicineCart.medicineCart).then((response) => {
+            toast.success("Medicine cart updated successfully");
+          }).catch((error) => {
+            console.log(error);
+          });
+
+          if (paymentId) {
+            MedicineOrderService.placeOrderCart(payload).then((response) => {
+              setTimeout(() => {
+                navigate("/")
+              }, 2000)
+              toast.success("order placed successfully")
+
+            }).catch((err) => {
+              console.log(err);
+              setTimeout(() => {
+                navigate("/cart")
+              }, 2000)
+              toast.success("failed to place order")
+            });
+
           }
+
+        }
+        else {
+          MedicineOrderService.placeOrderCart(payload).then((response) => {
+            setTimeout(() => {
+              navigate("/")
+            }, 2000)
+            toast.success("order placed successfully")
+
+          }).catch((err) => {
+            console.log(err);
+            setTimeout(() => {
+              navigate("/cart")
+            }, 2000)
+            toast.success("failed to place order")
+          });
         }
       }
-    };
+
+    }
+
 
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
