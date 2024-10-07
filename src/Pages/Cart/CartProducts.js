@@ -8,7 +8,6 @@ import App from "../../App";
 import { toast } from "react-toastify";
 import BASE_REST_API_URL from "../../Service/BaseUrl";
 import MedicineOrderService from "../../Service/MedicineOrder/MedicineOrder";
-import { useNavigate } from "react-router-dom";
 
 const CartProducts = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -16,7 +15,7 @@ const CartProducts = () => {
   const [selectedPromocode, setSelectedPromocode] = useState(null);
   const [promocodeOptions, setPromoCodeOptions] = useState([]);
   const [checkMedicine, setCheckMedicine] = useState([]);
-const navigate = useNavigate();
+
   const [cartItems, setCartItems] = useState([]);
   const nextStep = () =>
     setCurrentStep((prevStep) => Math.min(prevStep + 1, 2));
@@ -192,7 +191,6 @@ const navigate = useNavigate();
   }, [medicineCart]);
 
   const checkAvailability = async (cartData) => {
-    console.log("----------------------",cartData);
     try {
       // Check if cartData is an array
       if (!Array.isArray(cartData)) {
@@ -217,7 +215,7 @@ const navigate = useNavigate();
       if (checkedMed.allProductsAvailable) {
         // Call handlePlaceOrder if all products are available
         // handlePlaceOrder();
-        navigate('/address', {state: {medicineCart}});
+
       }
     } catch (error) {
       console.error('Error fetching medicine availability', error);
@@ -444,7 +442,7 @@ const navigate = useNavigate();
                 <button
                   type="button"
                   className=" w-[90%] py-2 text-lg bg-sky-200"
-                  onClick={()=>{checkAvailability(cartItems)}}
+                  onClick={checkAvailability(cartItems)}
                 >
                   Proceed
                 </button>
