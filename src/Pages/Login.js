@@ -63,7 +63,7 @@ export default function Login() {
     e.preventDefault();
     if (email && password && !emailError && !passwordError) {
       const response = await axios.post(`${BASE_REST_API_URL}/api/patients/login`, {
-        email : email,
+        email: email,
         password: password,
       }).then((response) => {
         if (response.status === 200) {
@@ -76,12 +76,16 @@ export default function Login() {
           }, 2000)
           toast.success("Login successfully")
         }
-      }).catch((error)=>{
-        toast.error("Failed to login")
+
+      }).catch((error) => {
+        console.log(error)
+        if (error.status === 404) {
+          toast.error(error.response.data.message)
+        }
       });
       console.log(response)
-    
-      
+
+
     } else {
       if (!email) {
         setEmailError("Please enter a valid email");
@@ -188,7 +192,7 @@ export default function Login() {
                 />
                 <span className="ml-2 text-sm text-gray-700">Remember me</span>
               </label>
-              <a href="#" className="text-sm text-blue-600">
+              <a href="/forgotpassword" className="text-sm text-blue-600">
                 Forgot Password?
               </a>
             </div>

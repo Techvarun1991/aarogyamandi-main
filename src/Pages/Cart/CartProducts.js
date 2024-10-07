@@ -5,10 +5,11 @@ import OrderStepper from "./OrderStepper";
 import MedicineCartService from "../../Service/MedicineCart/MedicineCart";
 import { createRoot } from "react-dom/client";
 import App from "../../App";
-import { toast } from "react-toastify";
+import { toast,ToastContainer } from "react-toastify";
 import BASE_REST_API_URL from "../../Service/BaseUrl";
 import MedicineOrderService from "../../Service/MedicineOrder/MedicineOrder";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css'; // Ensure you import the CSS for proper styling
 
 const CartProducts = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -53,7 +54,6 @@ const CartProducts = () => {
   const handleNext = () => {
     setStartIndex(startIndex + 3);
   };
-  const root = createRoot(document.getElementById("root"));
 
   const updateCartQuantity = async (cartItemId, newQuantity, pharmaStockId) => {
     try {
@@ -208,7 +208,7 @@ const CartProducts = () => {
         payload[pharmaStockId] = quantity;
       });
  
-      // Call the service with the constructed payload
+      // // Call the service with the constructed payload
       const checkedMed = await MedicineOrderService.checkMedicineAvailabilty(payload);
       setCheckMedicine(checkedMed);
  
@@ -223,50 +223,11 @@ const CartProducts = () => {
       console.error('Error fetching medicine availability', error);
     }
   };
- 
-  // const handlePlaceOrder = async () => {
-  //   try {
-  //     // Fetch patient details
-  //     const patientDetails = await MedicineOrderService.fetchPatient(patientId);
-  //     setPatientData(patientDetails);
-  //     // Build the delivery address
-  //     const newAddress = `${patientDetails.address || address.address}, ${patientDetails.city || address.city}, ${
-  //       patientDetails.pinCode || address.pinCode
-  //     }`;
- 
-  //     if (!newAddress || newAddress.trim() === '') {
-  //       toast.error('Please provide the delivery address.');
-  //       return;
-  //     }
- 
-  //     // Proceed with placing the order
-  //     setConfirmationDialogOpen(true);
-  //   } catch (error) {
-  //     console.error('Error fetching patient details:', error);
-  //   }
-  // };
+  const root = createRoot(document.getElementById("root"));
 
   return (
     <>
-      {/* <div className="my-6 w-fit mx-auto">
-        <ol className="flex justify-between">
-          <li className="flex w-full items-center text-blue-600 dark:text-blue-500 after:content-[''] after:w-24 after:h-1 after:border-b-2 after:border-gray-400 after:border-dashed after:inline-block dark:after:border-blue-800">
-            <span className="flex font-mono text-xl font-extrabold items-center justify-center  lg:py-4 lg:px-8 dark:bg-blue-800 shrink-0">
-              Bag
-            </span>
-          </li>
-          <li className="flex w-full items-center after:content-[''] after:w-24 after:h-1 after:border-b-2 after:border-gray-400 after:border-dashed after:inline-block dark:after:border-gray-700">
-            <span className="flex font-mono text-xl font-extrabold items-center justify-center lg:py-4 lg:px-8 dark:bg-gray-700 shrink-0">
-              Address
-            </span>
-          </li>
-          <li className="flex items-center">
-            <span className="flex font-mono text-xl font-extrabold items-center justify-center lg:py-4 lg:px-8 dark:bg-gray-700 shrink-0">
-              Payment
-            </span>
-          </li>
-        </ol>
-      </div> */}
+     
       <OrderStepper currentStep={currentStep} />
       <div>
         {cartItems.length !== 0 ? (
@@ -444,7 +405,7 @@ const CartProducts = () => {
                 <button
                   type="button"
                   className=" w-[90%] py-2 text-lg bg-sky-200"
-                  onClick={()=>checkAvailability(cartItems)}
+                  onClick={()=>{checkAvailability(cartItems)}}
                 >
                   Proceed
                 </button>
@@ -452,7 +413,7 @@ const CartProducts = () => {
             </div>
           </div>
         ) : (
-          <div className="flex justify-center my-32 mx-auto h-56 w-96 border">
+          <div className="flex justify-center mx-auto h-56 w-96 border"  onClick={() => navigate("/")}>
             <div className="mt-24">
               <h1>Hey, it feels so light!</h1>
               <h4>There is nothing in your cart. Let's add some items.</h4>
@@ -462,6 +423,17 @@ const CartProducts = () => {
         {currentStep === 1 && <div>Address Step</div>}
         {currentStep === 2 && <div>Payment Step</div>}
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 };

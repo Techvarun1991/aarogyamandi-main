@@ -7,6 +7,7 @@ import NeedHelp from './NeedHelp';
 import { BeakerIcon, ChevronRightIcon, ClipboardDocumentCheckIcon, InformationCircleIcon, PowerIcon, TruckIcon, UserGroupIcon } from '@heroicons/react/16/solid';
 import LogoutDialog from '../../Layout/SideBar/LogoutDialog';
 import { useLocation } from 'react-router-dom';
+import ProtectedRoute from '../ProtectedRoute';
 
 const Dashboard = () => {
   const [activeMenu, setActiveMenu] = useState(0);
@@ -14,35 +15,36 @@ const Dashboard = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const location = useLocation();
-  const { index } = location.state || {}; 
+  const { index } = location.state || {};
 
-   // Update the active menu when the index from location changes
+  // Update the active menu when the index from location changes
   useEffect(() => {
     if (index !== undefined) {
       setActiveMenu(index);  // Set activeMenu based on the index from location
     }
-  }, [index]); 
+  }, [index]);
 
   const options = [
     {
       name: 'Manage Profiles',
       icon: <UserGroupIcon className="w-6 h-6 my-auto" />,
-      component: <ManageProfiles />
+      component: <ProtectedRoute element={<ManageProfiles />} />  // Protected route for ManageProfiles
     },
     {
       name: 'Doctor Appointments',
       icon: <ClipboardDocumentCheckIcon className="w-6 h-6 my-auto" />,
-      component: <DoctorAppointments />
+      component: <ProtectedRoute element={<DoctorAppointments />} />  // Protected route for ManageProfiles
+
     },
     {
       name: 'Medicine Orders',
       icon: <TruckIcon className="w-6 h-6 my-auto" />,
-      component: <MedicineOrders />
+      component: <ProtectedRoute element={<MedicineOrders />} />  // Protected route for ManageProfiles
     },
     {
       name: 'Lab Appointments',
       icon: <BeakerIcon className="w-6 h-6 my-auto" />,
-      component: <LabAppointments />
+      component: <ProtectedRoute element={<LabAppointments />} />  // Protected route for ManageProfiles
     },
     {
       name: 'Need Help',

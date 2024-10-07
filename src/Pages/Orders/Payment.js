@@ -1,11 +1,10 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import OrderStepper from '../Cart/OrderStepper';
 import axios from 'axios';
 import MedicineCartService from '../../Service/MedicineCart/MedicineCart';
 import MedicineOrderService from '../../Service/MedicineOrder/MedicineOrder';
-import MedicineOrders from '../PatientDashboard/MedicineOrders';
 import 'react-toastify/dist/ReactToastify.css'; // Ensure you import the CSS for proper styling
 
 export default function Payment() {
@@ -13,6 +12,7 @@ export default function Payment() {
   const navigate = useNavigate();
   const { medicineCart, selectedAddressId } = location.state;
   console.log(selectedAddressId);
+  const [isPaymentSucess,setisPaymentSucess] = useState(false);
   console.log(medicineCart.medicineCart, '-----------medinceine cart');
   // Memoize the price to avoid re-triggering the useEffect unnecessarily
   const discountedPrice = useMemo(() => medicineCart.medicineCart.discountedCartPrice, [medicineCart.medicineCart.discountedCartPrice]);
@@ -59,7 +59,7 @@ export default function Payment() {
       modal: {
         ondismiss: () => {
           toast.error('Payment Cancelled');
-          navigate('/orders');
+          navigate('/cart');
         },
       },
       prefill: {
@@ -81,23 +81,24 @@ export default function Payment() {
         if (medicineCart.medicineCart.promocodeApplied == true) {
           MedicineCartService.updateWholeCart(medicineCart.medicineCart).then((response) => {
             toast.success("Medicine cart updated successfully");
+            setisPaymentSucess(true)
           }).catch((error) => {
             console.log(error);
           });
 
           if (paymentId) {
             MedicineOrderService.placeOrderCart(payload).then((response) => {
+              paymentObject.close();
               setTimeout(() => {
-                navigate("/orders");
-              }, 2000)
+                navigate("/orders")
+              }, 1000);
               toast.success("order placed successfully")
+              setisPaymentSucess(true)
 
             }).catch((err) => {
               console.log(err);
-              setTimeout(() => {
-                navigate("/cart")
-              }, 2000)
               toast.success("failed to place order")
+              setisPaymentSucess(true)
             });
 
           }
@@ -106,16 +107,15 @@ export default function Payment() {
         else {
           MedicineOrderService.placeOrderCart(payload).then((response) => {
             setTimeout(() => {
-              navigate("/")
-            }, 2000)
+              navigate("/orders")
+            }, 1000);
             toast.success("order placed successfully")
+            setisPaymentSucess(true)
 
           }).catch((err) => {
             console.log(err);
-            setTimeout(() => {
-              navigate("/cart")
-            }, 2000)
             toast.success("failed to place order")
+            setisPaymentSucess(true)
           });
         }
       }
@@ -125,6 +125,10 @@ export default function Payment() {
 
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
+
+    if (isPaymentSucess) {
+      paymentObject.close();
+    }
   };
 
   return (

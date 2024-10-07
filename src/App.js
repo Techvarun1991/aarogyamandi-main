@@ -32,6 +32,7 @@ import Doctors from "./Pages/Doctor/Doctors";
 import Login from "./Pages/Login";
 import Signup from './Pages/Signup';
 import NavbarLine from './Layout/Navbar/NavabarLine';
+import ProtectedRoute from './Pages/ProtectedRoute';
 
 function App() {
   return (
@@ -40,18 +41,16 @@ function App() {
 
         <Navbar />
         <Routes>
-        <Route path='/nav' element={<NavbarLine />}></Route>
 
           {/* <Route path="/doctor" element={<Doctor />} /> */}
           <Route path='/verifycode' element={<VerifyCode />}></Route>
           <Route path='/forgotpassword' element={<ForgotPassword />} />
-          <Route path="/Medicine" element={<MedicineHomepage />} />
-          <Route path="/product-details" element={<Productmainpage />} />
-          <Route path="/product" element={<AllProducts />} />
+          <Route path="/Medicine" element={<ProtectedRoute element={MedicineHomepage} />} />
+          <Route path="/product-details" element={<ProtectedRoute element={Productmainpage} />} />
+          <Route path="/product" element={<ProtectedRoute element={AllProducts} />} />
           <Route path="/wishlist" element={<WishList />} />
-          <Route path="/cart" element={<Cart />} />
-
-          <Route path="/address" element={<Deliveryaddre />} />
+          <Route path="/cart" element={<ProtectedRoute element={Cart} />} />
+          <Route path="/address" element={<ProtectedRoute element={Deliveryaddre} />} />
           <Route path="/checkout" element={<Checkoutpage />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/trackOrder" element={<TrackOrder />} />
@@ -64,9 +63,8 @@ function App() {
 
           <Route
             path="/doctor/searchdoctor"
-            element={<FindDorctorBySpecialityLocationAndCity />}
-          ></Route>
-          <Route path="/doctor/bycity" element={<FindByCity />}></Route>
+            element={<ProtectedRoute element={FindDorctorBySpecialityLocationAndCity} />} />
+          <Route path="/doctor/bycity" element={<ProtectedRoute element={FindByCity} />} />
           <Route path="/doctors" element={<Doctors />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
