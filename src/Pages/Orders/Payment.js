@@ -11,6 +11,8 @@ export default function Payment() {
   const { medicineCart, payload } = location.state;
   const [loadRazorpay, setLoadRazorpay] = useState(true);
 
+  console.log(payload);
+  console.log(medicineCart.medicineCart);
   // Memoize the price to avoid re-triggering the useEffect unnecessarily
   const discountedPrice = useMemo(() => medicineCart.medicineCart.discountedCartPrice, [medicineCart.medicineCart.discountedCartPrice]);
 
@@ -74,12 +76,13 @@ export default function Payment() {
           const paymentId = response.razorpay_payment_id;
           toast.success("Payment done Successfully!");
           console.log("Payment ID", paymentId);
+          console.log("Promocode Application",medicineCart.medicineCart.promocodeApplied);
           try {
-            if (medicineCart.promocodeApplied === true) {
+            if (medicineCart.medicineCart.promocodeApplied === true) {
               // Update cart if promocode is applied
               const updateResponse = await axios.put(
-                `http://192.168.10.214/8080/api/medCarts/updateCart/${medicineCart.cartId}`,
-                medicineCart
+                `http://localhost:8080/api/medicineCart/updateCart/${medicineCart.medicineCart.cartId}`,
+                medicineCart.medicineCart
               );
               if (updateResponse.status === 200) {
                 await MedicineCartService.placeOrderCart(payload);
