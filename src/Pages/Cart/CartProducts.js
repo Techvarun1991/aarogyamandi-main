@@ -208,7 +208,7 @@ const CartProducts = () => {
         payload[pharmaStockId] = quantity;
       });
  
-      // Call the service with the constructed payload
+      // // Call the service with the constructed payload
       const checkedMed = await MedicineOrderService.checkMedicineAvailabilty(payload);
       setCheckMedicine(checkedMed);
  
@@ -216,6 +216,7 @@ const CartProducts = () => {
       if (checkedMed.allProductsAvailable) {
         // Call handlePlaceOrder if all products are available
         // handlePlaceOrder();
+        navigate('/address', {state: {medicineCart}});
 
       }
     } catch (error) {
@@ -406,7 +407,7 @@ const CartProducts = () => {
                 <button
                   type="button"
                   className=" w-[90%] py-2 text-lg bg-sky-200"
-                  onClick={checkAvailability(cartItems)}
+                  onClick={()=>{checkAvailability(cartItems)}}
                 >
                   Proceed
                 </button>
