@@ -30,9 +30,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { FaSpinner } from 'react-icons/fa';
-import { Routes, Route, Navigate } from 'react-router-dom';
-// import SignUp from './SignIn';
-// import DashboardLayout from '../layouts/dashboard/DashboardLayout';
+import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ element: Element }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

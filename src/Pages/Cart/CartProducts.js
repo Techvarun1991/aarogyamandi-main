@@ -224,7 +224,7 @@ const CartProducts = () => {
   };
   const root = createRoot(document.getElementById("root"));
 
-
+  const navigate = useNavigate();
 
   return (
     <>
