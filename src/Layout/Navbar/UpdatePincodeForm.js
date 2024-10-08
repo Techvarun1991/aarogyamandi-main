@@ -23,7 +23,7 @@ export default function UpdatePincodeForm({ onClose }) {
   const handlePincodeSave = async() => {
     try {   
       const response = await axios.post(
-        `http://192.168.1.6:8080/map/api/geoCode?address=${pincode}`,
+        `http:///map/api/geoCode?address=${pincode}`,
        
       );
       localStorage.removeItem("revGeoCode"); 
@@ -63,7 +63,7 @@ export default function UpdatePincodeForm({ onClose }) {
         <hr className="border-gray-300" />
         <div className="mb-4">
           <img
-            src="http://192.168.1.6:8080/api/documentation/main-documents/662205cd766bbc78001564b0/download"
+            src="http:///api/documentation/main-documents/662205cd766bbc78001564b0/download"
             className=""
             alt="Pincode"
           />

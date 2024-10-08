@@ -1,8 +1,13 @@
 import React, { useRef, useState } from "react";
 import LoginImg from "../Images/login.png";
-import { EyeIcon } from "@heroicons/react/24/outline";
+import axios from "axios";
+import BASE_REST_API_URL from "../Service/BaseUrl";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'; // Ensure you import the CSS for proper styling
 
 export default function Login() {
+  const navigate = useNavigate();
   const getCookie = (name) => {
     const cookieString = document.cookie;
     const cookies = cookieString.split(";").map((cookie) => cookie.trim());
@@ -54,10 +59,33 @@ export default function Login() {
       setPasswordError("");
     }
   };
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     if (email && password && !emailError && !passwordError) {
-      alert("Login successfully");
+      const response = await axios.post(`${BASE_REST_API_URL}/api/patients/login`, {
+        email: email,
+        password: password,
+      }).then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          localStorage.setItem('profileId', response.data.profileId);
+          localStorage.setItem('patientId', response.data.patientId);
+          localStorage.setItem('patientName', response.data.patientName);
+          setTimeout(() => {
+            navigate("/")
+          }, 2000)
+          toast.success("Login successfully")
+        }
+
+      }).catch((error) => {
+        console.log(error)
+        if (error.status === 404) {
+          toast.error(error.response.data.message)
+        }
+      });
+      console.log(response)
+
+
     } else {
       if (!email) {
         setEmailError("Please enter a valid email");
@@ -164,7 +192,7 @@ export default function Login() {
                 />
                 <span className="ml-2 text-sm text-gray-700">Remember me</span>
               </label>
-              <a href="#" className="text-sm text-blue-600">
+              <a href="/forgotpassword" className="text-sm text-blue-600">
                 Forgot Password?
               </a>
             </div>
@@ -177,7 +205,7 @@ export default function Login() {
           </form>
           <p className="mt-4 text-center text-sm text-gray-700">
             Don’t have an account?{" "}
-            <a href="#" className="text-blue-600">
+            <a href="/signup" className="text-blue-600">
               Sign Up
             </a>
           </p>

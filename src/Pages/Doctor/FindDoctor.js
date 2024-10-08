@@ -19,6 +19,7 @@ import Guildlines from "./Guildlines";
 import TopSpealities from "./TopSpecialities";
 import { useNavigate } from "react-router-dom";
 import DoctorList from "./DoctorList";
+import BASE_REST_API_URL from "../../Service/BaseUrl";
 
 export default function FindDoctor() {
   const [location, setLocation] = useState();
@@ -42,7 +43,7 @@ export default function FindDoctor() {
           };
           try {
             const response = await axios.post(
-              `http://192.168.1.6:8080/map/api/revGeoCode`,
+              `${BASE_REST_API_URL}/map/api/revGeoCode`,
               payload
             );
             const city = response.data.city;

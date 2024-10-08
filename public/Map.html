@@ -82,7 +82,7 @@
           }),
         };
  
-        fetch(`http://192.168.1.6:8080/map/api/revGeoCode`, payload)
+        fetch(`${BaseUrl}/map/api/revGeoCode`, payload)
           .then((response) => {
             return response.json();
           })

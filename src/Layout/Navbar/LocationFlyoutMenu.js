@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import App from "../../App";
 import { useMediaQuery } from "react-responsive";
+import BASE_REST_API_URL from "../../Service/BaseUrl";
 
 const solutions = [
   {
@@ -68,7 +69,7 @@ export default function LocationFlyoutMenu() {
           };
           try {
             const response = await axios.post(
-              `http://192.168.1.6:8080/map/api/revGeoCode`,
+              `${BASE_REST_API_URL}/map/api/revGeoCode`,
               payload
             );
             revGeoCode.current = response.data;

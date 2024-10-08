@@ -24,54 +24,51 @@ import OrderTab from './Pages/Orders/OrderTab';
 
 
 
-// =======
-// import Dashboard from './Pages/PatientDashboard/Dashboard';
-// import FindDorctorBySpecialityLocationAndCity from "./Pages/Doctor/FindDorctorBySpecialityLocationAndCity";
-// import FindByCity from "./Pages/Doctor/FindDoctor";
-// import DoctorList from "./Pages/Doctor/DoctorList";
-// import Doctors from "./Pages/Doctor/Doctors";
-// import Login from "./Pages/Login";
-// >>>>>>> eaad40f46678596b785eaa70a80f05bbe2018ed2
+import Dashboard from './Pages/PatientDashboard/Dashboard';
+import FindDorctorBySpecialityLocationAndCity from "./Pages/Doctor/FindDorctorBySpecialityLocationAndCity";
+import FindByCity from "./Pages/Doctor/FindDoctor";
+import DoctorList from "./Pages/Doctor/DoctorList";
+import Doctors from "./Pages/Doctor/Doctors";
+import Login from "./Pages/Login";
+import Signup from './Pages/Signup';
+import NavbarLine from './Layout/Navbar/NavabarLine';
+import ProtectedRoute from './Pages/ProtectedRoute';
 
 function App() {
   return (
     <div className="App">
-     <BrowserRouter>
-     <Navbar />
-      <Routes>
-        
-      {/* <Route path="/doctor" element={<Doctor />} /> */}
-      <Route path='/verifycode' element={<VerifyCode />}></Route>
-      <Route path='/forgotpassword' element={<ForgotPassword />} />
-      <Route path="/Medicine" element={<MedicineHomepage />} />
-      <Route path="/product-details" element={<Productmainpage />} />
-      <Route path="/product" element={<AllProducts />} />
-      <Route path="/wishlist" element={<WishList />} />
-      <Route path="/cart" element={<Cart />} />
+      <BrowserRouter>
 
-      <Route path="/delivery" element={<Delivery />} />
-      <Route path="/deliveryadd" element={<Deliveryaddre />} />
-      <Route path="/checkout" element={<Checkoutpage />} /> 
-      <Route path="/orders" element={<Orders />} />
-      <Route path="/trackorder" element={<TrackOrder />} />
-      <Route path="/notyetshipped" element={<Notyetshipped />} />
-      <Route path="/cancelledorders" element={<CancelledOrders />} />
-      <Route path="/check" element={<Checkout />} />
-      <Route path="/payment" element={<Payment />} />
+        <Navbar />
+        <Routes>
 
-      <Route path="/ot" element={<OrderTab />} />
-{/* =======
-      <Route path="/Patient/Dashboard" element={<Dashboard />} />
+          {/* <Route path="/doctor" element={<Doctor />} /> */}
+          <Route path='/verifycode' element={<VerifyCode />}></Route>
+          <Route path='/forgotpassword' element={<ForgotPassword />} />
+          <Route path="/Medicine" element={<ProtectedRoute element={MedicineHomepage} />} />
+          <Route path="/product-details" element={<ProtectedRoute element={Productmainpage} />} />
+          <Route path="/product" element={<ProtectedRoute element={AllProducts} />} />
+          <Route path="/wishlist" element={<WishList />} />
+          <Route path="/cart" element={<ProtectedRoute element={Cart} />} />
+          <Route path="/address" element={<ProtectedRoute element={Deliveryaddre} />} />
+          <Route path="/checkout" element={<Checkoutpage />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/trackOrder" element={<TrackOrder />} />
+          <Route path="/notyetshipped" element={<Notyetshipped />} />
+          <Route path="/cancelledorders" element={<CancelledOrders />} />
+          {/* <Route path="/check" element={<Checkout />} /> */}
+          <Route path="/payment" element={<Payment />} />
 
-      <Route
+          <Route path="/Patient/Dashboard" element={<Dashboard />} />
+
+          <Route
             path="/doctor/searchdoctor"
-            element={<FindDorctorBySpecialityLocationAndCity />}
-          ></Route>
-          <Route path="/doctor/bycity" element={<FindByCity />}></Route>
+            element={<ProtectedRoute element={FindDorctorBySpecialityLocationAndCity} />} />
+          <Route path="/doctor/bycity" element={<ProtectedRoute element={FindByCity} />} />
           <Route path="/doctors" element={<Doctors />}></Route>
           <Route path="/login" element={<Login />}></Route>
->>>>>>> eaad40f46678596b785eaa70a80f05bbe2018ed2 */}
-      </Routes>
+          <Route path="/signup" element={<Signup />}></Route>
+        </Routes>
       </BrowserRouter>
     </div>
   );

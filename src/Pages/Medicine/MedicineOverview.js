@@ -36,7 +36,7 @@ export default function ProductOverview() {
           currentLong:77.61923,
           radius: 10
         };
-        const response = await axios.post(`https://192.168.1.6:8080/InventoryManagement/unique/141`,payload)
+        const response = await axios.post(`http://192.168.1.6:8080/InventoryManagement/unique/141`,payload)
         console.log("response: " ,response.data);
         setMedicine(response.data.medicine);
         setMedicineImages(response.data.medicine.medicineImages);
