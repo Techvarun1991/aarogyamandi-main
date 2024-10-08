@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaEdit, FaTrash, FaMapMarkerAlt } from "react-icons/fa";
 import PriceSection from "./PriceSection";
+import OrderStepper from "../Cart/OrderStepper";
 
 const Deliveryaddre = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -124,12 +125,14 @@ const Deliveryaddre = () => {
     localStorage.setItem("selectedPincode", selectedAddress.pincode); // Save pincode to local storage
   };
 
-  const detectlocation = () =>{
-    
-  }
+  const detectlocation = () => {};
 
   return (
+    <>
+    <OrderStepper currentStep={1} />
     <div className="flex h-screen">
+      
+
       {/* Left Side - Green */}
       <div className="w-1/2">
         <p className="text-black font-bold text-left mx-10 my-10">
@@ -222,7 +225,12 @@ const Deliveryaddre = () => {
             {/* Detect my location */}
             <div className="flex items-center mb-4 cursor-pointer mx-5">
               <FaMapMarkerAlt className="text-cyan-400 " />
-              <p className="text-cyan-400 font-bold ml-2" onClick={detectlocation}>Detect my location</p>
+              <p
+                className="text-cyan-400 font-bold ml-2"
+                onClick={detectlocation}
+              >
+                Detect my location
+              </p>
             </div>
 
             <form className="space-y-4">
@@ -440,6 +448,7 @@ const Deliveryaddre = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

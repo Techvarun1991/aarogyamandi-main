@@ -90,25 +90,7 @@ const CartProducts = () => {
 
   return (
     <>
-      {/* <div className="my-6 w-fit mx-auto">
-        <ol className="flex justify-between">
-          <li className="flex w-full items-center text-blue-600 dark:text-blue-500 after:content-[''] after:w-24 after:h-1 after:border-b-2 after:border-gray-400 after:border-dashed after:inline-block dark:after:border-blue-800">
-            <span className="flex font-mono text-xl font-extrabold items-center justify-center  lg:py-4 lg:px-8 dark:bg-blue-800 shrink-0">
-              Bag
-            </span>
-          </li>
-          <li className="flex w-full items-center after:content-[''] after:w-24 after:h-1 after:border-b-2 after:border-gray-400 after:border-dashed after:inline-block dark:after:border-gray-700">
-            <span className="flex font-mono text-xl font-extrabold items-center justify-center lg:py-4 lg:px-8 dark:bg-gray-700 shrink-0">
-              Address
-            </span>
-          </li>
-          <li className="flex items-center">
-            <span className="flex font-mono text-xl font-extrabold items-center justify-center lg:py-4 lg:px-8 dark:bg-gray-700 shrink-0">
-              Payment
-            </span>
-          </li>
-        </ol>
-      </div> */}
+
       <OrderStepper currentStep={currentStep} />
       <div>
       {cartItems.length !== 0 ? (

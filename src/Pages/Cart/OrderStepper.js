@@ -1,5 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Deliveryaddre from "../DeliveryAddress/Deliveryaddre";
+import Payment from "../Orders/Payment";
 
 const OrderStepper = ({ currentStep }) => {
   const steps = ["Bag", "Address", "Payment"];
@@ -11,11 +13,11 @@ const OrderStepper = ({ currentStep }) => {
         navigate("/cart");
         break;
       case 1:
-        navigate("/address");
+       navigate("/deliveryadd")
         break;
       case 2:
-        navigate("/payment");
-        break;
+        navigate("/payment")
+               break;
       default:
         break;
     }

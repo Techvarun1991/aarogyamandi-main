@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import OrderStepper from '../Cart/OrderStepper';
 
 export default function Payment() {
   const location = useLocation();
@@ -69,6 +70,8 @@ export default function Payment() {
   }
 
   return (
+    <>
+     <OrderStepper currentStep={2} />
     <div>
       <ToastContainer
         position="top-right"
@@ -82,6 +85,7 @@ export default function Payment() {
         pauseOnHover
       />
     </div>
+    </>
   );
 };
 
