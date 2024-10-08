@@ -51,13 +51,13 @@ const NavbarLine = () => {
           <ul className="flex space-x-8 py-4 pl-12 text-[#FFFFFF] font-semibold justify-center">
             {mainCategories.map((category) => (
               <li key={category.categoryId} className="relative">
-                <a
+                <div
                   href="#"
                   onClick={() => toggleDropdown(category.categoryId)} // Call toggleDropdown on click
                   className={`hover:text-[#0099B1] ${activeCategory === category.categoryId ? 'underline' : ''}`} // Add underline if active
                 >
                   {category.categoryName}
-                </a>
+                </div>
               </li>
             ))}
           </ul>
@@ -77,13 +77,13 @@ const NavbarLine = () => {
                         {/* Iterate through subCategories */}
                         {category.subCategories.map((subCategory) => (
                           <li key={subCategory.categoryId} className="hover:text-[#0099B1] cursor-pointer text-left">
-                            <a
+                            <div
                             
                               onClick={() => handleItem(subCategory.categoryId)} // Call toggleDropdown on click
                               className={`hover:text-[#0099B1] ${activeCategory === category.categoryId ? 'underline' : ''}`} // Add underline if active
                             >
                             {subCategory.categoryName} {/* Display subcategory name */}
-                            </a>
+                            </div>
                           </li>
                         ))}
                       </ul>

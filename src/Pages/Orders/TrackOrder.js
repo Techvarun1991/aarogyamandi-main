@@ -23,6 +23,7 @@ const TrackOrder = () => {
   const { orderId, orderItemId } = location.state || {};
   const patientId = localStorage.getItem("profileId");
   const [orderItemDetails, setOrderItemDetails] = useState();
+  const [orderDetails, setOrderDetails] = useState();
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     const fetchOrderItemDetails = async () => {
@@ -36,7 +37,8 @@ const TrackOrder = () => {
           patientId
         );
         console.log("first order item details", data);
-        setOrderItemDetails(data); // Set the fetched data in state
+        setOrderDetails(data.pharmacyOrder);
+        setOrderItemDetails(data.pharmacyOrderDetails); // Set the fetched data in state
       } catch (error) {
         // setError("Failed to fetch order item details."); // Set error message
       } finally {
@@ -127,6 +129,19 @@ const TrackOrder = () => {
                     {/* ))} */}
                   </div>
                   <Orderstatus />
+
+                  {/* Address Details */}
+                <div className="text-left mx-4">
+                  <h1>Delivery Address</h1>
+                  <p className="text-2xl">{orderDetails.deliveryAddress.personName}</p>
+                  <p className="text-lg">{orderDetails.deliveryAddress.addressLine1}</p>
+                  <p>{orderDetails.deliveryAddress.addressLine2}</p>
+                  <p>
+                    {orderDetails.deliveryAddress.city}, {orderDetails.deliveryAddress.zipCode}, {orderDetails.deliveryAddress.state}
+                  </p>
+                  <p>{orderDetails.deliveryAddress.mobile}</p>
+                  <p className="text-rose-400">{orderDetails.deliveryAddress.addressType}</p>
+                </div>
                 </>
               )}
             </div>

@@ -20,7 +20,7 @@ const Productmainpage = () => {
   const [similarProductsData, setSimilarProductsData] = useState([]);
   const fetchSimillarProducts = async () => {
     return await axios
-      .post(`${BASE_REST_API_URL}/api/medicines/filter/${medicineId}`)
+      .post(`${BASE_REST_API_URL}/api/medicines/similar/${medicineId}`)
       .then((response) => {
         console.log(response.data,'inside similar products');
         return response.data; // Return the data to handle it in Promise.all
