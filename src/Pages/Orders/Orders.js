@@ -6,50 +6,7 @@ import OrderService from "../../Service/PharmcyService/OrderService";
 import { useNavigate } from "react-router-dom";
 
 const Orders = () => {
-  const cards = [
-    {
-      id: 1,
-      title: "LuxeGlow Anti-Aging Serum",
-      quantity: "1",
-      Mkt: "Hosona Consumer Pvt Ltd",
-      Price: "290",
-      ActualPrice: "300",
-      Delivery: "1 Jan 2025",
-      ExpiryDate: "1 Jan 2026",
-    },
-    {
-      id: 2,
-      title: "AquaBurst Hydrating Moisturizer",
-      quantity: "1",
-      Mkt: "Market 2",
-      Price: "250",
-      ActualPrice: "260",
-      Delivery: "1 Jan 2025",
-      ExpiryDate: "1 Jan 2026",
-    },
-    {
-      id: 3,
-      title: "FlexiFit Sports Headphones",
-      quantity: "1",
-      Mkt: "Market 3",
-      Price: "210",
-      ActualPrice: "220",
-      Delivery: "1 Jan 2025",
-      ExpiryDate: "1 Jan 2026",
-    },
-    {
-      id: 4,
-      title: "PuraFresh Air Purifier",
-      quantity: "1  ",
-      Mkt: "Market 4",
-      Price: "180",
-      ActualPrice: "190",
-      Delivery: "1 Jan 2025",
-      ExpiryDate: "1 Jan 2026",
-    },
-
-    // Add more products here
-  ];
+  
   const [order, setOrder] = useState([]);
 
   useEffect(() => {
@@ -117,10 +74,10 @@ const Orders = () => {
                 {order.length > 0 ? (
                   order.map((order) => (
                     <div key={order.orderId} className="mb-8">
-                      <h3 className="text-lg font-semibold">
+                      <h3 className="text-left text-lg font-semibold">
                         Order ID: {order.orderId}
                       </h3>
-                      <p>Ordered Time: {order.orderedTime}</p>
+                      <p className="text-left">Ordered Time: {order.orderedTime}</p>
                       <div className="mt-4">
                         {order.orderDetailsList &&
                         order.orderDetailsList.length > 0 ? (

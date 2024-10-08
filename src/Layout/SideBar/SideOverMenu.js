@@ -20,10 +20,15 @@ export default function SideOverMenu({ open, setOpen }) {
     setLogoutDialogOpen(!logoutDialogOpen);
   };
 
-  const handleDashboardNavigation = (index) => {
+  // const handleDashboardNavigation = (index) => {
+  //   closeSideOverMenu();
+  //   navigate("/Patient/Dashboard", { state: { index } });
+  // };
+
+  const handleRoute = (route)=>{
     closeSideOverMenu();
-    navigate("/Patient/Dashboard", { state: { index } });
-  };
+    navigate("/orders");
+  }
   const options = [
     {
       name: "Manage Profiles",
@@ -40,7 +45,8 @@ export default function SideOverMenu({ open, setOpen }) {
     {
       name: "Medicine Orders",
       icon: <TruckIcon className="w-6 h-6 my-auto"></TruckIcon>,
-      index:2
+      index:2,
+      route: "/orders"
     },
     {
       name: "Lab Appointments",
@@ -134,14 +140,14 @@ export default function SideOverMenu({ open, setOpen }) {
                                 <li className="py-4">
                                   <button
                                     className="flex justify-between items-center w-full"
-                                    onClick={
-                                      option.name === "Log Out"
-                                        ? toggleLogoutDialog
-                                        : () => handleDashboardNavigation(option.index)
-                                    }
+                                    // onClick={
+                                    //   option.name === "Log Out"
+                                    //     ? toggleLogoutDialog
+                                    //     : () => handleDashboardNavigation(option.index)
+                                    // }
                                   >
-                                    <div>
-                                      <div className="flex gap-x-2">
+                                    <div >
+                                      <div className="flex gap-x-2" onClick={()=>handleRoute(option.route)}>
                                         {option.icon}
                                         <p className="text-sm font-semibold leading-6 text-gray-900">
                                           {option.name}

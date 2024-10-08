@@ -5,7 +5,7 @@ const Amount = ({medicineCart}) => {
     <>
     <div>
       <div className="w-[80%]">
-        <div className="mt-8 text-left text-lg">Amount Payable</div>
+        <div className="mt-8 text-left text-lg ">Amount Payable</div>
 
         <div className="flex w-[90%]">
           <div className="w-3/5 text-left ">
