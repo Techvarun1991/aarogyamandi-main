@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import OrderStepper from '../Cart/OrderStepper';
-import MedicineCartService from '../../Service/MedicineCart/MedicineCart';
-import MedicineOrderService from '../../Service/MedicineOrder/MedicineOrder';
-import 'react-toastify/dist/ReactToastify.css';
+import { useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import OrderStepper from "../Cart/OrderStepper";
+import MedicineCartService from "../../Service/MedicineCart/MedicineCart";
+import MedicineOrderService from "../../Service/MedicineOrder/MedicineOrder";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Payment() {
   const location = useLocation();
@@ -12,52 +12,60 @@ export default function Payment() {
   const { medicineCart, selectedAddressId } = location.state;
   const [isPaymentSucess, setIsPaymentSuccess] = useState(false);
   const [paymentObject, setPaymentObject] = useState(null);
-  
-  const discountedPrice = useMemo(() => medicineCart.medicineCart.discountedCartPrice, [medicineCart.medicineCart.discountedCartPrice]);
+
+  const discountedPrice = useMemo(
+    () => medicineCart.medicineCart.discountedCartPrice,
+    [medicineCart.medicineCart.discountedCartPrice]
+  );
 
   useEffect(() => {
     const loadRazorpay = async () => {
-      const scriptLoaded = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+      const scriptLoaded = await loadScript(
+        "https://checkout.razorpay.com/v1/checkout.js"
+      );
       if (!scriptLoaded) {
-        alert('Failed to load Razorpay script');
+        alert("Failed to load Razorpay script");
         return;
       }
 
       // Initialize payment options
       const options = {
-        key: 'rzp_test_YNrvezC4YR0qwI',
-        currency: 'INR',
+        key: "rzp_test_YNrvezC4YR0qwI",
+        currency: "INR",
         amount: Math.round(discountedPrice * 100),
-        name: 'Arogya Mandi',
-        description: 'Thanks for ordering',
-        image: 'https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto/fc/3034007-inline-i-applelogo.jpg',
+        name: "Arogya Mandi",
+        description: "Thanks for ordering",
+        image:
+          "https://images.fastcompany.net/image/upload/w_596,c_limit,q_auto:best,f_auto/fc/3034007-inline-i-applelogo.jpg",
         modal: {
           ondismiss: () => {
-            toast.error('Payment Cancelled');
-            navigate('/cart');
+            toast.error("Payment Cancelled");
+            navigate("/cart");
           },
         },
         prefill: {
-          contact: '8767585885',
+          contact: "8767585885",
         },
         notes: {
-          address: 'arogyamandi.pvt.ltd',
+          address: "arogyamandi.pvt.ltd",
         },
         theme: {
-          color: '#3399cc',
+          color: "#3399cc",
         },
         handler: async (response) => {
           const paymentId = response.razorpay_payment_id;
           const payload = {
             cartId: medicineCart.medicineCart.cartId,
-            transactionId: paymentId || '',
-            deliveryAddressId: selectedAddressId
+            transactionId: paymentId || "",
+            deliveryAddressId: selectedAddressId,
           };
 
           // Update cart if promo applied
           if (medicineCart.medicineCart.promocodeApplied) {
             try {
-              await MedicineCartService.updateWholeCart(medicineCart.medicineCart);
+              await MedicineCartService.updateWholeCart(
+                medicineCart.medicineCart
+              );
               toast.success("Medicine cart updated successfully");
             } catch (error) {
               console.log(error);
@@ -71,14 +79,14 @@ export default function Payment() {
             toast.success("Order placed successfully");
             setIsPaymentSuccess(true);
             setTimeout(() => {
-              navigate("/orders");
+              window.location.href = "/orders";
             }, 1000);
           } catch (error) {
             console.log(error);
             toast.error("Failed to place order");
             setIsPaymentSuccess(true);
           }
-        }
+        },
       };
 
       const razorpayInstance = new window.Razorpay(options);
@@ -91,7 +99,7 @@ export default function Payment() {
 
   const loadScript = (src) => {
     return new Promise((resolve, reject) => {
-      const script = document.createElement('script');
+      const script = document.createElement("script");
       script.src = src;
       script.onload = resolve;
       script.onerror = reject;

@@ -6,4 +6,14 @@ export default class OrderService {
     console.log("inside get orders by profileId",profileId);
     return axios.get(`${BASE_REST_API_URL}/pharmacy-orders/byPatientId/${profileId}`);
   }
+
+  static getFilteredOrders(itemStatus,profileId) {
+    console.log("inside get orders by profileId",profileId);
+    return axios.get(`${BASE_REST_API_URL}/pharmacy-orders/filter`,{
+      params: {
+        itemStatus: itemStatus,
+        patientId: profileId
+      }
+    });
+  }
 }

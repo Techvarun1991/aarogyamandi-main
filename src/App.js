@@ -54,8 +54,8 @@ function App() {
           <Route path="/checkout" element={<Checkoutpage />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/trackOrder" element={<TrackOrder />} />
-          <Route path="/notyetshipped" element={<Notyetshipped />} />
-          <Route path="/cancelledorders" element={<CancelledOrders />} />
+          {/* <Route path="/notyetshipped" element={<Notyetshipped />} />
+          <Route path="/cancelledorders" element={<CancelledOrders />} /> */}
           {/* <Route path="/check" element={<Checkout />} /> */}
           <Route path="/payment" element={<Payment />} />
 
