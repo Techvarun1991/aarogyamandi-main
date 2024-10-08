@@ -123,12 +123,12 @@ export default function Payment() {
     }
 
 
-    const paymentObject = new window.Razorpay(options);
-    paymentObject.open();
+    // const paymentObject = new window.Razorpay(options);
+    // paymentObject.open();
 
-    if (isPaymentSucess) {
-      paymentObject.close();
-    }
+    // if (isPaymentSucess) {
+    //   paymentObject.close();
+    // }
   };
 
   return (
