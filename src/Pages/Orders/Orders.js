@@ -6,7 +6,11 @@ import OrderService from "../../Service/PharmcyService/OrderService";
 import { useNavigate } from "react-router-dom";
 
 const Orders = () => {
+
+  
   const [order, setOrder] = useState([]);
+
+  
   const profileId = localStorage.getItem("profileId");
 
   const [selectedStatus, setSelectedStatus] = useState("");
@@ -18,6 +22,7 @@ const Orders = () => {
     { status: "CANCELLED", label: "Cancelled" },
     { status: "PLACED", label: "Placed" },
   ];
+
 
   const handleChange = (event) => {
     setSelectedStatus(event.target.value);
@@ -120,10 +125,10 @@ const Orders = () => {
                 {order.length > 0 ? (
                   order.map((order) => (
                     <div key={order.orderId} className="mb-8">
-                      <h3 className="text-lg font-semibold">
+                      <h3 className="text-left text-lg font-semibold">
                         Order ID: {order.orderId}
                       </h3>
-                      <p>Ordered Time: {order.orderedTime}</p>
+                      <p className="text-left">Ordered Time: {order.orderedTime}</p>
                       <div className="mt-4">
                         {order.orderDetailsList &&
                         order.orderDetailsList.length > 0 ? (

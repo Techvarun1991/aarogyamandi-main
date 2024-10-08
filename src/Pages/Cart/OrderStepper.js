@@ -1,5 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Deliveryaddre from "../DeliveryAddress/Deliveryaddre";
+import Payment from "../Orders/Payment";
 
 const OrderStepper = ({ currentStep }) => {
   const steps = ["Bag", "Address", "Payment"];

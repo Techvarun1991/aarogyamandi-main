@@ -78,35 +78,74 @@ const AllProducts = () => {
             <h3 className="mb-2">Price</h3>
             <div className="flex items-center mb-2">
               <input type="checkbox" id="shampoo" className="mr-2" />
-              <label htmlFor="shampoo" className="text-sm">50-100</label>
+              <label htmlFor="shampoo" className="text-sm">
+                50-100
+              </label>
             </div>
             <div className="flex items-center mb-2">
               <input type="checkbox" id="soap" className="mr-2" />
-              <label htmlFor="soap" className="text-sm">150-200</label>
+              <label htmlFor="soap" className="text-sm">
+                150-200
+              </label>
             </div>
             <div className="flex items-center mb-2">
               <input type="checkbox" id="hair-care" className="mr-2" />
-              <label htmlFor="hair-care" className="text-sm">250-350</label>
+              <label htmlFor="hair-care" className="text-sm">
+                250-350
+              </label>
             </div>
           </div>
           <div className="text-lg text-left mx-4 my-8">
             <h3 className="mb-2">Discount</h3>
             <div className="flex items-center mb-2">
               <input type="checkbox" id="shampoo" className="mr-2" />
-              <label htmlFor="shampoo" className="text-sm">10% Off</label>
+              <label htmlFor="shampoo" className="text-sm">
+                10% Off
+              </label>
             </div>
             <div className="flex items-center mb-2">
               <input type="checkbox" id="soap" className="mr-2" />
-              <label htmlFor="soap" className="text-sm">50% Off</label>
+              <label htmlFor="soap" className="text-sm">
+                50% Off
+              </label>
             </div>
             <div className="flex items-center mb-2">
               <input type="checkbox" id="hair-care" className="mr-2" />
-              <label htmlFor="hair-care" className="text-sm">70% Off</label>
+              <label htmlFor="hair-care" className="text-sm">
+                70% Off
+              </label>
             </div>
           </div>
         </div>
         {/* Products Grid */}
+
         <div className="w-3/4 p-4">
+          <div
+            className="p-3 rounded-lg shadow-md w-[95%] mx-3"
+            style={{ backgroundColor: "#DFF8FF" }}
+          >
+            <h1 className="text-xl font-semibold text-gray-800 text-left">
+              TRESEmme
+            </h1>
+            <div className="flex justify-between items-center">
+              <p className="text-gray-600">Showing 60 of 63 items</p>
+              <div className="mt-4 flex items-center">
+                <span className="text-gray-600">Sort by:</span>
+                <button className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                  Popularity
+                </button>
+                <button className="ml-2 px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100">
+                  High to Low
+                </button>
+                <button className="ml-2 px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100">
+                  Low to High
+                </button>
+                <button className="ml-2 px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100">
+                  Discount
+                </button>
+              </div>
+            </div>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {product.map(product => (
               <div key={product.medicine.medicineName} className="bg-white p-4" onClick={(e) => {

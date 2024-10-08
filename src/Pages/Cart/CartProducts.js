@@ -5,11 +5,11 @@ import OrderStepper from "./OrderStepper";
 import MedicineCartService from "../../Service/MedicineCart/MedicineCart";
 import { createRoot } from "react-dom/client";
 import App from "../../App";
-import { toast,ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import BASE_REST_API_URL from "../../Service/BaseUrl";
 import MedicineOrderService from "../../Service/MedicineOrder/MedicineOrder";
 import { Navigate, useNavigate } from "react-router-dom";
-import 'react-toastify/dist/ReactToastify.css'; // Ensure you import the CSS for proper styling
+import "react-toastify/dist/ReactToastify.css"; // Ensure you import the CSS for proper styling
 
 const CartProducts = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -162,6 +162,7 @@ const CartProducts = () => {
     setSelectedPromocode(null); // Clear the selected promo code
   };
 
+  //use
   useEffect(() => {
     const fetchPromoCodeOptions = async () => {
       try {
@@ -195,11 +196,11 @@ const CartProducts = () => {
     try {
       // Check if cartData is an array
       if (!Array.isArray(cartData)) {
-        throw new Error('cartData is not an array.');
+        throw new Error("cartData is not an array.");
       }
- 
+
       const payload = {};
- 
+
       // Iterate over cartData to construct the payload
       cartData.forEach((item, index) => {
         const pharmaStockId = item.pharmaStockId;
@@ -207,33 +208,49 @@ const CartProducts = () => {
         // Add pharmaStockId and quantity to the payload
         payload[pharmaStockId] = quantity;
       });
- 
+
       // // Call the service with the constructed payload
-      const checkedMed = await MedicineOrderService.checkMedicineAvailabilty(payload);
+      const checkedMed = await MedicineOrderService.checkMedicineAvailabilty(
+        payload
+      );
       setCheckMedicine(checkedMed);
- 
+
       // Check if all products are available
       if (checkedMed.allProductsAvailable) {
         // Call handlePlaceOrder if all products are available
         // handlePlaceOrder();
-        navigate("/address", {state: {medicineCart}})
+
+        navigate("/address", { state: { medicineCart } });
 
       }
     } catch (error) {
-      console.error('Error fetching medicine availability', error);
+      console.error("Error fetching medicine availability", error);
     }
   };
   const root = createRoot(document.getElementById("root"));
 
+
+  const navigate = useNavigate();
+
+  const handleDeleteItem = (cartItemId) => {
+    // Filter out the item with the given cartItemId
+    const updatedCartItems = cartItems.filter(
+      (item) => item.cartItemId !== cartItemId
+    );
+
+    // Update the cart state with the filtered list
+    setCartItems(updatedCartItems);
+  };
+
+
   return (
     <>
-     
       <OrderStepper currentStep={currentStep} />
       <div>
         {cartItems.length !== 0 ? (
           <div className="flex">
             <div className="w-3/5 p-4 mx-5">
-              <div className="text-left mx-4">Cart Product</div>
+              <div className="text-left mx-4">Cart Product </div>
 
               <div className="relative w-[90%] h-[550px] overflow-y-scroll">
                 {cartItems.map((card, index) => (
@@ -250,9 +267,31 @@ const CartProducts = () => {
                         />
                       </div>
                       <div className="flex-grow pl-4">
-                        <h5 className="text-md text-left">
-                          {card.medicineName}
-                        </h5>
+                        <div className="flex justify-between items-center">
+                          <h5 className="text-md text-left">
+                            {card.medicineName}
+                          </h5>
+                          {/* Delete Icon */}
+                          <button
+                            className="text-red-500"
+                            onClick={() => handleDeleteItem(card.cartItemId)}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="2"
+                              stroke="black"
+                              className="w-6 h-6"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M3 6h18M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2m2 0v12a2 2 0 01-2 2H7a2 2 0 01-2-2V6h12z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
                         {/* <p className="text-sm text-gray-500 text-left">
                         {card.content.length > 60
                           ? `${card.content.substring(0, 60)}...`
@@ -310,6 +349,8 @@ const CartProducts = () => {
                   </div>
                 ))}
               </div>
+
+
             </div>
 
             <div className="w-2/5 p-4">
@@ -374,28 +415,37 @@ const CartProducts = () => {
               {/* <Amount cartData = {medicineCart}/> */}
               <div>
                 <div className="w-[80%]">
-                  <div className="mt-8 text-left text-lg">Amount Payable</div>
+                  <div className="my-6 text-left text-lg">Amount Payable</div>
 
                   <div className="flex w-[90%]">
                     <div className="w-3/5 text-left ">
-                      <div className="my-1">MRP Total:</div>
-                      <div className="my-1">Additional Discount:</div>
-                      <div className="my-1">Total Amount:</div>
-                      <div className="my-1">Shipping/Delivery Charges:</div>
-                      <div className="my-1">Total Payable:</div>
+                      <div className="my-3 text-md">MRP Total:</div>
+                      <div className="my-3 text-md">Additional Discount:</div>
+                      <div className="my-3 text-md">Total Amount:</div>
+                      <div className="my-3 text-md">
+                        Shipping/Delivery Charges:
+                      </div>
+                      <div className="my-3 text-md">Total Payable:</div>
+                      <div className="my-3 text-cyan-400 text-md">
+                        Total Savings:
+                      </div>
+                      <div className="my-3 text-cyan-400 text-md">
+                        Total Payable:
+                      </div>
+                      <div className="my-3 text-md">Total Payable:</div>
                     </div>
                     <div className="w-2/5 ">
-                      <div className="my-1">
+                      <div className="my-3">
                         ₹ {medicineCart.originalCartPrice}
                       </div>
-                      <div className="my-1">
+                      <div className="my-3">
                         ₹ {medicineCart.discountAmount}
                       </div>
-                      <div className="my-1">
+                      <div className="my-3">
                         ₹ {medicineCart.discountedCartPrice}
                       </div>
-                      <div className="my-1">₹ 0</div>
-                      <div className="my-1">
+                      <div className="my-3">₹ 0</div>
+                      <div className="my-3">
                         ₹ {medicineCart.discountedCartPrice}
                       </div>
                     </div>
@@ -404,18 +454,34 @@ const CartProducts = () => {
 
                 <button
                   type="button"
-                  className=" w-[90%] py-2 text-lg bg-sky-200"
-                  onClick={()=>{checkAvailability(cartItems)}}
+                  className=" w-[95%] py-2 text-lg bg-cyan-400 my-5"
+                  onClick={() => {
+                    checkAvailability(cartItems);
+                  }}
                 >
                   Proceed
                 </button>
+
+                <p className="text-gray-500 text-sm text-left">
+                  Allmeds is a technology platform to facilitate transaction of
+                  business. The products and services are offered for sale by
+                  the sellers. The user authorizes the delivery personnel to be
+                  his agent for delivery of the goods. For details read{" "}
+                  <a href="#" className="text-sky-400">
+                    Terms & Conditions
+                  </a>
+                  .
+                </p>
               </div>
             </div>
           </div>
         ) : (
-          <div className="flex justify-center mx-auto h-56 w-96 border"  onClick={() => navigate("/")}>
-            <div className="mt-24">
-              <h1>Hey, it feels so light!</h1>
+          <div
+            className="flex justify-center mx-auto h-56 w-96 border"
+            onClick={() => navigate("/")}
+          >
+            <div className="mx-10 text-left">
+              <h1 className="text-left">Hey, it feels so light!</h1>
               <h4>There is nothing in your cart. Let's add some items.</h4>
             </div>
           </div>

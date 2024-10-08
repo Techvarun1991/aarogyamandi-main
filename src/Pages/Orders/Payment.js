@@ -116,6 +116,8 @@ export default function Payment() {
   }, [isPaymentSucess, paymentObject]); // Close modal when payment success state changes
 
   return (
+    <>
+     <OrderStepper currentStep={2} />
     <div>
       <OrderStepper currentStep={2} />
       <ToastContainer
@@ -130,5 +132,6 @@ export default function Payment() {
         pauseOnHover
       />
     </div>
+  </>
   );
 }

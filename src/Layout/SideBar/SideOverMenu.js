@@ -20,16 +20,17 @@ export default function SideOverMenu({ open, setOpen }) {
     setLogoutDialogOpen(!logoutDialogOpen);
   };
 
-  const handleDashboardNavigation = (index) => {
+  // const handleDashboardNavigation = (index) => {
+  //   closeSideOverMenu();
+  //   navigate("/Patient/Dashboard", { state: { index } });
+  // };
+
+  const handleRoute = (route)=>{
     closeSideOverMenu();
-    navigate("/Patient/Dashboard", { state: { index } });
+
+    navigate(route);    
   };
 
-  const handleRoute = (route) => {
-    console.log("handle", route);
-    navigate("/orders");
-    closeSideOverMenu();
-  };
   const options = [
     {
       name: "Manage Profiles",
@@ -144,12 +145,11 @@ export default function SideOverMenu({ open, setOpen }) {
                                     // onClick={
                                     //   option.name === "Log Out"
                                     //     ? toggleLogoutDialog
-                                    //     : () =>
-                                    //         handleDashboardNavigation(
-                                    //           option.index
-                                    //         )
+
+                                    //     : () => handleDashboardNavigation(option.index)
                                     // }
                                   >
+                                    
                                     <div>
                                       <div
                                         className="flex gap-x-2"
@@ -157,6 +157,7 @@ export default function SideOverMenu({ open, setOpen }) {
                                           handleRoute(option.route)
                                         }
                                       >
+
                                         {option.icon}
                                         <p className="text-sm font-semibold leading-6 text-gray-900">
                                           {option.name}
