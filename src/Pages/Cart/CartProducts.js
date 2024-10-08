@@ -162,6 +162,7 @@ const CartProducts = () => {
     setSelectedPromocode(null); // Clear the selected promo code
   };
 
+  //use
   useEffect(() => {
     const fetchPromoCodeOptions = async () => {
       try {
