@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
+import DiscountService from "../../Service/Medicines/DiscountService";
 
 const SpecialOffer = () => {
-  const cards = [
-    { id: 1, title: "Ayurveda Product", content: "Get up to 51% OFF" },
-    { id: 2, title: "Card 2", content: "Content for card 2" },
-    { id: 3, title: "Card 3", content: "Content for card 3" },
-    { id: 4, title: "Card 4", content: "Content for card 4" },
-    { id: 5, title: "Card 5", content: "Content for card 5" },
-    { id: 6, title: "Card 6", content: "Content for card 6" },
-    { id: 7, title: "Card 7", content: "Content for card 7" },
-  ];
+  const [cards, setCards] = useState([]); // Holds the discounts from the API
+  const [page, setPage] = useState(0); // Track the current page
+  const [totalPages, setTotalPages] = useState(0); // Track total pages from the API response
+  const pageSize = 3; // Number of cards per page
 
-  const [startIndex, setStartIndex] = useState(0);
   const [cardsPerRow, setCardsPerRow] = useState(getCardsPerRow());
 
   function getCardsPerRow() {
@@ -20,11 +15,27 @@ const SpecialOffer = () => {
     return 3; // md, lg, xl
   }
 
+  // Fetch special offers from the API
+  const fetchSpecialOffers = async (page) => {
+    console.log("Page " + page);
+    try {
+      const data = await DiscountService.getSpecialOffers(page, pageSize);
+      setCards(data.discounts); // Update the discounts list
+      console.log(data); //
+      setTotalPages(data.totalPages); // Update the total pages
+    } catch (error) {
+      console.error("Error fetching special offers:", error);
+    }
+  };
+
+  // Fetch data when the component mounts and whenever `page` changes
+  useEffect(() => {
+    fetchSpecialOffers(page);
+  }, [page]);
+
   useEffect(() => {
     function handleResize() {
       setCardsPerRow(getCardsPerRow());
-      // Reset the startIndex to 0 when changing the number of cards per row
-      setStartIndex(0);
     }
 
     window.addEventListener("resize", handleResize);
@@ -34,13 +45,15 @@ const SpecialOffer = () => {
   }, []);
 
   const handleNext = () => {
-    setStartIndex((prevIndex) =>
-      Math.min(prevIndex + cardsPerRow, cards.length - cardsPerRow)
-    );
+    if (page < totalPages - 1) {
+      setPage((prevPage) => prevPage + 1); // Increment the page number
+    }
   };
 
   const handlePrev = () => {
-    setStartIndex((prevIndex) => Math.max(prevIndex - cardsPerRow, 0));
+    if (page > 0) {
+      setPage((prevPage) => prevPage - 1); // Decrement the page number
+    }
   };
 
   return (
@@ -53,14 +66,30 @@ const SpecialOffer = () => {
       </div>
       <div className="relative w-[93%] mx-auto">
         <div className="flex flex-wrap overflow-hidden">
-          {cards.slice(startIndex, startIndex + cardsPerRow).map((card) => (
+          {cards.map((card) => (
             <div
-              key={card.id}
+              key={card.discountId}
               className={`w-full sm:w-full md:w-1/2 lg:w-1/3 p-4`}
             >
               <div className="bg-white p-4 border">
                 <h3 className="font-bold text-lg text-left">{card.title}</h3>
-                <p className="text-left">{card.content}</p>
+                <p className="text-left">{card.pharmacy.name}</p>
+                {card.discountType === "PERCENTAGE" && (
+                  <span className="text-sky-400 text-sm">
+                    Get {`${card?.discountValue}%`} OFF
+                  </span>
+                )}
+                {card.discountType === "BUY_ONE_GET_ONE" && (
+                  <span className="text-sky-400 text-sm">
+                    Buy One Get One Offer
+                  </span>
+                )}
+                {card.discountType === "FLAT" && (
+                  <span className="text-sky-400 text-sm">
+                    Get Rs.{`${card?.discountValue.toFixed(2)}`} OFF
+                  </span>
+                )}
+
                 <button className="bg-cyan-400 text-white p-1 rounded-3xl w-1/2 my-4 flex justify-start">
                   <span className="w-full">Shop Now</span>
                 </button>
@@ -69,7 +98,7 @@ const SpecialOffer = () => {
             </div>
           ))}
         </div>
-        {startIndex > 0 && (
+        {page > 0 && (
           <button
             className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-cyan-400 text-white p-2 rounded-full"
             onClick={handlePrev}
@@ -77,7 +106,7 @@ const SpecialOffer = () => {
             &lt;
           </button>
         )}
-        {startIndex + cardsPerRow < cards.length && (
+        {page < totalPages - 1 && (
           <button
             className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-cyan-400 text-white p-2 rounded-full"
             onClick={handleNext}
