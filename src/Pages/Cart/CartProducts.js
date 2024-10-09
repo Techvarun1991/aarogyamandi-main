@@ -230,14 +230,13 @@ const CartProducts = () => {
   const root = createRoot(document.getElementById("root"));
 
 
-  const navigate = useNavigate();
 
   const handleDeleteItem = (cartItemId) => {
     // Filter out the item with the given cartItemId
     const updatedCartItems = cartItems.filter(
       (item) => item.cartItemId !== cartItemId
     );
-
+    
     // Update the cart state with the filtered list
     setCartItems(updatedCartItems);
   };

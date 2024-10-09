@@ -11,5 +11,7 @@ export default class CartService {
     console.log("inside get suggestions");
     return axios.get(`${BASE_REST_API_URL}/api/category/sub/${categoryId}`);
   }
+  
+  
 
 }
