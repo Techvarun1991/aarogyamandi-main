@@ -459,13 +459,13 @@ const CartProducts = () => {
                       <div className="my-3">
                         ₹ {medicineCart.discountedCartPrice}
                       </div>
+                      
                     </div>
+                    
                   </div>
-                </div>
-
-                <button
+                  <button
                   type="button"
-                  className=" w-[95%] py-2 text-lg bg-cyan-400 my-5"
+                  className=" w-[90%] py-2 text-lg bg-cyan-400 my-5 mr-11"
                   onClick={() => {
                     checkAvailability(cartItems);
                   }}
@@ -473,7 +473,7 @@ const CartProducts = () => {
                   Proceed
                 </button>
 
-                <p className="text-gray-500 text-sm text-left">
+                <p className="text-gray-500 text-sm text-left w-[94%]">
                   Allmeds is a technology platform to facilitate transaction of
                   business. The products and services are offered for sale by
                   the sellers. The user authorizes the delivery personnel to be
@@ -483,6 +483,11 @@ const CartProducts = () => {
                   </a>
                   .
                 </p>
+                </div>
+
+
+
+              
               </div>
             </div>
           </div>
