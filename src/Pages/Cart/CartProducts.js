@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import ApplyPromocode from "./ApplyPromocode";
+import Amount from "./Amount";
 import OrderStepper from "./OrderStepper";
 import MedicineCartService from "../../Service/MedicineCart/MedicineCart";
 import { createRoot } from "react-dom/client";
@@ -6,7 +8,7 @@ import App from "../../App";
 import { toast, ToastContainer } from "react-toastify";
 import BASE_REST_API_URL from "../../Service/BaseUrl";
 import MedicineOrderService from "../../Service/MedicineOrder/MedicineOrder";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css"; // Ensure you import the CSS for proper styling
 import CartService from "../../Service/PharmcyService/CartService";
 
@@ -16,6 +18,7 @@ const CartProducts = () => {
   const [selectedPromocode, setSelectedPromocode] = useState(null);
   const [promocodeOptions, setPromoCodeOptions] = useState([]);
   const [checkMedicine, setCheckMedicine] = useState([]);
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const nextStep = () =>
     setCurrentStep((prevStep) => Math.min(prevStep + 1, 2));
@@ -34,8 +37,9 @@ const CartProducts = () => {
           ); // Use patientId from localStorage
           console.log("MedicineData", response.data);
           setMedicineCart(response.data); // Store the API response data
-
+          // cartItems.current = response.data.medicine_cart_items;
           setCartItems(response.data.medicine_cart_items);
+          // console.log("CartItems", cartItems.current);
         } catch (error) {
           console.error("Error fetching medicine cart:", error);
         }
@@ -119,7 +123,9 @@ const CartProducts = () => {
         }
 
         if (data.reason) {
+          // setReason(data.reason);
           toast.error(data.reason);
+          // setSelectedPromoCode('');
         }
 
         if (data.applicableProductIds) {
@@ -178,6 +184,7 @@ const CartProducts = () => {
         );
         // Convert the Map values back to an array of promo code options
         const uniquePromoCodeOptions = Array.from(promoCodes.values());
+        // console.log("Promo Code Options: ", uniquePromoCodeOptions);
         setPromoCodeOptions(uniquePromoCodeOptions);
       } catch (error) {
         console.error("Error fetching promo codes:", error);
@@ -215,6 +222,7 @@ const CartProducts = () => {
         // handlePlaceOrder();
 
         navigate("/address", { state: { medicineCart } });
+
       }
     } catch (error) {
       console.error("Error fetching medicine availability", error);
@@ -222,7 +230,7 @@ const CartProducts = () => {
   };
   const root = createRoot(document.getElementById("root"));
 
-  const navigate = useNavigate();
+
 
   const handleDeleteItem = (cartItemId) => {
     // Filter out the item with the given cartItemId
@@ -230,12 +238,15 @@ const CartProducts = () => {
       if(response.status === 200){
         toast.success("Item removed successfully");
       }
-    }).catch((error) => { 
+    }).catch((error) => {
       toast.error("Something went wrong");
      }).finally(() => {
       root.render(<App />);
      });
   };
+ 
+ 
+
 
   return (
     <>
@@ -343,6 +354,8 @@ const CartProducts = () => {
                   </div>
                 ))}
               </div>
+
+
             </div>
 
             <div className="w-2/5 p-4">

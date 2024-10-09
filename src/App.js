@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import MedicineHomepage from './Pages/Medicine/MedicineHomepage';
 
 
@@ -43,7 +43,8 @@ function App() {
         <Routes>
 
           {/* <Route path="/doctor" element={<Doctor />} /> */}
-          
+          <Route path="/" element={<Navigate to="/Medicine" replace />} />
+
           <Route path="/Medicine" element={<ProtectedRoute element={MedicineHomepage} />} />
           <Route path="/product-details" element={<ProtectedRoute element={Productmainpage} />} />
           <Route path="/product" element={<ProtectedRoute element={AllProducts} />} />

@@ -3,11 +3,8 @@ import BASE_REST_API_URL from "../BaseUrl";
 
 export default class CartService {
   static addToCart(payload) {
-    console.log("inside add to cart", payload);
-    return axios.post(
-      `${BASE_REST_API_URL}/api/medicineCart/addToCart`,
-      payload
-    );
+    console.log("inside add to cart",payload);
+    return axios.post(`${BASE_REST_API_URL}/api/medicineCart/addToCart`,payload);
   }
 
   static getSubCategoriesByCategoryId(categoryId) {
@@ -21,4 +18,5 @@ export default class CartService {
       `${BASE_REST_API_URL}/api/medicineCart/cart-item/${cartId}/${cartItemId}`
     );
   }
+
 }

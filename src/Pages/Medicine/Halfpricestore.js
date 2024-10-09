@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import DiscountService from "../../Service/Medicines/DiscountService";
+import { toast,ToastContainer } from "react-toastify";
+import CartService from "../../Service/PharmcyService/CartService";
+import { useNavigate } from "react-router-dom";
 
 const Halfpricestore = () => {
   const [cards, setCards] = useState([]); // Holds the discounts from the API
@@ -8,7 +11,7 @@ const Halfpricestore = () => {
   const pageSize = 5; 
   const [startIndex, setStartIndex] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  
+  const navigate = useNavigate();
   const fetchHalfPriceProducts = async (page) => {
     try {
       const response = await DiscountService.getHalfPriceProductFromDiscount(page,pageSize);
@@ -65,6 +68,31 @@ const Halfpricestore = () => {
     }
   };
 
+  const handleAddToCart = (medicine, event) => {
+    console.log(medicine);
+    const payload = {
+      medicineId: medicine.medicine.medicineId,
+      profileId: localStorage.getItem("profileId"),
+      quantity: 1,
+      pharmaStockId: medicine.pharmacyMedicineStockId,
+      prescriptionId: "",
+    };
+    CartService.addToCart(payload).then((response) => {
+      if (response.status === 200) {
+        setTimeout(() => {
+          navigate("/cart");
+        }, 2000);
+        toast.success("Item added to cart successfully");
+      } else {
+        toast.error("Failed to add item to cart please try again");
+      }
+    });
+  };
+  const handleProductDetails = (medicineId, event) => {
+    console.log("handleProductDetails---------------", medicineId);
+    navigate("/product-details", { state: { medicineId } });
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center w-[90%] mx-auto my-10">
@@ -81,7 +109,11 @@ const Halfpricestore = () => {
             .map((card) => (
               <div
                 key={card.pharmacyMedicineStockId}
-                className="w-full sm:w-full md:w-1/4 lg:w-1/4 xl:w-1/4 p-4 relative"
+                className="w-full sm:w-full md:w-1/4 lg:w-1/4 xl:w-1/4 p-4 relative cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevents event from bubbling up if necessary
+                  handleProductDetails(card.medicine.medicineId); // Ensures it's called only once
+                }}
               >
                 <div className="bg-white p-4 shadow relative">
                   <img
@@ -106,7 +138,10 @@ const Halfpricestore = () => {
                     <p className="text-sm text-gray-400 text-left">
                       MRP <span className={`line-through`}>{card.originalPrice}</span>
                     </p>
-                    <button className="font-bold text-sky-400 w-full mt-2">
+                    <button className="font-bold text-sky-400 w-full mt-2" onClick={(e) => {
+                      e.stopPropagation(); // Prevents event from bubbling up if necessary
+                      handleAddToCart(card); // Ensures it's called only once
+                    }}>
                       ADD TO CART
                     </button>
                   </div>
@@ -123,7 +158,7 @@ const Halfpricestore = () => {
           </button>
         )}
         {(windowWidth < 768 && startIndex + 1 < cards.length) ||
-        (windowWidth >= 768 && startIndex + 4 < cards.length) ? (
+          (windowWidth >= 768 && startIndex + 4 < cards.length) ? (
           <button
             className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-cyan-400 text-white p-2 rounded-full"
             onClick={handleNext}
@@ -132,6 +167,17 @@ const Halfpricestore = () => {
           </button>
         ) : null}
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
