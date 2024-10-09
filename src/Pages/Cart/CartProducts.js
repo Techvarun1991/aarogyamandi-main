@@ -10,6 +10,7 @@ import BASE_REST_API_URL from "../../Service/BaseUrl";
 import MedicineOrderService from "../../Service/MedicineOrder/MedicineOrder";
 import { Navigate, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css"; // Ensure you import the CSS for proper styling
+import CartService from "../../Service/PharmcyService/CartService";
 
 const CartProducts = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -236,7 +237,7 @@ const CartProducts = () => {
     const updatedCartItems = cartItems.filter(
       (item) => item.cartItemId !== cartItemId
     );
-
+    CartService.removeCartItem()
     // Update the cart state with the filtered list
     setCartItems(updatedCartItems);
   };

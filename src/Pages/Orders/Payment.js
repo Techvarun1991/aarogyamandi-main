@@ -71,7 +71,7 @@ export default function Payment() {
             toast.success("Order placed successfully");
             setIsPaymentSuccess(true);
             setTimeout(() => {
-              navigate("/orders");
+             window.location.href = "/orders"
             }, 1000);
           } catch (error) {
             console.log(error);
