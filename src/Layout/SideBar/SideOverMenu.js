@@ -27,38 +27,40 @@ export default function SideOverMenu({ open, setOpen }) {
 
   const handleRoute = (route)=>{
     closeSideOverMenu();
-    navigate("/orders");
-  }
+
+    navigate(route);    
+  };
+
   const options = [
     {
       name: "Manage Profiles",
       icon: <UserGroupIcon className="w-6 h-6 my-auto"></UserGroupIcon>,
-      index:0
+      index: 0,
     },
     {
       name: "Doctor Appointments",
       icon: (
         <ClipboardDocumentCheckIcon className="w-6 h-6 my-auto"></ClipboardDocumentCheckIcon>
       ),
-      index:1
+      index: 1,
     },
     {
       name: "Medicine Orders",
       icon: <TruckIcon className="w-6 h-6 my-auto"></TruckIcon>,
-      index:2,
-      route: "/orders"
+      index: 2,
+      route: "/orders",
     },
     {
       name: "Lab Appointments",
       icon: <BeakerIcon className="w-6 h-6 my-auto"></BeakerIcon>,
-      index:3
+      index: 3,
     },
     {
       name: "Need Help",
       icon: (
         <InformationCircleIcon className="w-6 h-6 my-auto"></InformationCircleIcon>
       ),
-      index:4
+      index: 4,
     },
     {
       name: "Log Out",
@@ -66,9 +68,9 @@ export default function SideOverMenu({ open, setOpen }) {
     },
   ];
   // Function to toggle the visibility of the SideOverMenu
-  const closeSideOverMenu =() => {
+  const closeSideOverMenu = () => {
     setOpen(false);
-  }
+  };
 
   return (
     <>
@@ -143,11 +145,19 @@ export default function SideOverMenu({ open, setOpen }) {
                                     // onClick={
                                     //   option.name === "Log Out"
                                     //     ? toggleLogoutDialog
+
                                     //     : () => handleDashboardNavigation(option.index)
                                     // }
                                   >
-                                    <div >
-                                      <div className="flex gap-x-2" onClick={()=>handleRoute(option.route)}>
+                                    
+                                    <div>
+                                      <div
+                                        className="flex gap-x-2"
+                                        onClick={() =>
+                                          handleRoute(option.route)
+                                        }
+                                      >
+
                                         {option.icon}
                                         <p className="text-sm font-semibold leading-6 text-gray-900">
                                           {option.name}

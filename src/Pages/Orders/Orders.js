@@ -6,12 +6,31 @@ import OrderService from "../../Service/PharmcyService/OrderService";
 import { useNavigate } from "react-router-dom";
 
 const Orders = () => {
+
   
   const [order, setOrder] = useState([]);
 
-  useEffect(() => {
-    const profileId = localStorage.getItem("profileId");
-    OrderService.getByProfileId(profileId)
+  
+  const profileId = localStorage.getItem("profileId");
+
+  const [selectedStatus, setSelectedStatus] = useState("");
+
+  const orderStatusOptions = [
+    { status: "PENDING", label: "Pending" },
+    { status: "SHIPPED", label: "Shipped" },
+    { status: "DELIVERED", label: "Delivered" },
+    { status: "CANCELLED", label: "Cancelled" },
+    { status: "PLACED", label: "Placed" },
+  ];
+
+
+  const handleChange = (event) => {
+    setSelectedStatus(event.target.value);
+    getFilteredOrders(event.target.value, profileId);
+  };
+
+  const getFilteredOrders = (itemStatus = null, profileId) => {
+    OrderService.getFilteredOrders(itemStatus, profileId)
       .then((response) => {
         if (response.status === 200) {
           console.log(
@@ -25,12 +44,17 @@ const Orders = () => {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  useEffect(() => {
+    getFilteredOrders(null, profileId);
   }, []);
+
   const navigate = useNavigate(); // Initialize useNavigate
 
   const handleTrackOrder = (orderId, orderItemId) => {
     // Navigate to the trackOrder page with state
-    navigate('/trackOrder', {
+    navigate("/trackOrder", {
       state: {
         orderId,
         orderItemId,
@@ -68,7 +92,34 @@ const Orders = () => {
       <div className="container mx-auto p-4">
         <div>
           <div className="flex">
-            <Sidebar />
+            {/* <Sidebar /> */}
+            <div className="w-1/4 p-4">
+              <h2 className="text-lg mb-4 text-left mx-4">My Orders</h2>
+              <div className="text-md mb-4 text-left mx-4">
+                <h3 className="mb-2">Order Status</h3>
+                {orderStatusOptions.map((option) => (
+                  <div className="flex items-center mb-2" key={option.status}>
+                    <input
+                      type="checkbox"
+                      id={option.status}
+                      name="orderCategory"
+                      value={option.status} // Use the API status value here
+                      checked={selectedStatus === option.status}
+                      onChange={handleChange}
+                      className="mr-2"
+                    />
+                    <label
+                      htmlFor={option.status}
+                      className={`text-sm ${
+                        selectedStatus === option.status ? "text-cyan-400" : ""
+                      }`}
+                    >
+                      {option.label} {/* Display the friendly alias */}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
             <div className="w-3/4">
               <div className="">
                 {order.length > 0 ? (

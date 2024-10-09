@@ -7,22 +7,11 @@ import MedicineOrderService from "../../Service/MedicineOrder/MedicineOrder";
 import { MoonLoader } from "react-spinners";
 
 const TrackOrder = () => {
-  const cards = [
-    {
-      id: 1,
-      title: "LuxeGlow Anti-Aging Serum",
-      quantity: "1",
-      Mkt: "Hosona Consumer Pvt Ltd",
-      Price: "290",
-      ActualPrice: "300",
-      Delivery: "1 Jan 2025",
-      ExpiryDate: "1 Jan 2026",
-    },
-  ];
   const location = useLocation();
   const { orderId, orderItemId } = location.state || {};
   const patientId = localStorage.getItem("profileId");
   const [orderItemDetails, setOrderItemDetails] = useState();
+  const [orderDetails, setOrderDetails] = useState();
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     const fetchOrderItemDetails = async () => {
@@ -36,7 +25,8 @@ const TrackOrder = () => {
           patientId
         );
         console.log("first order item details", data);
-        setOrderItemDetails(data); // Set the fetched data in state
+        setOrderDetails(data.pharmacyOrder);
+        setOrderItemDetails(data.pharmacyOrderDetails); // Set the fetched data in state
       } catch (error) {
         // setError("Failed to fetch order item details."); // Set error message
       } finally {
@@ -49,15 +39,12 @@ const TrackOrder = () => {
 
   return (
     <div>
-      <div className="container mx-auto p-4">
+      <div className="mx-auto p-4">
         <div>
           <div className="flex">
-            {/* Sidebar */}
-
-            <Sidebar />
 
             {/* Products Grid */}
-            <div className="w-3/4">
+            <div className="w-2/4 mx-auto">
               <div className="flex justify-between mx-4">
                 <h1 className="">Order Tracking</h1>
                 <h1 className="text-[#33BBC5]">ORDER ID:{orderId}</h1>
@@ -127,6 +114,19 @@ const TrackOrder = () => {
                     {/* ))} */}
                   </div>
                   <Orderstatus />
+
+                  {/* Address Details */}
+                <div className="text-left mx-4">
+                  <h1>Delivery Address</h1>
+                  <p className="text-2xl">{orderDetails.deliveryAddress.personName}</p>
+                  <p className="text-lg">{orderDetails.deliveryAddress.addressLine1}</p>
+                  <p>{orderDetails.deliveryAddress.addressLine2}</p>
+                  <p>
+                    {orderDetails.deliveryAddress.city}, {orderDetails.deliveryAddress.zipCode}, {orderDetails.deliveryAddress.state}
+                  </p>
+                  <p>{orderDetails.deliveryAddress.mobile}</p>
+                  <p className="text-rose-400">{orderDetails.deliveryAddress.addressType}</p>
+                </div>
                 </>
               )}
             </div>

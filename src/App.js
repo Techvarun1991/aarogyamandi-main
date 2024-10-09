@@ -43,8 +43,7 @@ function App() {
         <Routes>
 
           {/* <Route path="/doctor" element={<Doctor />} /> */}
-          <Route path='/verifycode' element={<VerifyCode />}></Route>
-          <Route path='/forgotpassword' element={<ForgotPassword />} />
+          
           <Route path="/Medicine" element={<ProtectedRoute element={MedicineHomepage} />} />
           <Route path="/product-details" element={<ProtectedRoute element={Productmainpage} />} />
           <Route path="/product" element={<ProtectedRoute element={AllProducts} />} />
@@ -54,8 +53,8 @@ function App() {
           <Route path="/checkout" element={<Checkoutpage />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/trackOrder" element={<TrackOrder />} />
-          <Route path="/notyetshipped" element={<Notyetshipped />} />
-          <Route path="/cancelledorders" element={<CancelledOrders />} />
+          {/* <Route path="/notyetshipped" element={<Notyetshipped />} />
+          <Route path="/cancelledorders" element={<CancelledOrders />} /> */}
           {/* <Route path="/check" element={<Checkout />} /> */}
           <Route path="/payment" element={<Payment />} />
 

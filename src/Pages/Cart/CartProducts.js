@@ -1,6 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import ApplyPromocode from "./ApplyPromocode";
-import Amount from "./Amount";
 import OrderStepper from "./OrderStepper";
 import MedicineCartService from "../../Service/MedicineCart/MedicineCart";
 import { createRoot } from "react-dom/client";
@@ -8,8 +6,9 @@ import App from "../../App";
 import { toast, ToastContainer } from "react-toastify";
 import BASE_REST_API_URL from "../../Service/BaseUrl";
 import MedicineOrderService from "../../Service/MedicineOrder/MedicineOrder";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css"; // Ensure you import the CSS for proper styling
+import CartService from "../../Service/PharmcyService/CartService";
 
 const CartProducts = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -17,7 +16,6 @@ const CartProducts = () => {
   const [selectedPromocode, setSelectedPromocode] = useState(null);
   const [promocodeOptions, setPromoCodeOptions] = useState([]);
   const [checkMedicine, setCheckMedicine] = useState([]);
-
   const [cartItems, setCartItems] = useState([]);
   const nextStep = () =>
     setCurrentStep((prevStep) => Math.min(prevStep + 1, 2));
@@ -36,9 +34,8 @@ const CartProducts = () => {
           ); // Use patientId from localStorage
           console.log("MedicineData", response.data);
           setMedicineCart(response.data); // Store the API response data
-          // cartItems.current = response.data.medicine_cart_items;
+
           setCartItems(response.data.medicine_cart_items);
-          // console.log("CartItems", cartItems.current);
         } catch (error) {
           console.error("Error fetching medicine cart:", error);
         }
@@ -122,9 +119,7 @@ const CartProducts = () => {
         }
 
         if (data.reason) {
-          // setReason(data.reason);
           toast.error(data.reason);
-          // setSelectedPromoCode('');
         }
 
         if (data.applicableProductIds) {
@@ -183,7 +178,6 @@ const CartProducts = () => {
         );
         // Convert the Map values back to an array of promo code options
         const uniquePromoCodeOptions = Array.from(promoCodes.values());
-        // console.log("Promo Code Options: ", uniquePromoCodeOptions);
         setPromoCodeOptions(uniquePromoCodeOptions);
       } catch (error) {
         console.error("Error fetching promo codes:", error);
@@ -219,6 +213,7 @@ const CartProducts = () => {
       if (checkedMed.allProductsAvailable) {
         // Call handlePlaceOrder if all products are available
         // handlePlaceOrder();
+
         navigate("/address", { state: { medicineCart } });
       }
     } catch (error) {
@@ -231,28 +226,16 @@ const CartProducts = () => {
 
   const handleDeleteItem = (cartItemId) => {
     // Filter out the item with the given cartItemId
-    const updatedCartItems = cartItems.filter(
-      (item) => item.cartItemId !== cartItemId
-    );
-
-    // Update the cart state with the filtered list
-    setCartItems(updatedCartItems);
+    CartService.deleteCartItems(medicineCart.cartId,cartItemId).then((response) => {
+      if(response.status === 200){
+        toast.success("Item removed successfully");
+      }
+    }).catch((error) => { 
+      toast.error("Something went wrong");
+     }).finally(() => {
+      root.render(<App />);
+     });
   };
-
-  const cards = [
-    {
-      id: 1,
-      title: "Get upto Rs 500 cashback* + Earn up to 6X rewards",
-      content:
-        "ALL users get Cashback between max. Rs 500 & min Rs.50 ONLY one transaction of min. Rs 799,",
-    },
-    { id: 2, title: "Card 2", content: "Content for card 2" },
-    { id: 3, title: "Card 3", content: "Content for card 3" },
-    { id: 4, title: "Card 4", content: "Content for card 4" },
-    { id: 5, title: "Card 5", content: "Content for card 5" },
-    { id: 6, title: "Card 6", content: "Content for card 6" },
-    { id: 7, title: "Card 7", content: "Content for card 7" },
-  ];
 
   return (
     <>
@@ -360,8 +343,6 @@ const CartProducts = () => {
                   </div>
                 ))}
               </div>
-
-
             </div>
 
             <div className="w-2/5 p-4">

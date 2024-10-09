@@ -2,7 +2,7 @@ import axios from "axios";
 import BASE_REST_API_URL from "../BaseUrl";
 
 export default class ProductService {
-  static getProductById(subcategoryId) {
+  static getCategoryById(subcategoryId) {
     console.log("inside get suggestions");
     return axios.get(`${BASE_REST_API_URL}/api/medicines/category/${subcategoryId}`);
   }

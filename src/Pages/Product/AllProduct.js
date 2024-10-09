@@ -6,11 +6,19 @@ import ProductService from "../../Service/PharmcyService/ProductService";
 import CartService from "../../Service/PharmcyService/CartService";
 import "react-toastify/dist/ReactToastify.css"; // Ensure you import the CSS for proper styling
 import { toast } from "react-toastify";
+import React, { useEffect, useState } from "react";
+import Halfpricestore from "../Medicine/Halfpricestore";
+import { useLocation, useNavigate } from "react-router-dom";
+import ProductService from "../../Service/PharmcyService/ProductService";
+import CartService from "../../Service/PharmcyService/CartService";
+import "react-toastify/dist/ReactToastify.css"; // Ensure you import the CSS for proper styling
+import { toast } from "react-toastify";
 
 const AllProducts = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const item = localStorage.getItem("itemId"); // Default to an empty object if state is undefined
+  console.log(item, "------------item ---------------");
   console.log(item, "------------item ---------------");
   const [product, setProduct] = useState([]);
 
@@ -29,20 +37,30 @@ const AllProducts = () => {
     const handleResize = () => {};
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+    const handleResize = () => {};
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleProductDetails = (medicineId, event) => {
     console.log("handleProductDetails---------------", medicineId);
     navigate("/product-details", { state: { medicineId } });
   };
+    console.log("handleProductDetails---------------", medicineId);
+    navigate("/product-details", { state: { medicineId } });
+  };
 
   const handleAddToCart = (medicine, event) => {
+    console.log(medicine);
     console.log(medicine);
     const payload = {
       medicineId: medicine.medicine.medicineId,
       profileId: localStorage.getItem("profileId"),
+      profileId: localStorage.getItem("profileId"),
       quantity: 1,
       pharmaStockId: medicine.pharmacyMedicineStockId,
+      prescriptionId: "",
+    };
       prescriptionId: "",
     };
     CartService.addToCart(payload).then((response) => {
@@ -53,7 +71,12 @@ const AllProducts = () => {
         toast.success("Item added to cart successfully");
       } else {
         toast.error("Failed to add item to cart please try again");
+        }, 2000);
+        toast.success("Item added to cart successfully");
+      } else {
+        toast.error("Failed to add item to cart please try again");
       }
+    });
     });
   };
 
@@ -192,15 +215,29 @@ const AllProducts = () => {
                   handleProductDetails(product.medicine.medicineId); // Ensures it's called only once
                 }}
               >
+            {product.map((product) => (
+              <div
+                key={product.medicine.medicineName}
+                className="bg-white p-4"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevents event from bubbling up if necessary
+                  handleProductDetails(product.medicine.medicineId); // Ensures it's called only once
+                }}
+              >
                 <div className="bg-white p-4 shadow relative">
                   <img
                     className="w-3/4 h-full mx-auto mt-10"
                     src="https://s3-alpha-sig.figma.com/img/7264/6296/2fab4e2540ff263ac1bfbc5d62b886b1?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Y34ND4NMfhV~Tp40lKOQk467qoEwMFTWxKvSBgRSz0SCnWs1ZrfUXmhRcKZbNMVHn6DM4-ty0lholvYZKXYBvx9tIxAAH6cNx0BJxXWYLFToY-cRXNRXCc-fNlZ4yS8CKFHk0N6RCw~7he1gyCL6SfHJxZIUdhzyKuhteuPKEr7YQpuMdt4IBLJdzALZBQmKyvZCF3L1vY7Erz7RbmuLnX56davUIEWTakHmdCKGiW6qnT7QGTxqoA6iBsEX7Etgx8QN0YfE7eu7QssPXYFqs1aaBueXq0EZXdfIgntN4TOut3fjF9fNAZ3mHdiNqpUYghPaqHtr1uCisrXXQaalnQ__"
                     alt={product.name}
                   />
-                  <span className="absolute top-2 sm:top-3 right-3 bg-sky-400 text-black px-1 sm:px-2 py-0.5 sm:py-1 rounded-md">
-                    {"40% OFF"}
-                  </span>
+                  {product.discount && (
+                    <span className="absolute top-2 sm:top-3 right-3 bg-sky-400 text-black px-1 sm:px-2 py-0.5 sm:py-1 rounded-md">
+                      {product?.discount?.discountType === "PERCENTAGE"
+                        ? `${product?.discount?.discountValue} %`
+                        : `Rs. ${product?.discount?.discountValue}`}{" "}
+                      OFF
+                    </span>
+                  )}
                   <div className="py-4 min-h-44">
                     {/* Product name */}
                     <div className="font-bold text-lg text-left min-h-12">
@@ -216,10 +253,18 @@ const AllProducts = () => {
                         {" "}
                         {product.medicine.manufacturer}
                       </span>
+                      <span className="text-gray-500">
+                        {" "}
+                        {product.medicine.manufacturer}
+                      </span>
                     </p>
                     <p className="text-sm text-left">
                       Best Price:
                       <span className="text-black">₹</span>
+                      <span className="text-pink-500">
+                        {" "}
+                        {product?.sellingPrice}
+                      </span>
                       <span className="text-pink-500">
                         {" "}
                         {product?.sellingPrice}

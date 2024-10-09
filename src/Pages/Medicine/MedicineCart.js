@@ -1,56 +1,8 @@
 import { useState } from 'react';
 
-const productsData = [
-  {
-    id: 1,
-    name: 'Paracetamol',
-    href: '#',
-    color: 'Salmon',
-    price: '350Rs',
-    quantity: 1,
-    imageSrc: 'https://images.apollo247.in/pub/media/catalog/product/3/_/3_7_3.png',
-    imageAlt: 'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
-  },
-  {
-    id: 2,
-    name: 'Acetaminophen',
-    href: '#',
-    color: 'Blue',
-    price: '350Rs',
-    quantity: 1,
-    imageSrc: 'https://m.media-amazon.com/images/I/71Gy7z9J0AL._AC_UF1000,1000_QL80_.jpg',
-    imageAlt:
-      'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
-  },
-  {
-    id: 3,
-    name: 'Paracetamol',
-    href: '#',
-    color: 'Salmon',
-    price: '350Rs',
-    quantity: 1,
-    imageSrc: 'https://images.apollo247.in/pub/media/catalog/product/3/_/3_7_3.png',
-    imageAlt: 'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
-  },
-  {
-    id: 4,
-    name: 'Acetaminophen',
-    href: '#',
-    color: 'Blue',
-    price: '350Rs',
-    quantity: 1,
-    imageSrc: 'https://m.media-amazon.com/images/I/71Gy7z9J0AL._AC_UF1000,1000_QL80_.jpg',
-    imageAlt:
-      'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
-  },
-  // More products...
-];
 
-const offers = [
-    { id: 1, name: 'Buy one get one free' },
-    { id: 2, name: '50% off on second item' },
-    { id: 3, name: '10% off on entire order' },
-  ];
+
+
   
   export default function ShoppingCart() {
     const [products, setProducts] = useState(productsData);
