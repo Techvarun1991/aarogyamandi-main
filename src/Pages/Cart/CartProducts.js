@@ -234,13 +234,18 @@ const CartProducts = () => {
 
   const handleDeleteItem = (cartItemId) => {
     // Filter out the item with the given cartItemId
-    const updatedCartItems = cartItems.filter(
-      (item) => item.cartItemId !== cartItemId
-    );
-    CartService.removeCartItem()
-    // Update the cart state with the filtered list
-    setCartItems(updatedCartItems);
+    CartService.deleteCartItems(medicineCart.cartId,cartItemId).then((response) => {
+      if(response.status === 200){
+        toast.success("Item removed successfully");
+      }
+    }).catch((error) => {
+      toast.error("Something went wrong");
+     }).finally(() => {
+      root.render(<App />);
+     });
   };
+ 
+ 
 
 
   return (

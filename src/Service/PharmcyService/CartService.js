@@ -12,10 +12,11 @@ export default class CartService {
     return axios.get(`${BASE_REST_API_URL}/api/category/sub/${categoryId}`);
   }
 
-  static removeCartItem(cartItemId,payload) {
-    console.log("first remove cart item", payload,cartItemId);
-    return axios.put(`${BASE_REST_API_URL}/api/medicineCart/removeCartItem/${cartItemId}`,payload);
+  static deleteCartItems(cartId, cartItemId) {
+    console.log("inside get cart items", cartId, cartItemId);
+    return axios.delete(
+      `${BASE_REST_API_URL}/api/medicineCart/cart-item/${cartId}/${cartItemId}`
+    );
   }
-
 
 }
