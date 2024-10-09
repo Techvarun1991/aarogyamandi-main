@@ -7,18 +7,6 @@ import MedicineOrderService from "../../Service/MedicineOrder/MedicineOrder";
 import { MoonLoader } from "react-spinners";
 
 const TrackOrder = () => {
-  const cards = [
-    {
-      id: 1,
-      title: "LuxeGlow Anti-Aging Serum",
-      quantity: "1",
-      Mkt: "Hosona Consumer Pvt Ltd",
-      Price: "290",
-      ActualPrice: "300",
-      Delivery: "1 Jan 2025",
-      ExpiryDate: "1 Jan 2026",
-    },
-  ];
   const location = useLocation();
   const { orderId, orderItemId } = location.state || {};
   const patientId = localStorage.getItem("profileId");
@@ -51,15 +39,12 @@ const TrackOrder = () => {
 
   return (
     <div>
-      <div className="container mx-auto p-4">
+      <div className="mx-auto p-4">
         <div>
           <div className="flex">
-            {/* Sidebar */}
-
-            <Sidebar />
 
             {/* Products Grid */}
-            <div className="w-3/4">
+            <div className="w-2/4 mx-auto">
               <div className="flex justify-between mx-4">
                 <h1 className="">Order Tracking</h1>
                 <h1 className="text-[#33BBC5]">ORDER ID:{orderId}</h1>

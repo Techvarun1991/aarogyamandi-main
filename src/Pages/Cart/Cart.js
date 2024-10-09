@@ -7,7 +7,7 @@ const Cart = () => {
     <div>
       <CartProducts />
 
-      <BrowsingHistory />
+      {/* <BrowsingHistory /> */}
       
     </div>
   )
