@@ -156,7 +156,7 @@ const Deliveryaddre = () => {
           };
           try {
             const response = await axios.post(
-              `http://192.168.1.314:8080/map/api/revGeoCode`,
+              `http://192.168.1.214:8080/map/api/revGeoCode`,
               payload
             );
             revGeoCode.current = response.data;
