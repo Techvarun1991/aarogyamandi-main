@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
+import CartService from "../../Service/PharmcyService/CartService";
+import { useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css"; // Ensure you import the CSS for proper styling
+import { toast, ToastContainer } from "react-toastify";
 
 const Halfpricestore = () => {
+  const navigate = useNavigate();
   const cards = [
     {
       id: 1,
@@ -72,7 +77,26 @@ const Halfpricestore = () => {
       );
     }
   };
-
+  const handleAddToCart = (medicine, event) => {
+    console.log(medicine);
+    const payload = {
+      medicineId: medicine.medicine.medicineId,
+      profileId: localStorage.getItem("profileId"),
+      quantity: 1,
+      pharmaStockId: medicine.pharmacyMedicineStockId,
+      prescriptionId: "",
+    };
+    CartService.addToCart(payload).then((response) => {
+      if (response.status === 200) {
+        setTimeout(() => {
+          navigate("/cart");
+        }, 2000);
+        toast.success("Item added to cart successfully");
+      } else {
+        toast.error("Failed to add item to cart please try again");
+      }
+    });
+  };
   const handlePrev = () => {
     if (windowWidth < 768) {
       setStartIndex((prevIndex) =>
@@ -127,7 +151,10 @@ const Halfpricestore = () => {
                     <p className="text-sm text-gray-400 text-left">
                       MRP <span className="line-through">{card.mrp}</span>
                     </p>
-                    <button className="font-bold text-sky-400 w-full mt-2">
+                    <button className="font-bold text-sky-400 w-full mt-2" onClick={(e) => {
+                      e.stopPropagation(); // Prevents event from bubbling up if necessary
+                      handleAddToCart(card); // Ensures it's called only once
+                    }}>
                       ADD TO CART
                     </button>
                   </div>
@@ -144,7 +171,7 @@ const Halfpricestore = () => {
           </button>
         )}
         {(windowWidth < 768 && startIndex + 1 < cards.length) ||
-        (windowWidth >= 768 && startIndex + 4 < cards.length) ? (
+          (windowWidth >= 768 && startIndex + 4 < cards.length) ? (
           <button
             className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-cyan-400 text-white p-2 rounded-full"
             onClick={handleNext}
@@ -153,6 +180,17 @@ const Halfpricestore = () => {
           </button>
         ) : null}
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
