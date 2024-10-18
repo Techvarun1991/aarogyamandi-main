@@ -23,7 +23,7 @@ export default function UpdatePincodeForm({ onClose }) {
   const handlePincodeSave = async() => {
     try {   
       const response = await axios.post(
-        `http:///map/api/geoCode?address=${pincode}`,
+        `http://192.168.10.214:8080/map/api/geoCode?address=${pincode}`,
        
       );
       localStorage.removeItem("revGeoCode"); 
