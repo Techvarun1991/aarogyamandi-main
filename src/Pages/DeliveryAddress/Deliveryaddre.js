@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import { FaEdit, FaTrash, FaMapMarkerAlt } from "react-icons/fa";
 import PriceSection from "./PriceSection";
 import AddressService from "../../Service/PatientService/AddressService";
@@ -16,7 +16,7 @@ const Deliveryaddre = () => {
   const navigate = useNavigate();
   const medicineCart = location.state || {};
   console.log("Delivery", medicineCart);
-  const root = createRoot(document.getElementById('root'));
+  const root = createRoot(document.getElementById("root"));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(null);
@@ -34,18 +34,16 @@ const Deliveryaddre = () => {
     lattitude: 0.0,
     longitude: 0.0,
     default: false,
-    home: true
+    home: true,
   });
-  const [addresses, setAddresses] = useState([
-
-  ]);
+  const [addresses, setAddresses] = useState([]);
   useEffect(() => {
-    const profileId = localStorage.getItem("profileId")
+    const profileId = localStorage.getItem("profileId");
     AddressService.getAllProfiles(profileId).then((response) => {
       console.log(response.data, "----------");
       setAddresses(response.data);
-    })
-  }, [])
+    });
+  }, []);
 
   const [newAddress, setNewAddress] = useState({
     addressLine1: "",
@@ -57,7 +55,7 @@ const Deliveryaddre = () => {
     lattitude: 0.0,
     longitude: 0.0,
     default: false,
-    home: true
+    home: true,
   });
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -65,19 +63,21 @@ const Deliveryaddre = () => {
   };
 
   const handleAddAddress = () => {
-    console.log(newAddress, '------------new address------------');
+    console.log(newAddress, "------------new address------------");
 
-    const profileId = localStorage.getItem('profileId');
+    const profileId = localStorage.getItem("profileId");
     // const jsonAddress = JSON.stringify(newAddress);
-    AddressService.addAddress(profileId, newAddress, isUpdate).then((response) => {
-      console.log(response.data);
-      if (response.status === 201) {
-        setTimeout(() => {
-          root.render(<App />);
-        }, 1000);
-        toast.success("Address added successfully");
+    AddressService.addAddress(profileId, newAddress, isUpdate).then(
+      (response) => {
+        console.log(response.data);
+        if (response.status === 201) {
+          setTimeout(() => {
+            root.render(<App />);
+          }, 1000);
+          toast.success("Address added successfully");
+        }
       }
-    })
+    );
     setIsModalOpen(false); // Close modal after adding
   };
 
@@ -104,7 +104,7 @@ const Deliveryaddre = () => {
       lattitude: address.latitude,
       longitude: address.longitude,
       default: address.default,
-      home: address.home
+      home: address.home,
     });
 
     console.log(index);
@@ -123,7 +123,6 @@ const Deliveryaddre = () => {
           root.render(<App />);
         }, 2000);
         toast.success("Address deleted successfully");
-
       }
     });
     setIsDeleteModalOpen(false); // Close delete modal
@@ -182,34 +181,35 @@ const Deliveryaddre = () => {
         }
       );
     }
-
-  }
+  };
 
   const handleConfirmOrder = async (paymentId) => {
     // setIsOrderProcessing(true);
-   
-    
 
-    navigate('/payment', { state: { medicineCart, selectedAddressId } });
-
-
+    navigate("/payment", { state: { medicineCart, selectedAddressId } });
   };
-
 
   return (
     <div>
       <OrderStepper currentStep={1} />
-      <div className="flex h-screen justify-center pl-12">
-
+      <div className="flex h-screen justify-center pl-4">
         {/* Left Side - Green */}
-        <div className="w-1/2 ">
-          <p className="text-black font-bold text-left mx-10 my-10">
+        <div className="w-full sm:w-1/2">
+          {" "}
+          {/* Full width on xs, half width on sm and above */}
+          <p className="text-black font-bold text-left mx-4 sm:mx-10 my-5 sm:my-10">
+            {" "}
+            {/* Adjust margins for smaller screens */}
             DELIVERY ADDRESS
           </p>
-
           <div className="space-y-6">
             {addresses.map((address, index) => (
-              <div key={index} className="flex items-start mx-10 mb-4">
+              <div
+                key={index}
+                className="flex flex-col sm:flex-row items-start mx-4 sm:mx-10 mb-4"
+              >
+                {" "}
+                {/* Change to column for smaller screens */}
                 {/* Radio Button */}
                 <input
                   id={`radio-${index}`}
@@ -219,20 +219,18 @@ const Deliveryaddre = () => {
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 mt-2"
                   onChange={() => handleAddressSelect(index, address)}
                 />
-
                 {/* Address Details */}
-                <div className="text-left mx-4">
-                  <p className="text-2xl">{address.personName}</p>
-                  <p className="text-lg">{address.addressLine1}</p>
-                  <p>{address.addressLine2}</p>
-                  <p>
+                <div className="text-left mx-0 sm:mx-4">
+                  <p className="text-xl sm:text-2xl">{address.personName}</p>
+                  <p className="text-base sm:text-lg">{address.addressLine1}</p>
+                  <p className="text-sm sm:text-base">{address.addressLine2}</p>
+                  <p className="text-sm sm:text-base">
                     {address.city}, {address.zipCode}, {address.state}
                   </p>
-                  <p>{address.mobile}</p>
+                  <p className="text-sm sm:text-base">{address.mobile}</p>
                   <p className="text-rose-400">{address.addressType}</p>
                 </div>
-
-                <div className="right flex space-x-4 ml-auto mx-20">
+                <div className="flex space-x-4 ml-auto mt-2 sm:mt-0 sm:ml-auto mr-20">
                   <FaEdit
                     className="text-black cursor-pointer"
                     onClick={() => openEditModal(index, address)}
@@ -246,7 +244,7 @@ const Deliveryaddre = () => {
             ))}
           </div>
           <p
-            className="text-cyan-400 text-left text-lg mx-10 my-5 cursor-pointer"
+            className="text-cyan-400 text-left text-lg mx-4 sm:mx-10 my-5 cursor-pointer"
             onClick={() => setIsModalOpen(true)}
           >
             + Add New Address
@@ -254,9 +252,48 @@ const Deliveryaddre = () => {
         </div>
 
         {/* Right Side - Blue */}
-        <div className="w-1/2">
-          {/* <PriceSection medicinePrice={medicineCart}/> */}
-          <Amount medicineCart={medicineCart} />
+        <div className="w-full sm:w-1/2">
+          {" "}
+          {/* Full width on xs, half width on sm and larger */}
+          <div className="mt-8 text-left text-lg sm:text-xl">
+            {" "}
+            {/* Larger text on sm and up */}
+            Amount Payable
+          </div>
+          <div className="flex flex-col w-full sm:w-[90%] md:w-[80%] lg:w-[70%] mt-4">
+            {" "}
+            {/* Stack on xs, flex on sm and larger */}
+            {/* Each key-value pair wrapped in a flex container */}
+            <div className="flex justify-between my-3 text-sm sm:text-base ">
+              {" "}
+              {/* Key-value pair container */}
+              <div>MRP Total:</div>
+              <div>₹ {medicineCart.medicineCart.originalCartPrice}</div>
+            </div>
+            <div className="flex justify-between my-2 text-sm sm:text-base">
+              <div>Additional Discount:</div>
+              <div>₹ {medicineCart.medicineCart.discountAmount}</div>
+            </div>
+            <div className="flex justify-between my-2 text-sm sm:text-base">
+              <div>Total Amount:</div>
+              <div>₹ {medicineCart.medicineCart.discountedCartPrice}</div>
+            </div>
+            <div className="flex justify-between my-2 text-sm sm:text-base">
+              <div>Shipping/Delivery Charges:</div>
+              <div>₹ 0</div>
+            </div>
+            <div className="flex justify-between my-2 text-sm sm:text-base">
+              <div>Total Payable:</div>
+              <div>₹ {medicineCart.medicineCart.discountedCartPrice}</div>
+            </div>
+            <button
+              type="button"
+              className=" w-[100%] my-2 py-2 text-lg bg-sky-200"
+              onClick={() => handleConfirmOrder()}
+            >
+              Proceed
+            </button>
+          </div>
         </div>
 
         {/* Modal for adding new address */}
@@ -295,7 +332,12 @@ const Deliveryaddre = () => {
               {/* Detect my location */}
               <div className="flex items-center mb-4 cursor-pointer mx-5">
                 <FaMapMarkerAlt className="text-cyan-400 " />
-                <p className="text-cyan-400 font-bold ml-2" onClick={detectlocation}>Detect my location</p>
+                <p
+                  className="text-cyan-400 font-bold ml-2"
+                  onClick={detectlocation}
+                >
+                  Detect my location
+                </p>
               </div>
 
               <form className="space-y-4">
@@ -329,7 +371,9 @@ const Deliveryaddre = () => {
                     name="addressLine1"
                     placeholder="Enter Address Line 1"
                     className="flex w-3/4 p-2 border border-gray-300 rounded mt-1 placeholder-gray-500 mx-5"
-                    value={newAddress.addressLine1 || selectedAddress.addressLine1}
+                    value={
+                      newAddress.addressLine1 || selectedAddress.addressLine1
+                    }
                     onChange={handleInputChange}
                   />
                 </div>
@@ -347,7 +391,9 @@ const Deliveryaddre = () => {
                     name="addressLine2"
                     placeholder="Enter address line 2"
                     className="flex w-3/4 p-2 border border-gray-300 rounded mt-1 placeholder-gray-500 mx-5"
-                    value={newAddress.addressLine2 || selectedAddress.addressLine2}
+                    value={
+                      newAddress.addressLine2 || selectedAddress.addressLine2
+                    }
                     onChange={handleInputChange}
                   />
                 </div>
@@ -409,11 +455,7 @@ const Deliveryaddre = () => {
                       onChange={handleInputChange}
                     />
                   </div>
-
-
                 </div>
-
-
 
                 <div className="mx-5">
                   <label
@@ -425,10 +467,11 @@ const Deliveryaddre = () => {
                   <div className="flex space-x-4">
                     <button
                       type="button"
-                      className={`w-1/5 p-2 border rounded ${newAddress.home
-                        ? "bg-cyan-500 text-white"
-                        : "bg-gray-200 text-gray-700"
-                        }`}
+                      className={`w-1/5 p-2 border rounded ${
+                        newAddress.home
+                          ? "bg-cyan-500 text-white"
+                          : "bg-gray-200 text-gray-700"
+                      }`}
                       onClick={() =>
                         setNewAddress((prev) => ({
                           ...prev,
@@ -441,10 +484,11 @@ const Deliveryaddre = () => {
                     </button>
                     <button
                       type="button"
-                      className={`w-1/5 p-2 border rounded ${!newAddress.home
-                        ? "bg-cyan-500 text-white"
-                        : "bg-gray-200 text-gray-700"
-                        }`}
+                      className={`w-1/5 p-2 border rounded ${
+                        !newAddress.home
+                          ? "bg-cyan-500 text-white"
+                          : "bg-gray-200 text-gray-700"
+                      }`}
                       onClick={() =>
                         setNewAddress((prev) => ({
                           ...prev,
@@ -456,7 +500,6 @@ const Deliveryaddre = () => {
                       Office
                     </button>
                   </div>
-
                 </div>
 
                 <div className=" mt-4">
@@ -509,11 +552,7 @@ const Deliveryaddre = () => {
           </div>
         )}
       </div>
-      <button type="button" className=" w-[90%] py-2 text-lg bg-sky-200" onClick={() => handleConfirmOrder()}>
-        Proceed
-      </button>
     </div>
-
   );
 };
 

@@ -1,6 +1,10 @@
 import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Amount = ({medicineCart}) => {
+
+    
+
   return (
     <>
     <div>
@@ -21,6 +25,7 @@ const Amount = ({medicineCart}) => {
             <div className="my-1">₹ {medicineCart.medicineCart.discountedCartPrice}</div>
             <div className="my-1">₹ 0</div>
             <div className="my-1">₹ {medicineCart.medicineCart.discountedCartPrice}</div>
+           
           </div>
         </div>
       </div>

@@ -102,71 +102,74 @@ const Halfpricestore = () => {
         </span>
       </div>
 
-      <div className="relative w-[93%] mx-auto">
-        <div className="flex overflow-hidden">
-          {cards
-            // .slice(0, windowWidth < 768 ? 1 : pageSize)
-            .map((card) => (
-              <div
-                key={card.pharmacyMedicineStockId}
-                className="w-full sm:w-full md:w-1/4 lg:w-1/4 xl:w-1/4 p-4 relative cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevents event from bubbling up if necessary
-                  handleProductDetails(card.medicine.medicineId); // Ensures it's called only once
-                }}
-              >
-                <div className="bg-white p-4 shadow relative">
-                  <img
-                    className="w-3/4 h-full mx-auto mt-10"
-                    src="https://www.practostatic.com/ecommerce-assets/static/media/home/desktop/cat-2.640dcfd5.png"
-                    alt="Sunset in the mountains"
-                  />
-                  <span className="absolute top-3 left-0 bg-rose-400 text-white px-2 py-1 rounded-r-md">
-                    {card.medicine.medicineName}
-                  </span>
-                  <div className="px-2 py-4">
-                    <div className="font-bold text-md mb-2 text-left">
-                      {card.medicine.medicineIngredients}
-                    </div>
-                    <p className="text-sm text-gray-400 text-left">
-                      {card.medicine.manufacturer}
-                    </p>
-                    <p className="text-sm text-gray-400 text-left">
-                      Best Price{" "}
-                      <span className="text-blue-500">{card.sellingPrice}</span>
-                    </p>
-                    <p className="text-sm text-gray-400 text-left">
-                      MRP <span className={`line-through`}>{card.originalPrice}</span>
-                    </p>
-                    <button className="font-bold text-sky-400 w-full mt-2" onClick={(e) => {
-                      e.stopPropagation(); // Prevents event from bubbling up if necessary
-                      handleAddToCart(card); // Ensures it's called only once
-                    }}>
-                      ADD TO CART
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
+<div className="relative w-[93%] mx-auto">
+  <div className="flex flex-wrap -mx-4 overflow-hidden">
+    {cards.map((card) => (
+      <div
+        key={card.pharmacyMedicineStockId}
+        className="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 px-4 mb-6 relative cursor-pointer" // Adjusting the size for different screens
+        onClick={(e) => {
+          e.stopPropagation(); // Prevents event from bubbling up if necessary
+          handleProductDetails(card.medicine.medicineId); // Ensures it's called only once
+        }}
+      >
+        <div className="bg-white p-4 shadow relative">
+          <img
+            className="w-3/4 h-full mx-auto mt-10"
+            src="https://www.practostatic.com/ecommerce-assets/static/media/home/desktop/cat-2.640dcfd5.png"
+            alt="Sunset in the mountains"
+          />
+          <span className="absolute top-3 left-0 bg-rose-400 text-white px-2 py-1 rounded-r-md">
+            {card.medicine.medicineName}
+          </span>
+          <div className="px-2 py-4">
+            <div className="font-bold text-md mb-2 text-left">
+              {card.medicine.medicineIngredients}
+            </div>
+            <p className="text-sm text-gray-400 text-left">
+              {card.medicine.manufacturer}
+            </p>
+            <p className="text-sm text-gray-400 text-left">
+              Best Price{" "}
+              <span className="text-blue-500">{card.sellingPrice}</span>
+            </p>
+            <p className="text-sm text-gray-400 text-left">
+              MRP <span className={`line-through`}>{card.originalPrice}</span>
+            </p>
+            <button
+              className="font-bold text-sky-400 w-full mt-2"
+              onClick={(e) => {
+                e.stopPropagation(); // Prevents event from bubbling up if necessary
+                handleAddToCart(card); // Ensures it's called only once
+              }}
+            >
+              ADD TO CART
+            </button>
+          </div>
         </div>
-        {startIndex > 0 && (
-          <button
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-cyan-400 text-white p-2 rounded-full"
-            onClick={handlePrev}
-          >
-            &lt;
-          </button>
-        )}
-        {(windowWidth < 768 && startIndex + 1 < cards.length) ||
-          (windowWidth >= 768 && startIndex + 4 < cards.length) ? (
-          <button
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-cyan-400 text-white p-2 rounded-full"
-            onClick={handleNext}
-          >
-            &gt;
-          </button>
-        ) : null}
       </div>
+    ))}
+  </div>
+  {startIndex > 0 && (
+    <button
+      className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-cyan-400 text-white p-2 rounded-full"
+      onClick={handlePrev}
+    >
+      &lt;
+    </button>
+  )}
+  {(windowWidth < 768 && startIndex + 1 < cards.length) ||
+  (windowWidth >= 768 && startIndex + 4 < cards.length) ? (
+    <button
+      className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-cyan-400 text-white p-2 rounded-full"
+      onClick={handleNext}
+    >
+      &gt;
+    </button>
+  ) : null}
+</div>
+
+
       <ToastContainer
         position="top-right"
         autoClose={5000}

@@ -37,29 +37,40 @@ const Festiveoffers = () => {
 
       <div className="relative w-[93%] mx-auto">
         <div className="flex flex-wrap overflow-hidden">
-          {cards.slice(startIndex, startIndex + 3).map((card) => (
-            <div key={card.id} className="w-full sm:w-full md:w-1/3 lg:w-1/3 xl:w-1/3 p-4">
-              <div className="bg-white p-4 border rounded-lg shadow flex">
-                <div className="flex-none">
-                  <img
-                    src="https://www.practostatic.com/ecommerce-assets/static/media/home/desktop/h-c-4.5e130b77.png"
-                    alt={card.title}
-                    className="w-20 h-24 rounded"
-                  />
-                </div>
-                <div className="flex-grow pl-4">
-                  <h5 className="text-md text-left">{card.title}</h5>
-                  <p className="text-sm text-gray-500 text-left">
-                    {card.content.length > 60
-                      ? `${card.content.substring(0, 60)}...`
-                      : card.content}
-                  </p>
+          {cards
+            .slice(
+              startIndex,
+              startIndex +
+                (window.innerWidth < 640 ? 1 : window.innerWidth < 1024 ? 2 : 3)
+            )
+            .map((card) => (
+              <div
+                key={card.id}
+                className="w-full sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/3 p-4"
+              >
+                <div className="bg-white p-4 border rounded-lg shadow flex">
+                  <div className="flex-none">
+                    <img
+                      src="https://www.practostatic.com/ecommerce-assets/static/media/home/desktop/h-c-4.5e130b77.png"
+                      alt={card.title}
+                      className="w-20 h-24 rounded"
+                    />
+                  </div>
+                  <div className="flex-grow pl-4">
+                    <h5 className="text-md text-left">{card.title}</h5>
+                    <p className="text-sm text-gray-500 text-left">
+                      {card.content.length > 60
+                        ? `${card.content.substring(0, 60)}...`
+                        : card.content}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
-        {/* {startIndex > 0 && (
+
+        {/* Previous Button */}
+        {startIndex > 0 && (
           <button
             className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-cyan-400 text-white p-2 rounded-full"
             onClick={handlePrev}
@@ -67,14 +78,18 @@ const Festiveoffers = () => {
             &lt;
           </button>
         )}
-        {startIndex + 3 < cards.length && (
+
+        {/* Next Button */}
+        {startIndex +
+          (window.innerWidth < 640 ? 1 : window.innerWidth < 1024 ? 2 : 3) <
+          cards.length && (
           <button
             className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-cyan-400 text-white p-2 rounded-full"
             onClick={handleNext}
           >
             &gt;
           </button>
-        )} */}
+        )}
       </div>
     </div>
   );
